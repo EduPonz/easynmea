@@ -19,12 +19,14 @@
 // THE SOFTWARE.
 
 #include <chrono>
-#include <errno.h>
+#include <cstdio>
 #include <iostream>
-#include <stdio.h>
 #include <string>
 #include <vector>
-#include "gnss_l86_lib.h"
+
+#include <gnss_l86_interface/gnss_l86_lib.hpp>
+
+using namespace gnss_l86_interface;
 
 void print_position(
         position position)

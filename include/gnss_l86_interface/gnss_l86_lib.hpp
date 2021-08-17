@@ -17,15 +17,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+/**
+ * @file gnss_l86_lib.hpp
+ */
 
+#ifndef _GNSS_L86_INTERFACE_HPP_
+#define _GNSS_L86_INTERFACE_HPP_
+
+#include <cstdio>
+#include <cstring>
 #include <iostream>
 #include <sstream>
-#include <stdio.h>
 #include <string>
-#include <string.h>
 #include <vector>
+
 #include <wiringPi.h>
 #include <wiringSerial.h>
+
+namespace gnss_l86_interface
+{
 
 struct position
 {
@@ -71,3 +81,7 @@ public:
             long baud_rate);
     int read_lines();
 };
+
+} // namespace gnss_l86_interface
+
+#endif //_GNSS_L86_INTERFACE_HPP_

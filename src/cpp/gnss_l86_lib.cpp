@@ -18,7 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "gnss_l86_lib.h"
+#include <gnss_l86_lib.hpp>
+
+namespace gnss_l86_interface
+{
 
 // ******************************** CONSTRUCTORS-DESTRUCTORS *******************************
 GnssInterface::GnssInterface()
@@ -82,7 +85,7 @@ float GnssInterface::parse_to_degrees_(
 bool GnssInterface::parse_raw_line_(
         std::string line)
 {
-    if (strncmp(line.c_str(), POSITION_START_.c_str(), POSITION_START_.size()) == 0)
+    if (std::strncmp(line.c_str(), POSITION_START_.c_str(), POSITION_START_.size()) == 0)
     {
         return populate_position_(line);
     }
@@ -203,3 +206,5 @@ int GnssInterface::read_lines()
 
     return num_lines;
 }
+
+} // namespace gnss_l86_interface
