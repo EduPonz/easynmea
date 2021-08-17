@@ -41,7 +41,8 @@ elseif (NOT ${LIB_NAME}_FOUND)
 endif()
 
 # Get example sources
-file(GLOB EXAMPLE_SOURCES_CPP "*.cpp")
+set(EXAMPLE_SOURCES_CPP
+    gnss_l86_example.cpp)
 
 # Create executable
 add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCES_CPP})
