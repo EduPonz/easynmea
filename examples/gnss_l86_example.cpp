@@ -26,7 +26,8 @@
 #include <vector>
 #include "gnss_l86_lib.h"
 
-void print_position(position position)
+void print_position(
+        position position)
 {
     std::cout << "POSITION"                 << std::endl;
     std::cout << "========================" << std::endl;
@@ -42,7 +43,8 @@ void print_position(position position)
 
 int64_t get_epoch()
 {
-    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    return std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).
+                   count();
 }
 
 int main()
@@ -51,7 +53,9 @@ int main()
     std::cout << "GNSS Inteface created!" << std::endl;
 
     if (gnss.open_connection("/dev/serial0", 9600))
+    {
         std::cout << "Connected to port: " << gnss.get_port() << std::endl;
+    }
     else
     {
         std::cout << "Cannot connect" << std::endl;
@@ -74,10 +78,12 @@ int main()
             {
                 position_time = get_epoch();
                 std::cout << std::endl;
-                std::cout << "********************************** NEW POSITION **********************************" << std::endl;
+                std::cout << "********************************** NEW POSITION **********************************" <<
+                        std::endl;
                 std::cout << "Ellapsed time --------> " << position_time - last_position_time << std::endl;
                 std::cout << "Number of lines read -> " << num_lines                          << std::endl;
-                std::cout << "----------------------------------------------------------------------------------" << std::endl;
+                std::cout << "----------------------------------------------------------------------------------" <<
+                        std::endl;
                 print_position(last_position);
                 last_position_time = get_epoch();
                 fix_print = false;

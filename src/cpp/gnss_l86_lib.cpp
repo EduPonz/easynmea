@@ -34,10 +34,14 @@ GnssInterface::GnssInterface()
     position_.altitude = 0;
 }
 
-GnssInterface::~GnssInterface() { }
+GnssInterface::~GnssInterface()
+{
+}
 
 // **************************************** PRIVATE ****************************************
-std::vector<std::string> GnssInterface::break_string_(std::string str, char separator)
+std::vector<std::string> GnssInterface::break_string_(
+        std::string str,
+        char separator)
 {
     std::string result = "";
     std::stringstream ss(str);
@@ -48,13 +52,16 @@ std::vector<std::string> GnssInterface::break_string_(std::string str, char sepa
     {
         getline(ss, substr, separator);
         if (substr != "")
+        {
             content.push_back(substr);
+        }
     }
 
     return content;
 }
 
-float GnssInterface::parse_to_degrees_(std::string str)
+float GnssInterface::parse_to_degrees_(
+        std::string str)
 {
     std::vector<std::string> content = break_string_(str, '.');
 
@@ -72,15 +79,21 @@ float GnssInterface::parse_to_degrees_(std::string str)
     return degrees;
 }
 
-bool GnssInterface::parse_raw_line_(std::string line)
+bool GnssInterface::parse_raw_line_(
+        std::string line)
 {
     if (strncmp(line.c_str(), POSITION_START_.c_str(), POSITION_START_.size()) == 0)
+    {
         return populate_position_(line);
+    }
     else
+    {
         return false;
+    }
 }
 
-bool GnssInterface::populate_position_(std::string position_line)
+bool GnssInterface::populate_position_(
+        std::string position_line)
 {
     std::vector<std::string> content = break_string_(position_line, ',');
 
@@ -94,8 +107,14 @@ bool GnssInterface::populate_position_(std::string position_line)
 
         position_.latitude = parse_to_degrees_(content[2]);
         position_.longitude = parse_to_degrees_(content[4]);
-        if (content[3] != "N") position_.latitude = -position_.latitude;
-        if (content[5] != "E") position_.longitude = -position_.longitude;
+        if (content[3] != "N")
+        {
+            position_.latitude = -position_.latitude;
+        }
+        if (content[5] != "E")
+        {
+            position_.longitude = -position_.longitude;
+        }
 
         position_.fix = std::stoi(content[6], &idx);
         idx = 0;
@@ -122,7 +141,9 @@ std::vector<std::string> GnssInterface::read_raw_lines_()
     {
         received = serialGetchar(port_);
         if (received != '\n')
+        {
             read_line_ += received;
+        }
         else
         {
             lines.push_back(read_line_);
@@ -150,7 +171,9 @@ position GnssInterface::get_position()
     return position_;
 }
 
-bool GnssInterface::open_connection(const char* serial_port, long baud_rate)
+bool GnssInterface::open_connection(
+        const char* serial_port,
+        long baud_rate)
 {
     port_ = serialOpen(serial_port, baud_rate);
 
@@ -159,7 +182,10 @@ bool GnssInterface::open_connection(const char* serial_port, long baud_rate)
         read_raw_lines_();
         return true;
     }
-    else return false;
+    else
+    {
+        return false;
+    }
 }
 
 int GnssInterface::read_lines()
@@ -168,7 +194,12 @@ int GnssInterface::read_lines()
     int num_lines = 0;
 
     for (int i = 0; i < int(raw_lines.size()); i++)
-        if (parse_raw_line_(raw_lines[i])) num_lines++;
+    {
+        if (parse_raw_line_(raw_lines[i]))
+        {
+            num_lines++;
+        }
+    }
 
     return num_lines;
 }
