@@ -27,10 +27,10 @@ cmake_policy(VERSION 3.10...3.20)
 ###############################################################################
 # Project
 ###############################################################################
-project(gnss_l86_interface VERSION 0.1.0
-    DESCRIPTION "${PROJECT_NAME_LARGE} library provides a simple and easy-to-use API for interfacing with Quectel GNSS L86 modules")
+project(gnss_interface VERSION 0.1.0
+    DESCRIPTION "${PROJECT_NAME_LARGE} library provides a simple and easy-to-use API for interfacing with GNSS NMEA 0183 UART modules")
 
-set(PROJECT_NAME_LARGE "GNSS L86 Interface")
+set(PROJECT_NAME_LARGE "GNSS Interface")
 
 set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with Quectel GNSS L86 modules")
 
@@ -45,7 +45,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/modules)
 ###############################################################################
 # Load external projects.
 ###############################################################################
-find_package(wiringPi REQUIRED)
+find_package(Threads REQUIRED)
+find_package(Asio REQUIRED)
 
 ###############################################################################
 # Installation paths

@@ -25,31 +25,27 @@ if(NOT CMAKE_VERSION VERSION_LESS 3.0)
     cmake_policy(SET CMP0048 NEW)
 endif()
 
-set(LIB_NAME "gnss_l86_interface")
+project(gpgga_example)
 
-
-set(EXAMPLE_NAME "${LIB_NAME}_example")
-project(${EXAMPLE_NAME})
-
-message(STATUS "Configuring GNSS L86 Interface Example...")
+message(STATUS "Configuring GNSS Interface Example...")
 
 # If the examples is build alongside the library, then the library exists; else, we need to find it.
 if (BUILD_EXAMPLES)
-    set(${LIB_NAME}_FOUND TRUE)
-elseif (NOT ${LIB_NAME}_FOUND)
-    find_package(${LIB_NAME})
+    set(gnss_interface_FOUND TRUE)
+elseif (NOT gnss_interface_FOUND)
+    find_package(gnss_interface)
 endif()
 
 # Get example sources
 set(EXAMPLE_SOURCES_CPP
-    gnss_l86_example.cpp)
+    gpgga_example.cpp)
 
 # Create executable
-add_executable(${EXAMPLE_NAME} ${EXAMPLE_SOURCES_CPP})
+add_executable(${PROJECT_NAME} ${EXAMPLE_SOURCES_CPP})
 
 # Link executable with library
-target_link_libraries(${EXAMPLE_NAME} ${LIB_NAME})
+target_link_libraries(${PROJECT_NAME} gnss_interface)
 
 # Install example executable
-install(TARGETS ${EXAMPLE_NAME}
+install(TARGETS ${PROJECT_NAME}
     RUNTIME DESTINATION examples/${BIN_INSTALL_DIR})

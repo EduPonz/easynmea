@@ -17,71 +17,95 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
+
 /**
- * @file gnss_l86_lib.hpp
+ * @file GnssInterfaceImpl.hpp
  */
 
-#ifndef _GNSS_L86_INTERFACE_HPP_
-#define _GNSS_L86_INTERFACE_HPP_
+#ifndef _GNSS_INTERFACE_IMPL_HPP_
+#define _GNSS_INTERFACE_IMPL_HPP_
 
+#include <atomic>
+#include <condition_variable>
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <memory>
+#include <mutex>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
-#include <wiringPi.h>
-#include <wiringSerial.h>
+#include <gnss_interface/GnssInterface.hpp>
+#include <gnss_interface/types.hpp>
 
-namespace gnss_l86_interface
+#include "FixedSizeQueue.hpp"
+#include "SerialInterface.hpp"
+
+namespace eduponz
+{
+namespace gnss_interface
 {
 
-struct position
+class GnssInterfaceImpl
 {
-    std::string message;        // The received message
-    float timestamp;            // UTC time hhmmss.milliseconds
-    float latitude;             // Always referred to North
-    float longitude;            // Always referred to East
-    int fix;                    // 0 -> no fix, 1 -> fix, 2 -> dif fix
-    int number_of_satelites;    // Satelites on view
-    float horizontal_precision; // In meters;
-    float altitude;             // Over sea level
-};
-
-class GnssInterface
-{
-private:
-
-    const std::string POSITION_START_ = "$GPGGA";
-    std::string read_line_;
-    int port_;
-    position position_;
-
-    std::vector<std::string> break_string_(
-            std::string str,
-            char separator);
-    float parse_to_degrees_(
-            std::string str);
-    bool parse_raw_line_(
-            std::string line);
-    bool populate_position_(
-            std::string position_line);
-    std::vector<std::string> read_raw_lines_();
-
 public:
 
-    GnssInterface();
-    ~GnssInterface();
-    bool close_connection();
-    position get_position();
-    int get_port();
-    bool open_connection(
+    GnssInterfaceImpl();
+
+    ~GnssInterfaceImpl();
+
+    ReturnCode open(
             const char* serial_port,
             long baud_rate);
-    int read_lines();
+
+    ReturnCode close();
+
+    ReturnCode take_next(
+            GPGGAData& gpgga);
+
+    ReturnCode wait_for_data(
+            NMEA0183DataKindMask data_mask);
+
+protected:
+
+    const std::string POSITION_START_ = "$GPGGA";
+
+    SerialInterface* serial_interface_;
+
+    std::unique_ptr<std::thread> read_thread_;
+
+    std::atomic<bool> routine_running_;
+
+    std::atomic<bool> new_position_;
+
+    std::mutex mutex_;
+
+    std::condition_variable cv_;
+
+    FixedSizeQueue<GPGGAData, 10> gpgga_data_queue_;
+
+    std::vector<std::string> break_string_(
+            const std::string& str,
+            char separator);
+
+    float parse_to_degrees_(
+            const std::string& str);
+
+    bool parse_raw_line_(
+            const std::string& line);
+
+    bool populate_position_(
+            const std::string& position_line);
+
+    std::vector<std::string> read_raw_lines_();
+
+    void read_routine_();
+
 };
 
-} // namespace gnss_l86_interface
+} // namespace eduponz
+} // namespace gnss_interface
 
-#endif //_GNSS_L86_INTERFACE_HPP_
+#endif //_GNSS_INTERFACE_IMPL_HPP_
