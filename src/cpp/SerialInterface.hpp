@@ -22,17 +22,17 @@ public:
     /**
      * Constructor.
      * \param port device name, example "/dev/ttyUSB0" or "COM4"
-     * \param baud_rate communication speed, example 9600 or 115200
+     * \param baudrate communication speed, example 9600 or 115200
      * \throws system::system_error if cannot open the
      * serial device
      */
     SerialInterface(
             std::string port,
-            unsigned int baud_rate)
+            unsigned int baudrate)
         : io()
         , serial(io, port)
     {
-        serial.set_option(asio::serial_port_base::baud_rate(baud_rate));
+        serial.set_option(asio::serial_port_base::baud_rate(baudrate));
     }
 
     /**

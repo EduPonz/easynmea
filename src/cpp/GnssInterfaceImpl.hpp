@@ -58,7 +58,7 @@ public:
 
     ReturnCode open(
             const char* serial_port,
-            long baud_rate);
+            long baudrate);
 
     ReturnCode close();
 

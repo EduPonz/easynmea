@@ -80,19 +80,19 @@ void working_routine(GnssInterface& gnss)
 int main()
 {
     std::string serial_port = "/dev/ttyACM0";
-    uint32_t baud_rate = 9600;
+    uint32_t baudrate = 9600;
 
     GnssInterface gnss;
     std::cout << "GNSS Interface created!" << std::endl;
 
-    if (!gnss.open(serial_port.c_str(), baud_rate))
+    if (!gnss.open(serial_port.c_str(), baudrate))
     {
         std::cout <<  "Cannot open serial port '" << serial_port << "'." << std::endl;
         return 1;
     }
 
     std::cout << "Serial port '" << serial_port
-        << "' opened. Baudrate: " << baud_rate << std::endl;
+        << "' opened. Baudrate: " << baudrate << std::endl;
 
     std::cout << "Please press enter to stop the example" << std::endl;
     std::thread working_thread(&working_routine, std::ref(gnss));

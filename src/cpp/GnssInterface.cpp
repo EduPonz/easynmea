@@ -42,9 +42,9 @@ GnssInterface::~GnssInterface()
 
 ReturnCode GnssInterface::open(
         const char* serial_port,
-        long baud_rate)
+        long baudrate)
 {
-    return impl_->open(serial_port, baud_rate);
+    return impl_->open(serial_port, baudrate);
 }
 
 ReturnCode GnssInterface::close()

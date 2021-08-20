@@ -46,11 +46,11 @@ GnssInterfaceImpl::~GnssInterfaceImpl()
 
 ReturnCode GnssInterfaceImpl::open(
         const char* serial_port,
-        long baud_rate)
+        long baudrate)
 {
     if (!serial_interface_)
     {
-        serial_interface_ = new SerialInterface(serial_port, baud_rate);
+        serial_interface_ = new SerialInterface(serial_port, baudrate);
         routine_running_.store(true);
         read_thread_.reset(new std::thread(&GnssInterfaceImpl::read_routine_, this));
         return ReturnCode::RETURN_CODE_OK;
