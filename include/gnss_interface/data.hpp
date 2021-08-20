@@ -34,9 +34,20 @@ namespace eduponz
 namespace gnss_interface
 {
 
+
+/**
+ * \struct NMEA0183Data
+ *
+ * Base struct for all NMEA 0183 Data types
+ */
 struct NMEA0183Data
 {
-    //! Default constructor. Empty-initializes the struct
+    /**
+     * Default constructor; it empty-initializes the struct
+     *
+     * @param[in] data_kind The \c NMEA0183DataKind of the data instance. Defaults to
+     *        \c NMEA0183DataKind::INVALID
+     */
     NMEA0183Data(
             NMEA0183DataKind data_kind = NMEA0183DataKind::INVALID)
         : message("")
@@ -79,7 +90,10 @@ struct GPGGAData : NMEA0183Data
     //! GNSS reported altitude over sea level expressed in meters
     float altitude;
 
-    //! Default constructor. Empty-initializes the struct
+    /**
+     *  Default constructor; it empty-initializes the struct, setting \c kind to
+     * \c NMEA0183DataKind::GPGGA
+     */
     GPGGAData()
         : NMEA0183Data::NMEA0183Data(NMEA0183DataKind::GPGGA)
         , timestamp(0)
