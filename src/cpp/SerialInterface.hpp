@@ -21,18 +21,68 @@ class SerialInterface
 public:
     /**
      * Constructor.
+     */
+    SerialInterface()
+        : io()
+        , serial(io)
+    {
+    };
+
+    /**
+     * Open the serial port
+     *
+     * \pre The communication was not already openned.
+     *
      * \param port device name, example "/dev/ttyUSB0" or "COM4"
      * \param baudrate communication speed, example 9600 or 115200
-     * \throws system::system_error if cannot open the
-     * serial device
+     * \return true if it can open the communication; false otherwise.
      */
-    SerialInterface(
+    bool open(
             std::string port,
             unsigned int baudrate)
-        : io()
-        , serial(io, port)
     {
-        serial.set_option(asio::serial_port_base::baud_rate(baudrate));
+        if (!serial.is_open())
+        {
+            asio::error_code ec;
+            serial.open(port, ec);
+            if (!ec)
+            {
+                serial.set_option(asio::serial_port_base::baud_rate(baudrate));
+                return true;
+            }
+            else
+            {
+                std::cout << "[ERROR] Cannot open serial port '" << port << "'. Error: "
+                    << ec.message() << std::endl;
+            }
+        }
+        return false;
+    }
+
+    bool is_open()
+    {
+        return serial.is_open();
+    }
+
+    /**
+     * Close the serial port
+     *
+     * \pre The port was opened
+     * \return true if the operation succeeded; false otherwise.
+     */
+    bool close()
+    {
+        if (serial.is_open())
+        {
+            asio::error_code ec;
+            serial.close(ec);
+            if (ec)
+            {
+                std::cout << "[ERROR] Cannot close serial port. Error: " << ec.message() << std::endl;
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -43,31 +93,41 @@ public:
     void write(
             std::string s)
     {
-        asio::write(serial,asio::buffer(s.c_str(), s.size()));
+        asio::write(serial, asio::buffer(s.c_str(), s.size()));
     }
 
     /**
      * Blocks until a line is received from the serial device.
+     *
      * Eventual '\n' or '\r\n' characters at the end of the string are removed.
-     * \return a string containing the received line
-     * \throws system::system_error on failure
+     *
+     * \param[out] result A string to store the read line.
+     * \return true if success; false otherwise.
      */
-    std::string read_line()
+    bool read_line(std::string& result)
     {
         // Reading data char by char, code is optimized for simplicity, not speed
         char c;
-        std::string result;
-        for(;;)
+        asio::error_code ec;
+        while (true)
         {
-            asio::read(serial, asio::buffer(&c, 1));
-            switch(c)
+            asio::read(serial, asio::buffer(&c, 1), ec);
+            if (!ec)
             {
-                case '\r':
-                    break;
-                case '\n':
-                    return result;
-                default:
-                    result+=c;
+                switch(c)
+                {
+                    case '\r':
+                        break;
+                    case '\n':
+                        return true;
+                    default:
+                        result+=c;
+                }
+            }
+            else
+            {
+                std::cout << "[ERROR] Cannot read character. Error: " << ec.message() << std::endl;
+                return false;
             }
         }
     }
