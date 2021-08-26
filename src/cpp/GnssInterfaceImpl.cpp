@@ -35,42 +35,78 @@ GnssInterfaceImpl::GnssInterfaceImpl()
     , read_thread_(nullptr)
     , routine_running_(false)
     , new_position_(false)
+    , internal_error_(false)
 {
 }
 
 GnssInterfaceImpl::~GnssInterfaceImpl()
 {
     gpgga_data_queue_.clear();
-    close();
+    if (close() != ReturnCode::RETURN_CODE_OK)
+    {
+        if (read_thread_)
+        {
+            read_thread_->join();
+            read_thread_ = nullptr;
+        }
+    }
 }
 
 ReturnCode GnssInterfaceImpl::open(
         const char* serial_port,
         long baudrate)
 {
+    std::unique_lock<std::mutex> lck(mutex_);
     if (!serial_interface_)
     {
-        serial_interface_ = new SerialInterface(serial_port, baudrate);
-        routine_running_.store(true);
-        read_thread_.reset(new std::thread(&GnssInterfaceImpl::read_routine_, this));
-        return ReturnCode::RETURN_CODE_OK;
+        serial_interface_ = new SerialInterface();
+        if (serial_interface_->open(serial_port, baudrate))
+        {
+            routine_running_.store(true);
+            read_thread_.reset(new std::thread(&GnssInterfaceImpl::read_routine_, this));
+            internal_error_.store(false);
+            return ReturnCode::RETURN_CODE_OK;
+        }
+        else
+        {
+            delete serial_interface_;
+            serial_interface_ = nullptr;
+            internal_error_.store(true);
+            return ReturnCode::RETURN_CODE_ERROR;
+        }
     }
     return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
 }
 
+bool GnssInterfaceImpl::is_open()
+{
+    std::unique_lock<std::mutex> lck(mutex_);
+    if (serial_interface_)
+    {
+        return serial_interface_->is_open();
+    }
+    return false;
+}
+
 ReturnCode GnssInterfaceImpl::close()
 {
+    std::unique_lock<std::mutex> lck(mutex_);
     if (serial_interface_)
     {
         routine_running_.store(false);
-        if (read_thread_)
+        // If the call to came from a thread other than the reading thread, then we can wait for the
+        // reading thread to join. It the reading thread is the one calling close(), then it cannot
+        // wait on a join of itself.
+        if (read_thread_->get_id() != std::this_thread::get_id())
         {
             read_thread_->join();
             read_thread_ = nullptr;
         }
+        serial_interface_->close();
         delete serial_interface_;
         serial_interface_ = nullptr;
         // Break any wait_for_data
+        lck.unlock();
         cv_.notify_one();
         return ReturnCode::RETURN_CODE_OK;
     }
@@ -85,7 +121,7 @@ ReturnCode GnssInterfaceImpl::take_next(
         return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
     }
 
-    std::unique_lock<std::mutex> lck(mutex_);
+    std::unique_lock<std::mutex> lck(data_mutex_);
     if (!gpgga_data_queue_.empty())
     {
         gpgga = gpgga_data_queue_.front();
@@ -103,14 +139,18 @@ ReturnCode GnssInterfaceImpl::wait_for_data(
         return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
     }
 
-    std::unique_lock<std::mutex> lck(mutex_);
+    std::unique_lock<std::mutex> lck(data_mutex_);
     cv_.wait(lck, [&]()
         {
             return !routine_running_.load() ||
                    (new_position_.load() && data_mask.is_set(NMEA0183DataKind::GPGGA));
         });
 
-    if (routine_running_)
+    if (internal_error_)
+    {
+        return ReturnCode::RETURN_CODE_ERROR;
+    }
+    else if (routine_running_)
     {
         new_position_.store(false);
         return ReturnCode::RETURN_CODE_OK;
@@ -177,7 +217,7 @@ bool GnssInterfaceImpl::populate_position_(
 {
     std::vector<std::string> content = break_string_(position_line, ',');
 
-    std::unique_lock<std::mutex> lck(mutex_);
+    std::unique_lock<std::mutex> lck(data_mutex_);
     GPGGAData gpgga_data;
     gpgga_data.kind = NMEA0183DataKind::GPGGA;
     if (content.size() >= 10)
@@ -221,7 +261,16 @@ void GnssInterfaceImpl::read_routine_()
 {
     while (routine_running_)
     {
-        std::string line = serial_interface_->read_line();
-        parse_raw_line_(line);
+        std::string line;
+        if (serial_interface_->read_line(line))
+        {
+            parse_raw_line_(line);
+            continue;
+        }
+        // TODO: Decide what to do if SerialInterface::read_line() fails, for now we close down the
+        // GnssInterface
+        routine_running_.store(false);
+        internal_error_.store(true);
+        close();
     }
 }

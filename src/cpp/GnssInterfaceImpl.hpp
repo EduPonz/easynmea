@@ -60,6 +60,8 @@ public:
             const char* serial_port,
             long baudrate);
 
+    bool is_open();
+
     ReturnCode close();
 
     ReturnCode take_next(
@@ -80,7 +82,11 @@ protected:
 
     std::atomic<bool> new_position_;
 
+    std::atomic<bool> internal_error_;
+
     std::mutex mutex_;
+
+    std::mutex data_mutex_;
 
     std::condition_variable cv_;
 

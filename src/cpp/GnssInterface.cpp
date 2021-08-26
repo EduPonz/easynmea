@@ -47,6 +47,11 @@ ReturnCode GnssInterface::open(
     return impl_->open(serial_port, baudrate);
 }
 
+bool GnssInterface::is_open()
+{
+    return impl_->is_open();
+}
+
 ReturnCode GnssInterface::close()
 {
     return impl_->close();

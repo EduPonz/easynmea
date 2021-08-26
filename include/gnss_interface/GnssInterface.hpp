@@ -76,6 +76,13 @@ public:
         long baudrate);
 
     /**
+     * Check whether a serial connection is opened
+     *
+     * @return true if there is an opened serial connection; false otherwise.
+     */
+    bool is_open();
+
+    /**
      * Close a serial connection
      *
      * \pre A successful call to \c open() has been performed.
