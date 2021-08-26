@@ -22,9 +22,13 @@
  * @file gpgga_example.cpp
  */
 
+#include <atomic>
 #include <chrono>
+#include <condition_variable>
+#include <csignal>
 #include <cstdio>
 #include <iostream>
+#include <mutex>
 #include <string>
 #include <thread>
 #include <vector>
@@ -32,6 +36,18 @@
 #include <gnss_interface/GnssInterface.hpp>
 
 using namespace eduponz::gnss_interface;
+
+std::condition_variable cv;
+std::mutex mtx;
+std::atomic_bool running;
+
+void signal_handler_callback(
+        int signum)
+{
+    std::cout << std::endl << "Caught signal " << signum << "; closing down..." << std::endl;
+    running.store(false);
+    cv.notify_one();
+}
 
 void print_position(
         const GPGGAData& gpgga_data)
@@ -60,7 +76,8 @@ void working_routine(GnssInterface& gnss)
     int64_t sample_time = get_epoch();
     GPGGAData gpgga_data;
 
-    while (gnss.wait_for_data() == ReturnCode::RETURN_CODE_OK)
+    ReturnCode ret = gnss.wait_for_data();
+    while (ret == ReturnCode::RETURN_CODE_OK)
     {
         while (gnss.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
         {
@@ -74,6 +91,14 @@ void working_routine(GnssInterface& gnss)
             print_position(gpgga_data);
             last_sample_time = get_epoch();
         }
+        ret = gnss.wait_for_data();
+    }
+
+    if (ret == ReturnCode::RETURN_CODE_ERROR)
+    {
+        std::cout << "Something went wrong while waiting for data. Closing down" << std::endl;
+        running.store(false);
+        cv.notify_one();
     }
 }
 
@@ -94,9 +119,15 @@ int main()
     std::cout << "Serial port '" << serial_port
         << "' opened. Baudrate: " << baudrate << std::endl;
 
-    std::cout << "Please press enter to stop the example" << std::endl;
+    std::cout << "Please press CTRL-C to stop the example" << std::endl;
+    running.store(true);
     std::thread working_thread(&working_routine, std::ref(gnss));
-    std::cin.ignore();
+    signal(SIGINT, signal_handler_callback);
+    std::unique_lock<std::mutex> lck(mtx);
+    cv.wait(lck, [&]()
+        {
+            return !running.load();
+        });
     gnss.close();
     working_thread.join();
 
