@@ -7,18 +7,17 @@
  */
 
 #ifndef _GNSS_INTERFACE_SERIALINTERFACE_H
-#define	_GNSS_INTERFACE_SERIALINTERFACE_H
+#define _GNSS_INTERFACE_SERIALINTERFACE_H
 
 #include <asio.hpp>
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 class SerialInterface
 {
 public:
+
     /**
      * Constructor.
      */
@@ -26,7 +25,7 @@ public:
         : io()
         , serial(io)
     {
-    };
+    }
 
     /**
      * Open the serial port
@@ -53,7 +52,7 @@ public:
             else
             {
                 std::cout << "[ERROR] Cannot open serial port '" << port << "'. Error: "
-                    << ec.message() << std::endl;
+                          << ec.message() << std::endl;
             }
         }
         return false;
@@ -104,7 +103,8 @@ public:
      * \param[out] result A string to store the read line.
      * \return true if success; false otherwise.
      */
-    bool read_line(std::string& result)
+    bool read_line(
+            std::string& result)
     {
         // Reading data char by char, code is optimized for simplicity, not speed
         char c;
@@ -114,14 +114,14 @@ public:
             asio::read(serial, asio::buffer(&c, 1), ec);
             if (!ec)
             {
-                switch(c)
+                switch (c)
                 {
                     case '\r':
                         break;
                     case '\n':
                         return true;
                     default:
-                        result+=c;
+                        result += c;
                 }
             }
             else
@@ -133,6 +133,7 @@ public:
     }
 
 private:
+
     asio::io_service io;
 
     asio::serial_port serial;
@@ -141,4 +142,4 @@ private:
 } // namespace eduponz
 } // namespace gnss_interface
 
-#endif	/* _GNSS_INTERFACE_SERIALINTERFACE_H */
+#endif  /* _GNSS_INTERFACE_SERIALINTERFACE_H */

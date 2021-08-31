@@ -141,10 +141,10 @@ ReturnCode GnssInterfaceImpl::wait_for_data(
 
     std::unique_lock<std::mutex> lck(data_mutex_);
     cv_.wait(lck, [&]()
-        {
-            return !routine_running_.load() ||
-                   (new_position_.load() && data_mask.is_set(NMEA0183DataKind::GPGGA));
-        });
+            {
+                return !routine_running_.load() ||
+                (new_position_.load() && data_mask.is_set(NMEA0183DataKind::GPGGA));
+            });
 
     if (internal_error_)
     {

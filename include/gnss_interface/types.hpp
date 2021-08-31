@@ -27,10 +27,8 @@
 
 #include "Bitmask.hpp"
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 /**
  * @enum NMEA0183DataKind

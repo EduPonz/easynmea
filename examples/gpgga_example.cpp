@@ -70,7 +70,8 @@ int64_t get_epoch()
                    count();
 }
 
-void working_routine(GnssInterface& gnss)
+void working_routine(
+        GnssInterface& gnss)
 {
     int64_t last_sample_time = get_epoch();
     int64_t sample_time = get_epoch();
@@ -84,10 +85,10 @@ void working_routine(GnssInterface& gnss)
             sample_time = get_epoch();
             std::cout << std::endl;
             std::cout << "********************************** NEW POSITION **********************************" <<
-                    std::endl;
+                std::endl;
             std::cout << "Elapsed time ---------> " << sample_time - last_sample_time << std::endl;
             std::cout << "----------------------------------------------------------------------------------" <<
-                    std::endl;
+                std::endl;
             print_position(gpgga_data);
             last_sample_time = get_epoch();
         }
@@ -117,7 +118,7 @@ int main()
     }
 
     std::cout << "Serial port '" << serial_port
-        << "' opened. Baudrate: " << baudrate << std::endl;
+              << "' opened. Baudrate: " << baudrate << std::endl;
 
     std::cout << "Please press CTRL-C to stop the example" << std::endl;
     running.store(true);
@@ -125,9 +126,9 @@ int main()
     signal(SIGINT, signal_handler_callback);
     std::unique_lock<std::mutex> lck(mtx);
     cv.wait(lck, [&]()
-        {
-            return !running.load();
-        });
+            {
+                return !running.load();
+            });
     gnss.close();
     working_thread.join();
 

@@ -29,10 +29,8 @@
 #include "data.hpp"
 #include "types.hpp"
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 class GnssInterfaceImpl;
 
@@ -72,8 +70,8 @@ public:
      *       same GnssInterface instance, regardless of the port.
      */
     ReturnCode open(
-        const char* serial_port,
-        long baudrate);
+            const char* serial_port,
+            long baudrate);
 
     /**
      * Check whether a serial connection is opened
@@ -107,7 +105,7 @@ public:
      *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode take_next(
-        GPGGAData& gpgga);
+            GPGGAData& gpgga);
 
     /**
      * \brief Block the calling thread until there is data available
@@ -127,7 +125,7 @@ public:
      *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode wait_for_data(
-        NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all());
+            NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all());
 
 private:
 

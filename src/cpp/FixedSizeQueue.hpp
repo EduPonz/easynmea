@@ -29,24 +29,23 @@
 #include <deque>
 #include <iostream>
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 template <
     typename T,
     int max_size,
-    typename Container=std::deque<T>>
+    typename Container = std::deque<T>>
 class FixedSizeQueue : public std::queue<T, Container>
 {
 public:
 
-    void push(const T& value)
+    void push(
+            const T& value)
     {
         if (this->size() >= max_size)
         {
-           this->c.pop_front();
+            this->c.pop_front();
         }
         std::queue<T, Container>::push(value);
     }
@@ -58,6 +57,7 @@ public:
             this->c.pop_front();
         }
     }
+
 };
 
 } // namespace gnss_interface

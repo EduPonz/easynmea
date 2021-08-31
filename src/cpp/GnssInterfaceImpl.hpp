@@ -43,10 +43,8 @@
 #include "FixedSizeQueue.hpp"
 #include "SerialInterface.hpp"
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 class GnssInterfaceImpl
 {
