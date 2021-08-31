@@ -79,23 +79,36 @@ cd <user-specified-dir>examples/bin
 An output example from `gpgga_example` would be:
 
 ```
-GNSS Interface created!
 Serial port '/dev/ttyACM0' opened. Baudrate: 9600
-Please press enter to stop the example
+Please press CTRL-C to stop the example
 
-********************************** NEW POSITION **********************************
-Elapsed time ---------> 3476
-----------------------------------------------------------------------------------
-POSITION
-========================
+************** NEW GPGGA SAMPLE **************
+Elapsed time ---------> 3468
+------------------------------------------
+GPGGA Data - GNSS Position Fix
+==============================
 Message --------------> $GPGGA,072706.000,5703.1740,N,00954.9459,E,1,8,1.28,-21.2,M,42.5,M,,*4E
 Timestamp ------------> 72706
 Latitude -------------> 57.0529
 Longitude ------------> 9.91576
 Fix ------------------>
 Number of satellites -> 8
-Horizontal Precision -> 1.28
+Horizontal precision -> 1.28
 Altitude -------------> -21.2
+```
+
+The some example's parameters can be configured using command line options.
+Run `./gpgga_example --help`
+
+```
+------------------------------
+GNSS Interface - GPGGA Example
+------------------------------
+Usage: ./gpgga_example [OPTIONS]
+    -h/--help:                Print this help and exit
+    -b/--baudrate [bauds]:    The connection baud rate in bauds [Defaults: 9600]
+    -p/--serial_port [port]:  The serial port to use [Defaults: 'dev/ttyACM0']
+Example: ./gpgga_example -p /dev/ttyUSB0 -b 9600
 ```
 
 ## Usage
