@@ -32,6 +32,21 @@
 namespace eduponz {
 namespace gnss_interface {
 
+/**
+ * @class FixedSizeQueue
+ *
+ * This template class provides a fixed size container for containers which abide to the std::deque
+ * API, mainly having the member functions: \c push(), \c size(), \c pop_front(), and \c empty().
+ *
+ * \c FixedSizeQueue provides a \c push() method that automatically deletes the front element of the
+ * queue before adding the new one if needed, i.e. if the queue had already reached the maximum
+ * number of elements. Furthermore, it provides a \c clear() function to eliminate all the elements
+ * in the \c FixedSizeQueue.
+ *
+ * @tparam T: The type of the elements of the \c FixedSizeQueue.
+ * @tparam max_size: The maximum number of elements that the \c FixedSizeQueue can contain.
+ * @tparam Container: The underlying container used. Defaults to std::deque<T>>
+ */
 template <
     typename T,
     int max_size,
@@ -40,6 +55,16 @@ class FixedSizeQueue : public std::queue<T, Container>
 {
 public:
 
+    /**
+     * Push a new element into the \c FixedSizeQueue.
+     *
+     * Push a new element into the \c FixedSizeQueue, making space for it if necessary, meaning that
+     * if the number of elements in the \c FixedSizeQueue is already max_size, the first element
+     * will be removed before adding the new one.
+     *
+     * @param value: A constant reference to the element to be pushed. Mind that the type of the
+     *               element is \c T.
+     */
     void push(
             const T& value)
     {
@@ -50,6 +75,10 @@ public:
         std::queue<T, Container>::push(value);
     }
 
+    /**
+     * Remove all the elements from the \c FixedSizeQueue. After calling \c clear() the return of
+     * \c size() is 0.
+     */
     void clear()
     {
         while (!this->c.empty())
