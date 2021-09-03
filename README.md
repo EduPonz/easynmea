@@ -150,5 +150,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## To-Do
 
-- Process other **NMEA 0183** message types. See [gnss_l86_output.txt](gnss_l86_output.txt) for an example of the messages coming from the module.
+- Add robustness to `SerialInterface`
+- Process other **NMEA 0183** sentences. See [gnss_l86_output.txt](gnss_l86_output.txt) for an example of the messages coming from the module.
 - Send commands to GNSS modules using [**PMTK**](https://www.quectel.com/UploadImage/Downlad/Quectel_GNSS_SDK_Commands_Manual_V1.2.pdf) protocol.
