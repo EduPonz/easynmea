@@ -32,7 +32,7 @@ project(gnss_interface VERSION 0.1.0
 
 set(PROJECT_NAME_LARGE "GNSS Interface")
 
-set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with Quectel GNSS L86 modules")
+set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with NMEA 1082 GNSS modules")
 
 message(STATUS "Configuring ${PROJECT_NAME_LARGE}")
 message(STATUS "Version: ${PROJECT_VERSION}")
@@ -73,6 +73,14 @@ option(BUILD_SHARED_LIBS "Create shared libraries by default" ON)
 # Compile library
 ###############################################################################
 add_subdirectory(src/cpp)
+
+###############################################################################
+# Build documentation
+###############################################################################
+option(BUILD_DOCUMENTATION "Build ${PROJECT_NAME} documentation" OFF)
+if(BUILD_DOCUMENTATION)
+    add_subdirectory(docs)
+endif()
 
 ###############################################################################
 # Build examples

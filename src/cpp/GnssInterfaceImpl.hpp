@@ -74,7 +74,7 @@ public:
      * @param[in] baudrate The communication baudrate.
      * @return \c open() can return:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if a previous call to open was performed in the
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
      *       same GnssInterface instance, regardless of the port.
      */
     ReturnCode open(
@@ -95,7 +95,7 @@ public:
      *
      * @return \c close() can return:
      *     * ReturnCode::RETURN_CODE_OK if the connection was successfully closed.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode close();
 
@@ -110,7 +110,7 @@ public:
      * @return \c take_next() can return:
      *     * ReturnCode::RETURN_CODE_OK if the operation succeeded.
      *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any un-taken \c GPGGAData samples.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode take_next(
             GPGGAData& gpgga);

@@ -37,8 +37,10 @@ class GnssInterfaceImpl;
 /**
  * @class GnssInterface
  *
- * This class provides an interface with GNSS modules using NMEA 0183 protocol over serial
- * connections. It can be used to:
+ * @brief This class provides an interface with GNSS modules using NMEA 0183 protocol over serial
+ * connections.
+ *
+ * It can be used to:
  *     * Open and close serial connection with the modules.
  *     * Wait for specific NMEA sentences to be received.
  *     * Read incoming GNSS data in a parsed and understanble manner.
@@ -66,7 +68,7 @@ public:
      * @param[in] baudrate The communication baudrate.
      * @return \c open() can return:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if a previous call to open was performed in the
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
      *       same GnssInterface instance, regardless of the port.
      */
     ReturnCode open(
@@ -87,7 +89,7 @@ public:
      *
      * @return \c close() can return:
      *     * ReturnCode::RETURN_CODE_OK if the connection was successfully closed.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode close();
 
@@ -121,7 +123,7 @@ public:
      *       been received.
      *     * ReturnCode::RETURN_CODE_NO_DATA if some other thread called \c close() on the
      *       \c GnssInterface instance, which unblocks any \c wait_for_data() calls.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode wait_for_data(
             NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all());
