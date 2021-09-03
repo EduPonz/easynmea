@@ -38,7 +38,7 @@ namespace gnss_interface
 /**
  * \struct NMEA0183Data
  *
- * Base struct for all NMEA 0183 Data types
+ * @brief Base struct for all NMEA 0183 Data types
  */
 struct NMEA0183Data
 {
@@ -62,6 +62,11 @@ struct NMEA0183Data
     NMEA0183DataKind kind;
 };
 
+/**
+ * \struct GPGGAData
+ *
+ * @brief Struct for data from GPGGA sentences
+ */
 struct GPGGAData : NMEA0183Data
 {
     //! UTC time hhmmss.milliseconds

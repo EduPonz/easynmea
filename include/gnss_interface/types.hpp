@@ -33,7 +33,7 @@ namespace gnss_interface {
 /**
  * @enum NMEA0183DataKind
  *
- * Holds all the supported NMEA 0183 sentences.
+ * @brief Holds all the supported NMEA 0183 sentences.
  */
 enum class NMEA0183DataKind : int32_t
 {
@@ -60,7 +60,9 @@ using NMEA0183DataKindMask = Bitmask<NMEA0183DataKind>;
 /**
  * @class ReturnCode
  *
- * Provides understandable return codes for the different operations that the library performs.
+ * @brief Provides understandable return codes for the different operations that the library
+ *        performs.
+ *
  * These return codes can be easily compared for applications to handle different scenarios.
  */
 class ReturnCode

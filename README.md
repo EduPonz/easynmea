@@ -1,4 +1,4 @@
-# GNSS Interface
+# GNSS Interface {#index}
 
 **gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
 It has been originally developed targeting Quectel GNSS L86 modules, however, it can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences over UART.
@@ -7,6 +7,7 @@ It has been originally developed targeting Quectel GNSS L86 modules, however, it
 * [Getting started](#getting-started)
     * [Prerequisites](#prerequisites)
     * [Build and install](#build-and-install)
+    * [Build documentation](#build-documentation)
     * [Run examples](#run-examples)
 * [Usage](#usage)
 * [Authors](#authors)
@@ -56,6 +57,16 @@ To install the library system-wide, just omit the `CMAKE_INSTALL_PREFIX`:
 ```bash
 cd ~/gnss_interface/build
 cmake ..
+cmake --build . --target install
+```
+
+### Build documentation
+
+It is possible to generate the library's documentation passing CMake option `-DBUILD_DOCUMENTATION=0N` (defaults to `OFF`) on the configuration step:
+
+```bash
+cd ~/gnss_interface/build
+cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_DOCUMENTATION=ON
 cmake --build . --target install
 ```
 
@@ -150,6 +161,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## To-Do
 
-- Add robustness to `SerialInterface`
+- Add robustness to `SerialInterface`.
 - Process other **NMEA 0183** sentences. See [gnss_l86_output.txt](gnss_l86_output.txt) for an example of the messages coming from the module.
 - Send commands to GNSS modules using [**PMTK**](https://www.quectel.com/UploadImage/Downlad/Quectel_GNSS_SDK_Commands_Manual_V1.2.pdf) protocol.

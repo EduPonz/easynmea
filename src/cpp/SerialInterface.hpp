@@ -98,7 +98,7 @@ public:
     /**
      * Blocks until a line is received from the serial device.
      *
-     * Eventual '\n' or '\r\n' characters at the end of the string are removed.
+     * Eventual \c '\n' or \c '\r\n' characters at the end of the string are removed.
      *
      * \param[out] result A string to store the read line.
      * \return true if success; false otherwise.
