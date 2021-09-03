@@ -102,7 +102,6 @@ public:
      * @return \c take_next() can return:
      *     * ReturnCode::RETURN_CODE_OK if the operation succeeded.
      *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any un-taken \c GPGGAData samples.
-     *     * ReturnCode::RETURN_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode take_next(
             GPGGAData& gpgga);

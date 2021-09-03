@@ -85,8 +85,8 @@ void print_gpgga(
     std::cout << "==============================" << std::endl;
     std::cout << "Message --------------> " << gpgga_data.message << std::endl;
     std::cout << "Timestamp ------------> " << gpgga_data.timestamp << std::endl;
-    std::cout << "Latitude -------------> " << gpgga_data.latitude << std::endl;
-    std::cout << "Longitude ------------> " << gpgga_data.longitude << std::endl;
+    std::cout << "Latitude -------------> " << gpgga_data.latitude << "º N" << std::endl;
+    std::cout << "Longitude ------------> " << gpgga_data.longitude << "º E" << std::endl;
     std::cout << "Fix ------------------> " << gpgga_data.fix << std::endl;
     std::cout << "Number of satellites -> " << gpgga_data.satellites_on_view << std::endl;
     std::cout << "Horizontal precision -> " << gpgga_data.horizontal_precision << std::endl;

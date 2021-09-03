@@ -89,8 +89,8 @@ GPGGA Data - GNSS Position Fix
 ==============================
 Message --------------> $GPGGA,072706.000,5703.1740,N,00954.9459,E,1,8,1.28,-21.2,M,42.5,M,,*4E
 Timestamp ------------> 72706
-Latitude -------------> 57.0529
-Longitude ------------> 9.91576
+Latitude -------------> 57.0529º N
+Longitude ------------> 9.91576º E
 Fix ------------------>
 Number of satellites -> 8
 Horizontal precision -> 1.28

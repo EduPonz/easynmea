@@ -42,6 +42,11 @@ GnssInterfaceImpl::GnssInterfaceImpl()
 GnssInterfaceImpl::~GnssInterfaceImpl()
 {
     gpgga_data_queue_.clear();
+    /**
+     *  If close returns something other than OK, it means that the serial interface was already
+     * closed. In that case, if the reading thread is still operative, then we need to wait until
+     * it joins.
+     */
     if (close() != ReturnCode::RETURN_CODE_OK)
     {
         if (read_thread_)
@@ -57,11 +62,16 @@ ReturnCode GnssInterfaceImpl::open(
         long baudrate)
 {
     std::unique_lock<std::mutex> lck(mutex_);
+    /**
+     * open() can only be called on non-opened interfaces. Calling open() in an already opened
+     * interface is an illegal operation
+     */
     if (!serial_interface_)
     {
         serial_interface_ = new SerialInterface();
         if (serial_interface_->open(serial_port, baudrate))
         {
+            // If the serial interface could be opened, then spawn the reading thread
             routine_running_.store(true);
             read_thread_.reset(new std::thread(&GnssInterfaceImpl::read_routine_, this));
             internal_error_.store(false);
@@ -69,6 +79,7 @@ ReturnCode GnssInterfaceImpl::open(
         }
         else
         {
+            // If the serial interface could NOT be openned, then clean up and return error
             delete serial_interface_;
             serial_interface_ = nullptr;
             internal_error_.store(true);
@@ -91,12 +102,18 @@ bool GnssInterfaceImpl::is_open()
 ReturnCode GnssInterfaceImpl::close()
 {
     std::unique_lock<std::mutex> lck(mutex_);
+    /**
+     * close() can only be called on opened interfaces. Calling close() in a non-opened interface is
+     * an illegal operation
+     */
     if (serial_interface_)
     {
         routine_running_.store(false);
-        // If the call to came from a thread other than the reading thread, then we can wait for the
-        // reading thread to join. It the reading thread is the one calling close(), then it cannot
-        // wait on a join of itself.
+        /**
+         * If the call to close() came from a thread other than the reading thread, then we can wait
+         * for the reading thread to join. It the reading thread is the one calling close(), then it
+         * cannot wait on a join of itself.
+         */
         if (read_thread_->get_id() != std::this_thread::get_id())
         {
             read_thread_->join();
@@ -116,11 +133,6 @@ ReturnCode GnssInterfaceImpl::close()
 ReturnCode GnssInterfaceImpl::take_next(
         GPGGAData& gpgga)
 {
-    if (!serial_interface_)
-    {
-        return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
-    }
-
     std::unique_lock<std::mutex> lck(data_mutex_);
     if (!gpgga_data_queue_.empty())
     {
@@ -134,27 +146,37 @@ ReturnCode GnssInterfaceImpl::take_next(
 ReturnCode GnssInterfaceImpl::wait_for_data(
         NMEA0183DataKindMask data_mask)
 {
-    if (!serial_interface_)
+    // Cannot wait if the connection is closed
+    if (!is_open())
     {
         return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
     }
 
+    /**
+     * Wait until either:
+     *    1. The routine is not running
+     *    2. There is a new sample of any of the data kinds in the mask
+     */
     std::unique_lock<std::mutex> lck(data_mutex_);
     cv_.wait(lck, [&]()
             {
                 return !routine_running_.load() ||
-                (new_position_.load() && data_mask.is_set(NMEA0183DataKind::GPGGA));
+                (data_mask.is_set(NMEA0183DataKind::GPGGA) && new_position_.load());
             });
 
+    // Check whether an internal error ocurred while waiting
     if (internal_error_)
     {
         return ReturnCode::RETURN_CODE_ERROR;
     }
+    // If the routine is still running after the wait, then there wasn't any close while waiting
     else if (routine_running_)
     {
         new_position_.store(false);
         return ReturnCode::RETURN_CODE_OK;
     }
+    // If by the time the wait finished the routine was not running, then close() was called from
+    // elsewhere, which unblocks the wait. In that case, there is no data to be returned
     return ReturnCode::RETURN_CODE_NO_DATA;
 }
 
@@ -182,28 +204,41 @@ std::vector<std::string> GnssInterfaceImpl::break_string_(
 float GnssInterfaceImpl::parse_to_degrees_(
         const std::string& str)
 {
+    /**
+     * The expected format of str is DDMM.mmmm, where:
+     *    1. DD corresponds to degrees
+     *    1. MM.mmmm is a float representing minutes of degree
+     */
+
+    // Break the string into DDMM and mmmm
     std::vector<std::string> content = break_string_(str, '.');
 
+    // Build a string MM.mmmm
     std::string minutes = content[0].substr(content[0].size() - 2);
     minutes += "." + content[1];
 
+    // Convert the MM.mmmm into a floating point number in degrees
     std::string::size_type idx;
     float minutes_float = std::stof(minutes, &idx);
     minutes_float = minutes_float / 60;
 
+    // Remove the MM part from DDMM
     content[0].erase(content[0].end() - 2, content[0].end());
     idx = 0;
-    float degrees = std::stof(content[0], &idx) + minutes_float;
-
-    return degrees;
+    // Return the degrees as the summation of DD plus the MM.mmmm translated into degrees
+    return std::stof(content[0], &idx) + minutes_float;
 }
 
 bool GnssInterfaceImpl::parse_raw_line_(
         const std::string& line)
 {
-    if (std::strncmp(line.c_str(), POSITION_START_.c_str(), POSITION_START_.size()) == 0)
+    // Check that the line is a GPGGA sentence
+    if (std::strncmp(line.c_str(), GPGGA_SENTENCE_START_.c_str(), GPGGA_SENTENCE_START_.size()) == 0)
     {
-        if (populate_position_(line))
+        // If the sentence contained a new GPGGA with fix, then set the new_position_ flag and
+        // signal the CV. This means that GPGGA sentences without a fixed position will not unblock
+        // wait_for_data()
+        if (process_gpgga_(line))
         {
             new_position_.store(true);
             cv_.notify_one();
@@ -212,28 +247,31 @@ bool GnssInterfaceImpl::parse_raw_line_(
     return false;
 }
 
-bool GnssInterfaceImpl::populate_position_(
-        const std::string& position_line)
+bool GnssInterfaceImpl::process_gpgga_(
+        const std::string& gpgga_sentence)
 {
-    std::vector<std::string> content = break_string_(position_line, ',');
+    // Separate all the entries of the GPGGA sentence
+    std::vector<std::string> content = break_string_(gpgga_sentence, ',');
 
     std::unique_lock<std::mutex> lck(data_mutex_);
-    GPGGAData gpgga_data;
-    gpgga_data.kind = NMEA0183DataKind::GPGGA;
+    // A complete GPGGA sentence with a fix has at least 10 elements
     if (content.size() >= 10)
     {
+        GPGGAData gpgga_data;
         std::string::size_type idx;
 
-        gpgga_data.message = position_line;
+        gpgga_data.message = gpgga_sentence;
         gpgga_data.timestamp = std::stof(content[1], &idx);
         idx = 0;
 
         gpgga_data.latitude = parse_to_degrees_(content[2]);
         gpgga_data.longitude = parse_to_degrees_(content[4]);
+        // Always return latitude bearing North
         if (content[3] != "N")
         {
             gpgga_data.latitude = -gpgga_data.latitude;
         }
+        // Always return longitude bearing East
         if (content[5] != "E")
         {
             gpgga_data.longitude = -gpgga_data.longitude;
@@ -250,18 +288,16 @@ bool GnssInterfaceImpl::populate_position_(
 
         return true;
     }
-    else
-    {
-        gpgga_data.fix = 0;
-        return false;
-    }
+    return false;
 }
 
 void GnssInterfaceImpl::read_routine_()
 {
+    // Execute until the flag says otherwise
     while (routine_running_)
     {
         std::string line;
+        // Wait for a new line coming from the device
         if (serial_interface_->read_line(line))
         {
             parse_raw_line_(line);
