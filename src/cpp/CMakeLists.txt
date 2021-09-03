@@ -23,7 +23,8 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 # Project sources
 set(${PROJECT_NAME}_SOURCES
-    gnss_l86_lib.cpp)
+    GnssInterface.cpp
+    GnssInterfaceImpl.cpp)
 
 # Create library
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
@@ -39,7 +40,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
         $<INSTALL_INTERFACE:include>)
 
 target_link_libraries(${PROJECT_NAME}
-    ${WIRINGPI_LIBRARIES})
+    Threads::Threads)
 
 ###############################################################################
 # Installation
