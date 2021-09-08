@@ -37,7 +37,7 @@ To build the library, run:
 
 ```bash
 cd
-git clone https://github.com/EduPonz/gnss_l86_lib.git gnss_interface
+git clone https://github.com/EduPonz/gnss_interface.git
 mkdir build
 cd build
 cmake ..
