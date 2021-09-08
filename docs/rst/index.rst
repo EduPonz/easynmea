@@ -7,7 +7,7 @@ GNSS Interface Documentation
 
    installation/installation
    usage
-   api_reference
+   api_reference/api_reference
 
 *GNSS Interface* is a cross-platform `C++` library to retrieve **GNSS** information from GNSS
 modules which communicate with **NMEA 0183** over serial.

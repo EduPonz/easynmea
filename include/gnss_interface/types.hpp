@@ -69,34 +69,64 @@ class ReturnCode
 {
 public:
 
+    //! Internal \c ReturnCode enumeration
     enum
     {
+        //! Operation succeeded
         RETURN_CODE_OK = 0,
+
+        //! No data availabe
         RETURN_CODE_NO_DATA = 1,
+
+        //! Operation timed out
         RETURN_CODE_TIMEOUT = 2,
+
+        //! Bad input parameter to function call
         RETURN_CODE_BAD_PARAMETER = 2,
+
+        //! The operation is illegal
         RETURN_CODE_ILLEGAL_OPERATION = 4,
+
+        //! The operation is not yet supported
         RETURN_CODE_UNSUPPORTED = 5,
+
+        //! The operation failed with an unexpected error
         RETURN_CODE_ERROR = 6
     };
 
+    //! Default constructor; construct a \c ReturnCode with value \c ReturnCode::RETURN_CODE_OK
     ReturnCode()
         : value_(RETURN_CODE_OK)
     {
     }
 
+    //! Construct a return code from an integer representing the enum value
     ReturnCode(
             uint32_t e)
     {
         value_ = e;
     }
 
+    /**
+     * Check whether a return code is equal to this one
+     *
+     * @param[in] c A constant reference to the return code to compare with this one
+     *
+     * @return true if equal; false otherwise
+     */
     bool operator ==(
             const ReturnCode& c) const
     {
         return value_ == c.value_;
     }
 
+    /**
+     * Check whether a return code is different from this one
+     *
+     * @param[in] c A constant reference to the return code to compare with this one
+     *
+     * @return true if not equal; false otherwise
+     */
     bool operator !=(
             const ReturnCode& c) const
     {
@@ -105,11 +135,22 @@ public:
 
     explicit operator bool() = delete;
 
+    /**
+     * Get the internal value of the \c ReturnCode
+     *
+     * @return This \c ReturnCode internal value
+     */
     uint32_t operator ()() const
     {
         return value_;
     }
 
+    /**
+     * Check whether this \c ReturnCode is equal to \c ReturnCode::RETURN_CODE_OK
+     *
+     * @return true if this \c ReturnCode is different than \c ReturnCode::RETURN_CODE_OK ;
+     *         false otherwise
+     */
     bool operator !() const
     {
         return value_ != 0;
