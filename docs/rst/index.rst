@@ -1,3 +1,5 @@
+.. _index:
+
 GNSS Interface Documentation
 ============================
 
@@ -6,7 +8,9 @@ GNSS Interface Documentation
    :hidden:
 
    installation/installation
-   usage
+   usage/usage
+   nmea_data_types/nmea_data_types
+   examples/examples
    api_reference/api_reference
 
 *GNSS Interface* is a cross-platform `C++` library to retrieve **GNSS** information from GNSS

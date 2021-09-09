@@ -75,6 +75,11 @@ install(DIRECTORY ${DOXYGEN_OUTPUT_HTML_DIR}
 ####################################################################################################
 # Build Sphinx documentation
 ####################################################################################################
+
+# Compile code snippets
+add_executable(sphinx_docs_snippets rst/snippets/snippets.cpp)
+target_link_libraries(sphinx_docs_snippets gnss_interface)
+
 # Find sphinx
 set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
 find_package(Sphinx REQUIRED)

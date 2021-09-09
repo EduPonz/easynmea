@@ -6,7 +6,7 @@ Build and Install Documentation
 .. important::
 
     This guide assumes that the library as been built following the steps outlined in the previous sections.
-    Else, paths might need to be adjusted to aligned with the followed procedure.
+    Else, paths might need to be adjusted to align with the followed procedure.
 
 *GNSS Interface's* documentation is comprised  of `Doxygen <https://www.doxygen.nl/index.html>`_ and
 `Sphinx <https://www.sphinx-doc.org/en/master/>`_ HTML output.
@@ -18,7 +18,7 @@ documentations.
 Environment Setup
 ^^^^^^^^^^^^^^^^^
 
-To ease the development process, and to avoid version incompatibilities or clashes, this guide describe the process of
+To ease the development process, and to avoid version incompatibilities or clashes, this guide describes the process of
 building the documentation using `Python3 Virtual Environments <https://docs.python.org/3/tutorial/venv.html>`_.
 Before setting up the environment, Doxygen needs to be installed following the
 `official installation guide <https://www.doxygen.nl/manual/install.html>`_.
