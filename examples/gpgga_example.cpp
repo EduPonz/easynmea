@@ -54,7 +54,7 @@ void print_help()
     std::cout << "Usage: ./gpgga_example [OPTIONS]" << std::endl;
     std::cout << "    -h/--help:                Print this help and exit" << std::endl;
     std::cout << "    -b/--baudrate [bauds]:    The connection baud rate in bauds [Defaults: 9600]" << std::endl;
-    std::cout << "    -p/--serial_port [port]:  The serial port to use [Defaults: 'dev/ttyACM0']" << std::endl;
+    std::cout << "    -p/--serial_port [port]:  The serial port to use [Defaults: '/dev/ttyACM0']" << std::endl;
     std::cout << "Example: ./gpgga_example -p /dev/ttyUSB0 -b 9600" << std::endl;
 }
 

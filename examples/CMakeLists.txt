@@ -36,6 +36,9 @@ elseif (NOT gnss_interface_FOUND)
     find_package(gnss_interface)
 endif()
 
+# In case we are building outside the library build
+find_package(Threads REQUIRED)
+
 # Get example sources
 set(EXAMPLE_SOURCES_CPP
     gpgga_example.cpp)
