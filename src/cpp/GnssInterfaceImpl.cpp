@@ -124,7 +124,7 @@ ReturnCode GnssInterfaceImpl::close()
         serial_interface_ = nullptr;
         // Break any wait_for_data
         lck.unlock();
-        cv_.notify_one();
+        cv_.notify_all();
         return ReturnCode::RETURN_CODE_OK;
     }
     return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
@@ -241,7 +241,7 @@ bool GnssInterfaceImpl::parse_raw_line_(
         if (process_gpgga_(line))
         {
             new_position_.store(true);
-            cv_.notify_one();
+            cv_.notify_all();
         }
     }
     return false;
