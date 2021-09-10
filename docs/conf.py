@@ -150,6 +150,7 @@ if read_the_docs_build:
     configure_doxyfile(
         doxyfile_in,
         doxyfile_out,
+        get_project_name_large('{}/CMakeLists.txt'.format(project_source_dir)),
         input_dir,
         output_dir,
         project_binary_docs_dir,

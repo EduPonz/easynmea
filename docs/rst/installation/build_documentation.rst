@@ -57,3 +57,19 @@ After :ref:`building the documentation <installation_documentation_build>`, it c
     source ~/gnss_interface_venv/bin/activate
     cd ~/gnss_interface/build
     cmake --build . --target install
+
+Simulate Read The Docs Build
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To simulate the process followed on the `Read The Docs <https://readthedocs.org/>` to build this documentation, run:
+
+.. code:: bash
+
+    source ~/gnss_interface_venv/bin/activate
+    cd ~/gnss_interface
+    rm -rf build  # Just in case
+    READTHEDOCS=True sphinx-build \
+        -b html \
+        -D breathe_projects.gnss_interface=<abs_path_to_docs_repo>/build/docs/doxygen/xml \
+        -d <abs_path_to_docs_repo>/build/docs/doctrees \
+        docs <abs_path_to_docs_repo>/build/docs/sphinx/html
