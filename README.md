@@ -1,3 +1,5 @@
+[![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
+
 # GNSS Interface {#index}
 
 **gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
@@ -13,6 +15,8 @@ It has been originally developed targeting Quectel GNSS L86 modules, however, it
 * [Authors](#authors)
 * [License](#license)
 * [To-Do](#to-do)
+
+For more detailed information, please visit the [GNSS Interface documentation](https://gnss-interface-docs.readthedocs.io/).
 
 ## Features
 
