@@ -27,10 +27,10 @@ cmake_policy(VERSION 3.10...3.20)
 ###############################################################################
 # Project
 ###############################################################################
+set(PROJECT_NAME_LARGE "GNSS Interface")
+
 project(gnss_interface VERSION 0.1.0
     DESCRIPTION "${PROJECT_NAME_LARGE} library provides a simple and easy-to-use API for interfacing with GNSS NMEA 0183 UART modules")
-
-set(PROJECT_NAME_LARGE "GNSS Interface")
 
 set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with NMEA 1082 GNSS modules")
 

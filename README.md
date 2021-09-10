@@ -37,7 +37,7 @@ To build the library, run:
 
 ```bash
 cd
-git clone https://github.com/EduPonz/gnss_l86_lib.git gnss_interface
+git clone https://github.com/EduPonz/gnss_interface.git
 mkdir build
 cd build
 cmake ..
@@ -83,7 +83,7 @@ cmake --build . --target install
 Then, they can be run with:
 
 ```bash
-cd <user-specified-dir>examples/bin
+cd <user-specified-dir>/examples/bin
 ./gpgga_example
 ```
 
