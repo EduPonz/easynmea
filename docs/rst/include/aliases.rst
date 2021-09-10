@@ -1,8 +1,9 @@
+.. Command aliases
 .. |br| raw:: html
 
   <br/>
 
-
+.. API aliases
 .. |GnssInterface-api| replace:: :cpp:class:`GnssInterface<eduponz::gnss_interface::GnssInterface>`
 .. |GnssInterface::open-api| replace:: :cpp:func:`GnssInterface::open()<eduponz::gnss_interface::GnssInterface::open>`
 .. |GnssInterface::close-api| replace:: :cpp:func:`GnssInterface::close()<eduponz::gnss_interface::GnssInterface::close>`

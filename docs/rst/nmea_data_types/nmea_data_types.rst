@@ -5,7 +5,8 @@
 NMEA 0183 Data Types
 ====================
 
-This section presents the data types associated with the **NMEA 0183** sentences that are interpreted by *GNSS
+This section presents the data types associated with the
+`NMEA 0183 <https://www.nmea.org/content/STANDARDS/NMEA_0183_Standard>`_ sentences that are interpreted by *GNSS
 Interface*.
 
 .. _nmea_data_types_gpgga:

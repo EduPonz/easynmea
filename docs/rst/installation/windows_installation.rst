@@ -54,6 +54,7 @@ running:
 
     cd ~
     git clone https://github.com/EduPonz/gnss_interface.git
+    cd gnss_interface
     mkdir build && cd build
     cmake ..
     cmake --build .

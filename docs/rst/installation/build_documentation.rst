@@ -5,7 +5,7 @@ Build and Install Documentation
 
 .. important::
 
-    This guide assumes that the library as been built following the steps outlined in the previous sections.
+    This guide assumes that the library as been built following the steps outlined in :ref:`installation_ubuntu`.
     Else, paths might need to be adjusted to align with the followed procedure.
 
 *GNSS Interface's* documentation is comprised  of `Doxygen <https://www.doxygen.nl/index.html>`_ and
@@ -20,13 +20,13 @@ Environment Setup
 
 To ease the development process, and to avoid version incompatibilities or clashes, this guide describes the process of
 building the documentation using `Python3 Virtual Environments <https://docs.python.org/3/tutorial/venv.html>`_.
-Before setting up the environment, Doxygen needs to be installed following the
-`official installation guide <https://www.doxygen.nl/manual/install.html>`_.
-Then, create a virtual environment and install the necessary tools with:
+Before setting up the environment, *Doxygen* needs to be installed.
+Install *venv* and *Doxygen*, and create a virtual environment and install the necessary tools with:
 
 .. code:: bash
 
     cd ~
+    sudo apt update && sudo apt install -y python3-venv doxygen
     python3 -m venv gnss_interface_venv
     source gnss_interface_venv/bin/activate
     pip3 install -r ~/gnss_interface/docs/requirements.txt

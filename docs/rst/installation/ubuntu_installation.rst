@@ -3,7 +3,7 @@
 Build and Install on Ubuntu
 ===========================
 
-This guide describes the process of building and installing *GNSS Interface* on Windows platforms:
+This guide describes the process of building and installing *GNSS Interface* on Ubuntu platforms:
 
 .. contents::
     :local:
@@ -46,13 +46,14 @@ Build
 -----
 
 Once the :ref:`prerequisites<installation_ubuntu_prerequisites>` and
-:ref:`dependencies<installation_ubuntu_dependencies>` are installed, *GNSS Interface* can be built with CMake by
-running:
+:ref:`dependencies<installation_ubuntu_dependencies>` are installed, *GNSS Interface* can be built with the help of
+CMake by running:
 
 .. code-block:: bash
 
     cd ~
     git clone https://github.com/EduPonz/gnss_interface.git
+    cd gnss_interface
     mkdir build && cd build
     cmake ..
     cmake --build .

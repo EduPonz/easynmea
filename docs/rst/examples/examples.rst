@@ -31,7 +31,7 @@ GPGGA Example
 -------------
 
 The GPGGA example showcases how to get Global Positioning System Fix Data out of GNSS devices, which they advertise
-using the **NMEA 0183** GPGGA sentence.
+using the `NMEA 0183 <https://www.nmea.org/content/STANDARDS/NMEA_0183_Standard>`_ GPGGA sentence.
 Once the examples :ref:`have been built <examples_build>`, the GPGGA example can be run with:
 
 .. code:: bash
