@@ -1,9 +1,9 @@
-[![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
-
 # GNSS Interface {#index}
 
+[![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
+
 **gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
-It has been originally developed targeting Quectel GNSS L86 modules, however, it can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences over UART.
+It can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences over UART.
 
 * [Features](#features)
 * [Getting started](#getting-started)
@@ -40,10 +40,9 @@ sudo apt install libasio-dev
 To build the library, run:
 
 ```bash
-cd
+cd ~
 git clone https://github.com/EduPonz/gnss_interface.git
-mkdir build
-cd build
+mkdir build && cd build
 cmake ..
 cmake --build .
 ```
@@ -165,6 +164,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## To-Do
 
+- Export symbols for Windows DLLs.
 - Add robustness to `SerialInterface`.
 - Process other **NMEA 0183** sentences. See [gnss_l86_output.txt](gnss_l86_output.txt) for an example of the messages coming from the module.
 - Send commands to GNSS modules using [**PMTK**](https://www.quectel.com/UploadImage/Downlad/Quectel_GNSS_SDK_Commands_Manual_V1.2.pdf) protocol.
