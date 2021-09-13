@@ -58,3 +58,13 @@ add_test(NAME documentation.spell_check
     -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
     ${PROJECT_SOURCE_DOCS_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}/spelling)
+
+# Check links
+add_test(NAME documentation.link_check
+    COMMAND
+    ${SPHINX_EXECUTABLE} -Q -W --keep-going
+    -D breathe_projects.gnss_interface=${DOXYGEN_OUTPUT_DIR}/xml
+    -b linkcheck
+    -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
+    ${PROJECT_SOURCE_DOCS_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}/linkcheck)
