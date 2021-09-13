@@ -17,23 +17,23 @@ Testing Framework
 The *GNSS Interface* testing framework has to cope with the following requirements:
 
 1. Easy to integrate with CMake
-1. Easy to integrate with GitHub actions
-1. Large acceptance, so new contributors can write tests effortlessly
-1. Mocking capabilities. This is because at least Asio will have to be mocked
-1. Extense documentation
-1. Easy to find answers to common problems.
-1. Should be able to be used to create tests for the documentation
+2. Easy to integrate with GitHub actions
+3. Large acceptance, so new contributors can write tests effortlessly
+4. Mocking capabilities. This is because at least Asio will have to be mocked
+5. Extense documentation
+6. Easy to find answers to common problems.
+7. Should be able to be used to create tests for the documentation
 
 To satisfy these requirements *GNSS Interface* uses `Gtest <https://google.github.io/googletest/>`_ as testing
 framework.
 This decision is taken for a number or reasons:
 
 1. Huge acceptance
-1. Very large community, which means tons of Q&A everywhere
-1. Very good documentation with examples
-1. Out-of-the box mock support
-1. Direct integration with CMake
-1. GitHub integration merely consists on an action which installs GTest.
+2.  Very large community, which means tons of Q&A everywhere
+3. Very good documentation with examples
+4. Out-of-the box mock support
+5. Direct integration with CMake
+6. GitHub integration merely consists on an action which installs GTest.
 
 Other testing framework such as Catch and Boost.Test, however they were discarded:
 
@@ -50,7 +50,7 @@ CMake Options
 The *GNSS Interface* tests can be divided into two large categories:
 
 1. Library tests: Unit and system tests for the *GNSS Interface* library itself.
-1. Documentation tests: Automated tests for the documentation.
+2.  Documentation tests: Automated tests for the documentation.
 
 It should be possible to build these sets of tests separately, specially since not everyone would build the
 documentation.
@@ -67,6 +67,6 @@ Directories
 
 The *GNSS Interface* tests are held in the following directory structure:
 
-1. `<repo-root>/test/unit`: For unit tests
-1. `<repo-root>/test/system`: For system tests
-1. `<repo-root>/docs/test`: For documentation tests
+1. ``<repo-root>/test/unit``: For unit tests
+2. ``<repo-root>/test/system``: For system tests
+3. ``<repo-root>/docs/test``: For documentation tests
