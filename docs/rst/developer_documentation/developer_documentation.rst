@@ -13,5 +13,6 @@ you are considering contributing to *GNSS Interface*.
    :maxdepth: 1
 
    /rst/developer_documentation/testing_infrastructure
+   /rst/developer_documentation/docs_testing
 
 
