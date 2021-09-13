@@ -25,14 +25,18 @@ CMake Options
         - ``ON`` ``OFF``
         - ``OFF``
     *   - :class:`BUILD_DOCUMENTATION_TESTS`
-        - Build the library documentation tests. Setting this |br|
-          ``ON`` will set :class:`BUILD_DOCUMENTATION` to ``ON``
+        - Build the library documentation |br|
+          tests. Setting this ``ON`` will set |br|
+          :class:`BUILD_DOCUMENTATION` to ``ON``
         - ``ON`` ``OFF``
         - ``OFF``
     *   - :class:`BUILD_TESTS`
-        - Build the library and documentation tests. Setting this |br|
-          ``ON`` will set :class:`BUILD_LIBRARY_TESTS` and |br|
-          :class:`BUILD_DOCUMENTATION_TESTS` to ``ON``
+        - Build the library and |br|
+          documentation tests. Setting |br|
+          this ``ON`` will set |br|
+          :class:`BUILD_LIBRARY_TESTS` and |br|
+          :class:`BUILD_DOCUMENTATION_TESTS` |br|
+          to ``ON``
         - ``ON`` ``OFF``
         - ``OFF``
     *   - :class:`BUILD_EXAMPLES`
