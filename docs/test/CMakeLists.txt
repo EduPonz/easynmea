@@ -42,7 +42,7 @@ find_program(DOC8 doc8 DOC "path to doc8 executable")
 message(STATUS "doc8 found: ${DOC8}")
 if(DOC8)
     add_test(
-        NAME documentation.doc8
+        NAME documentation.line_length
         COMMAND ${DOC8}
         --max-line-length 120 ${PROJECT_SOURCE_DOCS_DIR})
 else()
