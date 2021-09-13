@@ -43,7 +43,7 @@ class GnssInterfaceImpl;
  * It can be used to:
  *     * Open and close serial connection with the modules.
  *     * Wait for specific NMEA sentences to be received.
- *     * Read incoming GNSS data in a parsed and understanble manner.
+ *     * Read incoming GNSS data in a parsed and understandable manner.
  */
 class GnssInterface
 {
@@ -94,16 +94,16 @@ public:
     ReturnCode close();
 
     /**
-     * \brief Take the next un-taken GPGGA data sample available
+     * \brief Take the next untaken GPGGA data sample available
      *
      * \c GnssInterface stores up to the last 10 reported GPGGA data samples. \c take_next() is used
-     * to retrieve the oldest un-taken GPGGA sample.
+     * to retrieve the oldest untaken GPGGA sample.
      *
      * @param[out] gpgga A \c GPGGAData instance which will be populated with the sample.
      *
      * @return \c take_next() can return:
      *     * ReturnCode::RETURN_CODE_OK if the operation succeeded.
-     *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any un-taken \c GPGGAData samples.
+     *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any untaken \c GPGGAData samples.
      */
     ReturnCode take_next(
             GPGGAData& gpgga);

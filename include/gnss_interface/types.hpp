@@ -75,7 +75,7 @@ public:
         //! Operation succeeded
         RETURN_CODE_OK = 0,
 
-        //! No data availabe
+        //! No data available
         RETURN_CODE_NO_DATA = 1,
 
         //! Operation timed out

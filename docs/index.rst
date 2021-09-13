@@ -12,6 +12,7 @@ GNSS Interface Documentation
    rst/nmea_data_types/nmea_data_types
    rst/examples/examples
    rst/api_reference/api_reference
+   rst/developer_documentation/developer_documentation
 
 *GNSS Interface* is an open source, free-to-use cross-platform `C++` library to retrieve **Global Navigation Satellite
 System** (`GNSS <https://en.wikipedia.org/wiki/Satellite_navigation>`_) information from GNSS modules which communicate

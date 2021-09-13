@@ -100,16 +100,16 @@ public:
     ReturnCode close();
 
     /**
-     * \brief Take the next un-taken GPGGA data sample available
+     * \brief Take the next untaken GPGGA data sample available
      *
      * \c GnssInterfaceImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
-     * used to retrieve the oldest un-taken GPGGA sample.
+     * used to retrieve the oldest untaken GPGGA sample.
      *
      * @param[out] gpgga A \c GPGGAData instance which will be populated with the sample.
      *
      * @return \c take_next() can return:
      *     * ReturnCode::RETURN_CODE_OK if the operation succeeded.
-     *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any un-taken \c GPGGAData samples.
+     *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any untaken \c GPGGAData samples.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode take_next(

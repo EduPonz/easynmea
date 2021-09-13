@@ -82,11 +82,11 @@ struct GPGGAData : NMEA0183Data
     /** GNSS Fix
      *    - 0: no fix
      *    - 1 -> fix
-     *    - 2 -> dif fix
+     *    - 2 -> differential fix
      */
     uint8_t fix;
 
-    //! Number of satelites on view
+    //! Number of satellites on view
     uint16_t satellites_on_view;
 
     //! GNSS horizontal precision expressed in meters

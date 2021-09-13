@@ -20,6 +20,25 @@ CMake Options
           :ref:`installation_documentation`)
         - ``ON`` | ``OFF``
         - ``OFF``
+    *   - :class:`BUILD_LIBRARY_TESTS`
+        - Build the library tests.
+        - ``ON`` ``OFF``
+        - ``OFF``
+    *   - :class:`BUILD_DOCUMENTATION_TESTS`
+        - Build the library documentation |br|
+          tests. Setting this ``ON`` will set |br|
+          :class:`BUILD_DOCUMENTATION` to ``ON``
+        - ``ON`` ``OFF``
+        - ``OFF``
+    *   - :class:`BUILD_TESTS`
+        - Build the library and |br|
+          documentation tests. Setting |br|
+          this ``ON`` will set |br|
+          :class:`BUILD_LIBRARY_TESTS` and |br|
+          :class:`BUILD_DOCUMENTATION_TESTS` |br|
+          to ``ON``
+        - ``ON`` ``OFF``
+        - ``OFF``
     *   - :class:`BUILD_EXAMPLES`
         - Builds *GNSS Interface* examples
         - ``ON`` | ``OFF``
