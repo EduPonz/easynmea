@@ -70,3 +70,28 @@ The *GNSS Interface* tests are held in the following directory structure:
 1. ``<repo-root>/test/unit``: For unit tests
 2. ``<repo-root>/test/system``: For system tests
 3. ``<repo-root>/docs/test``: For documentation tests
+
+.. _dev_docs_testing_automated:
+
+Automated Testing Jobs
+----------------------
+
+All the *GNSS Interface* tests run automatically once a day for the :class:`main` branch, as well as for the supported
+versions' branches.
+Furthermore, all the tests are run whenever a pull request is opened and with every commit pushed to an open pull
+request.
+To automate these tasks, since the public repository is hosted on GitHub,
+`GitHub actions <https://github.com/features/actions>`_ are used.
+This tool enables to create as many workflows with as many jobs in them as desired, making it ideal for test automation.
+Moreover, the jobs run on GitHub maintained servers, so the only thing we have to do is to define those workflows.
+This is done in ``<repo-root>/.github/workflows``.
+*GNSS Interface* contains the following workflows and jobs:
+
+* :class:`automated_testing`, defined in ``<repo-root>/.github/workflows/automated_testing.yml``.
+  This workflow runs on pushes to :class:`main` and any other maintained branch, on pull request creation or update,
+  and once a day.
+  It contains the following jobs:
+
+   * :class:`ubuntu-build-test`, which runs in the latest Ubuntu distribution available.
+     This job installs all the necessary dependencies, builds all the tests and documentation, runs the all tests, and
+     uploads the sphinx-generated HTML documentation so reviewers can check it.
