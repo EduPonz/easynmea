@@ -40,20 +40,19 @@ public:
             std::string port,
             unsigned int baudrate)
     {
-        if (!serial.is_open())
+        if (!is_open())
         {
             asio::error_code ec;
             serial.open(port, ec);
             if (!ec)
             {
-                serial.set_option(asio::serial_port_base::baud_rate(baudrate));
-                return true;
+                serial.set_option(asio::serial_port_base::baud_rate(baudrate), ec);
+                if (!ec)
+                {
+                    return true;
+                }
             }
-            else
-            {
-                std::cout << "[ERROR] Cannot open serial port '" << port << "'. Error: "
-                          << ec.message() << std::endl;
-            }
+            std::cout << "[ERROR] Cannot open serial port '" << port << "'. Error: " << ec.message() << std::endl;
         }
         return false;
     }
@@ -66,12 +65,14 @@ public:
     /**
      * Close the serial port
      *
-     * \pre The port was opened
-     * \return true if the operation succeeded; false otherwise.
+     * \pre The port was open
+     * \return true if the port was open upon the call to \c close() and closed afterwards, or if
+     *         the port was already closed upon the call to \c close(). false if the port was open
+     *         and could not be closed.
      */
     bool close()
     {
-        if (serial.is_open())
+        if (is_open())
         {
             asio::error_code ec;
             serial.close(ec);
@@ -85,29 +86,24 @@ public:
     }
 
     /**
-     * Write a string to the serial device.
-     * \param s string to write
-     * \throws system::system_error on failure
-     */
-    void write(
-            std::string s)
-    {
-        asio::write(serial, asio::buffer(s.c_str(), s.size()));
-    }
-
-    /**
      * Blocks until a line is received from the serial device.
      *
      * Eventual \c '\n' or \c '\r\n' characters at the end of the string are removed.
      *
      * \param[out] result A string to store the read line.
-     * \return true if success; false otherwise.
+     * \return true if a line was read; false if the port was closed or there was an error while
+     *         reading.
      */
     bool read_line(
             std::string& result)
     {
+        if (!is_open())
+        {
+            return false;
+        }
         // Reading data char by char, code is optimized for simplicity, not speed
         char c;
+        result.clear();
         asio::error_code ec;
         while (true)
         {
