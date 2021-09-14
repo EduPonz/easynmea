@@ -1,0 +1,15 @@
+@startuml
+hide empty members
+class SerialInterface
+{
+    + bool open()
+    + bool is_open()
+    + bool close()
+    + bool read_line(std::string& result)
+}
+
+class asio::serial_port
+
+SerialInterface o-- "1" asio::serial_port
+
+@enduml

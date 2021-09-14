@@ -12,6 +12,7 @@ you are considering contributing to *GNSS Interface*.
 .. toctree::
    :maxdepth: 1
 
+   /rst/developer_documentation/library_architecture
    /rst/developer_documentation/testing_infrastructure
    /rst/developer_documentation/docs_testing
 
