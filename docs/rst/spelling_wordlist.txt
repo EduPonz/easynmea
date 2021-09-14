@@ -9,6 +9,7 @@ datas
 Destructor
 Doxygen
 Extense
+getter
 GitHub
 GNSS
 GTest

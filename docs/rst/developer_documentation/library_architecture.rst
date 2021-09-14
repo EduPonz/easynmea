@@ -23,6 +23,7 @@ Serial Interface Level
 
 The serial interface level is comprised of the |SerialInterface-api| class, which provides member functions to open and
 close a serial port, as well as for reading data from it.
-|SerialInterface-api| contains one :class:`asio::serial_port` which is used to interact with the port.
+|SerialInterface-api| is a template class with a template parameter :class:`SerialPort` that defines the serial port
+implementation, which defaults to :class: :class:`asio::serial_port`.
 
 .. uml:: ../../uml/SerialInterface.puml

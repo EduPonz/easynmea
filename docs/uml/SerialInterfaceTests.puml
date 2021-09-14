@@ -1,0 +1,22 @@
+@startuml SerialInterfaceTests
+hide empty members
+
+class SerialInterface<SerialPortMock>
+
+class SerialInterfaceTest
+{
+    + std::size_t read_char(char& c, asio::error_code& ec) noexcept override
+    + void set_serial_port(SerialPortMock* serial)
+    + asio::io_service& io_service()
+    + void set_msg(std::string msg)
+    + void use_parent_read_char(bool should_use)
+    - std::string msg_;
+    - uint8_t char_count_;
+    - bool use_parent_read_char_;
+}
+
+class SerialPortMock
+
+SerialInterface o-- "1" SerialPortMock
+SerialInterface <|-- SerialInterfaceTest
+@enduml

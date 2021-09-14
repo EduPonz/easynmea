@@ -1,15 +1,16 @@
-@startuml
+@startuml SerialInterface
 hide empty members
-class SerialInterface
+class SerialInterface<class SerialPort = asio::serial_port>
 {
-    + bool open()
-    + bool is_open()
-    + bool close()
-    + bool read_line(std::string& result)
+    + virtual SerialInterface() noexcept
+    + virtual bool open(std::string port, uint64_t baudrate) noexcept
+    + virtual bool is_open() noexcept
+    + virtual bool close() noexcept
+    + virtual bool read_line(std::string& result) noexcept
+    # virtual std::size_t read_char(char& c, asio::error_code& ec) noexcept
 }
 
-class asio::serial_port
+class SerialPort
 
-SerialInterface o-- "1" asio::serial_port
-
+SerialInterface o-- "1" SerialPort
 @enduml
