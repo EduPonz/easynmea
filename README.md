@@ -1,5 +1,6 @@
 # GNSS Interface {#index}
 
+[![automated_testing](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml)
 [![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
 
 **gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
