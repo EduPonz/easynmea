@@ -25,9 +25,9 @@ target_include_directories(serial_interface_tests PRIVATE
     ${GMOCK_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/src/cpp)
 
-target_link_libraries(serial_interface_tests
-    GTest::gtest
-    GTest::gtest_main
+target_link_libraries(serial_interface_tests PUBLIC
+    GTest::GTest
+    GTest::Main
     ${GMOCK_BOTH_LIBRARIES})
 
 set(SERIAL_INTERFACE_TEST_LIST
