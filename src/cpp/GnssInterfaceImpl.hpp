@@ -140,7 +140,7 @@ protected:
     const std::string GPGGA_SENTENCE_START_ = "$GPGGA";
 
     //! Pointer to the seral interface to which the device is connected
-    SerialInterface* serial_interface_;
+    SerialInterface<>* serial_interface_;
 
     //! The thread in which the reading from the serial interface is performed
     std::unique_ptr<std::thread> read_thread_;

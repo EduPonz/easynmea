@@ -9,11 +9,32 @@
 #ifndef _GNSS_INTERFACE_SERIALINTERFACE_H
 #define _GNSS_INTERFACE_SERIALINTERFACE_H
 
-#include <asio.hpp>
+#include <memory>
+
+#include <asio/io_service.hpp>
+#include <asio/read.hpp>
+#include <asio/serial_port_base.hpp>
+#include <asio/serial_port.hpp>
 
 namespace eduponz {
 namespace gnss_interface {
 
+/**
+ * @class SerialInterface
+ *
+ * This template class provides API to open and close a serial port, as well as for reading a line
+ * from it (terminated either in \c '\n' or \c '\r\n')
+ *
+ * @tparam SerialPort: The serial port implementation. Defaults to asio::serial_port. Any
+ *         \c SerialPort implementation must provide:
+ *            * A constructor which takes an \c asio::io_service.
+ *            * A `void open(const std::string& device, asio::error_code& ec)`
+ *            * A `bool is_open()` function
+ *            * A `bool set_option(asio::serial_port_base::baud_rate baudrate, asio::error_code& ec)`
+ *            * A `void close(asio::error_code& ec)`
+ *            * A `std::size_t read_some(const asio::mutable_buffers_1& buffers, asio::error_code& ec)`
+ */
+template <class SerialPort = asio::serial_port>
 class SerialInterface
 {
 public:
@@ -21,9 +42,9 @@ public:
     /**
      * Constructor.
      */
-    SerialInterface()
-        : io()
-        , serial(io)
+    SerialInterface() noexcept
+        : io_service_()
+        , serial_(std::make_unique<SerialPort>(io_service_))
     {
     }
 
@@ -36,17 +57,17 @@ public:
      * \param baudrate communication speed, example 9600 or 115200
      * \return true if it can open the communication; false otherwise.
      */
-    bool open(
+    virtual bool open(
             std::string port,
-            unsigned int baudrate)
+            uint64_t baudrate) noexcept
     {
         if (!is_open())
         {
             asio::error_code ec;
-            serial.open(port, ec);
+            serial_->open(port, ec);
             if (!ec)
             {
-                serial.set_option(asio::serial_port_base::baud_rate(baudrate), ec);
+                serial_->set_option(asio::serial_port_base::baud_rate(baudrate), ec);
                 if (!ec)
                 {
                     return true;
@@ -57,9 +78,9 @@ public:
         return false;
     }
 
-    bool is_open()
+    virtual bool is_open() noexcept
     {
-        return serial.is_open();
+        return serial_->is_open();
     }
 
     /**
@@ -70,12 +91,12 @@ public:
      *         the port was already closed upon the call to \c close(). false if the port was open
      *         and could not be closed.
      */
-    bool close()
+    virtual bool close() noexcept
     {
         if (is_open())
         {
             asio::error_code ec;
-            serial.close(ec);
+            serial_->close(ec);
             if (ec)
             {
                 std::cout << "[ERROR] Cannot close serial port. Error: " << ec.message() << std::endl;
@@ -90,24 +111,28 @@ public:
      *
      * Eventual \c '\n' or \c '\r\n' characters at the end of the string are removed.
      *
-     * \param[out] result A string to store the read line.
+     * \param[out] result A string to store the read line. If the serial connection is not opened,
+     *             then @param result will not be modified. If it is open, then it will be cleared
+     *             first with \c std::string::clear(). In case of error while reading on an opened
+     *             port, @param result will either be empty (when error reading the first
+     *             character), or have just the characters read (but not the original content).
      * \return true if a line was read; false if the port was closed or there was an error while
      *         reading.
      */
-    bool read_line(
-            std::string& result)
+    virtual bool read_line(
+            std::string& result) noexcept
     {
         if (!is_open())
         {
             return false;
         }
-        // Reading data char by char, code is optimized for simplicity, not speed
+
         char c;
         result.clear();
         asio::error_code ec;
         while (true)
         {
-            asio::read(serial, asio::buffer(&c, 1), ec);
+            read_char(c, ec);
             if (!ec)
             {
                 switch (c)
@@ -128,11 +153,30 @@ public:
         }
     }
 
-private:
+protected:
 
-    asio::io_service io;
+    //! Asio's I/O service. It is used to construct the \c SerialPort
+    asio::io_service io_service_;
 
-    asio::serial_port serial;
+    //! Unique pointer to the \c SerialPort implementation (defaults to \c asio::serial_port)
+    std::unique_ptr<SerialPort> serial_;
+
+    /**
+     * Read a character from the serial port.
+     *
+     * This function blocks until either:
+     *    1. A character is read
+     *    2. The serial port is closed
+     *    3. An internal error occurs on asio::read_some
+     *
+     * @param[out] c Reference to the read char
+     * @param ec The error code returned by read_some
+     * @return The number of read characters, i.e. 1 when something is read, 0 when it's not
+     */
+    virtual std::size_t read_char(char& c, asio::error_code& ec) noexcept
+    {
+        return serial_->read_some(asio::buffer(&c, 1), ec);
+    }
 };
 
 } // namespace eduponz
