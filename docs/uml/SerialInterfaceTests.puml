@@ -16,6 +16,14 @@ class SerialInterfaceTest
 }
 
 class SerialPortMock
+{
+    + SerialPortMock(asio::io_service& io_service)
+    + MOCK_METHOD(open);
+    + MOCK_METHOD(is_open);
+    + MOCK_METHOD(set_option);
+    + MOCK_METHOD(close);
+    + MOCK_METHOD(read_some);
+}
 
 SerialInterface o-- "1" SerialPortMock
 SerialInterface <|-- SerialInterfaceTest
