@@ -18,4 +18,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_subdirectory(unit)
+add_executable(serial_interface_tests SerialInterfaceTests.cpp)
+
+target_include_directories(serial_interface_tests PRIVATE
+    ${GTEST_INCLUDE_DIRS}
+    ${GMOCK_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/src/cpp)
+
+target_link_libraries(serial_interface_tests
+    GTest::gtest
+    GTest::gtest_main
+    ${GMOCK_BOTH_LIBRARIES})
+
+set(SERIAL_INTERFACE_TEST_LIST
+    # open() tests
+    openSuccess
+    openOpened
+    openWrongPort
+    openWrongBaudrate
+    # is_open() tests
+    is_openOpened
+    is_openClosed
+    # close() tests
+    closeSuccess
+    closeClosed
+    closeAsioError
+    # read_line tests
+    read_lineSuccess
+    read_lineClosed
+    read_lineReadError)
+
+foreach(test_name ${SERIAL_INTERFACE_TEST_LIST})
+
+    add_test(NAME SerialInterfaceTests.${test_name}
+            COMMAND serial_interface_tests
+            --gtest_filter=SerialInterfaceTests.${test_name}:*/SerialInterfaceTests.${test_name}/*)
+
+endforeach()
