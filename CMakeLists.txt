@@ -91,6 +91,8 @@ if(BUILD_LIBRARY_TESTS OR BUILD_DOCUMENTATION_TESTS)
     # of the build directory
     enable_testing()
     include(CTest)
+    find_package(GTest REQUIRED)
+    find_package(GMock REQUIRED)
 endif()
 
 if (BUILD_LIBRARY_TESTS)

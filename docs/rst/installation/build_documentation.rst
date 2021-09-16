@@ -26,7 +26,7 @@ Install *venv* and *Doxygen*, and create a virtual environment and install the n
 .. code:: bash
 
     cd ~
-    sudo apt update && sudo apt install -y python3-venv doxygen
+    sudo apt update && sudo apt install -y python3-venv doxygen plantuml
     python3 -m venv gnss_interface_venv
     source gnss_interface_venv/bin/activate
     pip3 install -r ~/gnss_interface/docs/requirements.txt

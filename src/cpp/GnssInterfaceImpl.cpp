@@ -68,7 +68,7 @@ ReturnCode GnssInterfaceImpl::open(
      */
     if (!serial_interface_)
     {
-        serial_interface_ = new SerialInterface();
+        serial_interface_ = new SerialInterface<>();
         if (serial_interface_->open(serial_port, baudrate))
         {
             // If the serial interface could be opened, then spawn the reading thread

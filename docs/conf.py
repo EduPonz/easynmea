@@ -178,7 +178,15 @@ breathe_default_project = 'gnss_interface'
 extensions = [
     'breathe',
     'sphinx.ext.todo',
+    'sphinxcontrib.plantuml',
 ]
+
+if os.environ.get("READTHEDOCS") != None:
+    plantuml = 'java -Djava.awt.headless=true -jar /usr/share/plantuml/plantuml.jar'
+else:
+    # This assumes that plantuml has been installed with `apt install plantuml`
+    plantuml = '/usr/bin/plantuml'
+
 try:
     import sphinxcontrib.spelling  # noqa: F401
     extensions.append('sphinxcontrib.spelling')
