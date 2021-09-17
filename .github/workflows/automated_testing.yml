@@ -63,7 +63,7 @@ jobs:
         run: |
           mkdir coverage-report
           gcovr \
-            --root gnss_interface/ \
+            --root ./ \
             --object-directory build/ \
             --output coverage-report/coverage.xml \
             --xml-pretty \
