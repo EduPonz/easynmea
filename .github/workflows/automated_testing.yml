@@ -64,7 +64,7 @@ jobs:
           mkdir coverage-report
           gcovr \
             --root gnss_interface/ \
-            --object-directory build/gnss_interface/ \
+            --object-directory build/ \
             --output coverage-report/coverage.xml \
             --xml-pretty \
             --exclude='.*docs/.*' \
