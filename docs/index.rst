@@ -7,6 +7,7 @@ GNSS Interface Documentation
    :maxdepth: 3
    :hidden:
 
+   rst/getting_started/getting_started
    rst/installation/installation
    rst/usage/usage
    rst/nmea_data_types/nmea_data_types

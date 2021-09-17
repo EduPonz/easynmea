@@ -3,6 +3,7 @@ baudrate
 bitmask
 Bitmask
 Bitwise
+cgroup
 Chocolatey
 CMake
 datas
