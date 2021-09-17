@@ -35,6 +35,9 @@ jobs:
       - name: Install python packages
         run: pip3 install -r docs/requirements.txt
 
+      - name: Install gcovr
+        run: pip3 install -U gcovr
+
       - name: Configure project
         run: |
           mkdir build && \
