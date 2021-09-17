@@ -38,7 +38,7 @@ Plug your device and get the cgroup with:
 ls -l <path_to_device> | awk '{print substr($5, 1, length($5)-1)}'
 ```
 
-Then, run the container with.
+Then, run the container:
 
 ```bash
 docker run -it -v /dev:/dev --device-cgroup-rule='c <device cgroup>:* rmw' gnss_interface bash
