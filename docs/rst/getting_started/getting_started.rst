@@ -27,7 +27,7 @@ that device with the container:
 
 .. code:: bash
 
-    docker run -it --device=<path_to_device> gnss_interface bash
+    docker run -it --device=<path_to_device> eduponz/gnss_interface bash
 
 Then, inside the container, you can run the GPGGA example with:
 
@@ -52,7 +52,7 @@ Then, run the container:
 
 .. code:: bash
 
-    docker run -it -v /dev:/dev --device-cgroup-rule='c <device cgroup>:* rmw' gnss_interface bash
+    docker run -it -v /dev:/dev --device-cgroup-rule='c <device cgroup>:* rmw' eduponz/gnss_interface bash
 
 Finally, inside the container, you can run the GPGGA example as before:
 
