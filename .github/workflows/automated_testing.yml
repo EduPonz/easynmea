@@ -39,7 +39,12 @@ jobs:
         run: |
           mkdir build && \
           cd build && \
-          cmake .. -DBUILD_DOCUMENTATION=ON -DBUILD_TESTS=ON -DBUILD_EXAMPLES=ON
+          cmake .. \
+            -DBUILD_DOCUMENTATION=ON \
+            -DBUILD_TESTS=ON \
+            -DBUILD_EXAMPLES=ON \
+            -DGCC_CODE_COVERAGE=ON \
+            -DCMAKE_BUILD_TYPE=Debug
 
       - name: Build project
         run: |
@@ -50,6 +55,30 @@ jobs:
         run: |
           cd build && \
           ctest -VV
+
+      - name: Generate coverage report
+        run: |
+          mkdir coverage-report
+          gcovr \
+            --root gnss_interface/ \
+            --object-directory build/gnss_interface/ \
+            --output coverage-report/coverage.xml \
+            --xml-pretty \
+            --exclude='.*docs/.*' \
+            --exclude='.*test/.*' \
+            --exclude='.*examples/.*' \
+            --exclude='.*github/.*' \
+            --exclude='.*resources/.*' \
+            --exclude-unreachable-branches
+        if: always()
+
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage-report/coverage.xml
+          root_dir: gnss_interface
+          fail_ci_if_error: true
 
       - name: Upload documentation
         uses: actions/upload-artifact@v1

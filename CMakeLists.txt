@@ -43,6 +43,17 @@ message(STATUS "Version: ${PROJECT_VERSION}")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 ###############################################################################
+# CMake flags
+###############################################################################
+if(CMAKE_COMPILER_IS_GNUCXX)
+    option(GCC_CODE_COVERAGE "Sets gcc code coverage flags" OFF)
+    if (GCC_CODE_COVERAGE)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage -fprofile-arcs -ftest-coverage")
+    endif()
+endif()
+
+###############################################################################
 # Load external projects.
 ###############################################################################
 find_package(Threads REQUIRED)
