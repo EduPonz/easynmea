@@ -43,3 +43,10 @@ CMake Options
         - Builds *GNSS Interface* examples
         - ``ON`` | ``OFF``
         - ``OFF``
+    *   - :class:`GCC_CODE_COVERAGE`
+        - Build the library with |br|
+          code coverage support. |br|
+          This flag only take action |br|
+          when using GCC.
+        - ``ON`` ``OFF``
+        - ``OFF``
