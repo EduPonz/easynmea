@@ -2,6 +2,8 @@
 
 [![automated_testing](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml)
 [![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
+[![Docker pulls](https://img.shields.io/docker/pulls/eduponz/gnss_interface.svg)](https://hub.docker.com/repository/docker/eduponz/gnss_interface)
+[![codecov](https://codecov.io/gh/EduPonz/gnss_interface/branch/master/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/gnss_interface)
 
 **gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
 It can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences over UART.

@@ -1,11 +1,13 @@
 Asio
 baudrate
+behaviour
 bitmask
 Bitmask
 Bitwise
 cgroup
 Chocolatey
 CMake
+Codecov
 datas
 Destructor
 Doxygen
