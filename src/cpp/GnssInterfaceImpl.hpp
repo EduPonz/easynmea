@@ -26,6 +26,7 @@
 #define _GNSS_INTERFACE_IMPL_HPP_
 
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <cstdio>
 #include <cstring>
@@ -43,6 +44,8 @@
 #include "FixedSizeQueue.hpp"
 #include "SerialInterface.hpp"
 
+using namespace std::chrono_literals;
+
 namespace eduponz {
 namespace gnss_interface {
 
@@ -56,10 +59,10 @@ class GnssInterfaceImpl
 public:
 
     //! Default constructor. Constructs a \c GnssInterfaceImpl
-    GnssInterfaceImpl();
+    GnssInterfaceImpl() noexcept;
 
     //! Destructor. Frees used memory and closes the serial connection if opened.
-    ~GnssInterfaceImpl();
+    virtual ~GnssInterfaceImpl() noexcept;
 
     /**
      * \brief Open a serial connection.
@@ -74,19 +77,20 @@ public:
      * @param[in] baudrate The communication baudrate.
      * @return \c open() can return:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
+     *     * ReturnCode::RETURN_CODE_ERROR is the port could not be opened.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
      *       same GnssInterface instance, regardless of the port.
      */
-    ReturnCode open(
+    virtual ReturnCode open(
             const char* serial_port,
-            long baudrate);
+            long baudrate) noexcept;
 
     /**
      * Check whether a serial connection is opened
      *
      * @return true if there is an opened serial connection; false otherwise.
      */
-    bool is_open();
+    virtual bool is_open() noexcept;
 
     /**
      * Close a serial connection
@@ -95,44 +99,51 @@ public:
      *
      * @return \c close() can return:
      *     * ReturnCode::RETURN_CODE_OK if the connection was successfully closed.
+     *     * ReturnCode::RETURN_CODE_ERROR if the connection could not be closed.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
-    ReturnCode close();
+    virtual ReturnCode close() noexcept;
 
     /**
      * \brief Take the next untaken GPGGA data sample available
      *
      * \c GnssInterfaceImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
-     * used to retrieve the oldest untaken GPGGA sample.
+     * used to retrieve the oldest untaken GPGGA sample. If eventually \c take_next takes the last
+     * gpgga sample received, then the corresponding bit of \c data_received_ is cleared.
      *
      * @param[out] gpgga A \c GPGGAData instance which will be populated with the sample.
      *
      * @return \c take_next() can return:
      *     * ReturnCode::RETURN_CODE_OK if the operation succeeded.
      *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any untaken \c GPGGAData samples.
-     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
-    ReturnCode take_next(
-            GPGGAData& gpgga);
+    virtual ReturnCode take_next(
+            GPGGAData& gpgga) noexcept;
 
     /**
-     * \brief Block the calling thread until there is data available
+     * \brief Block the calling thread until there is data available.
      *
      * Block the calling thread until data of the specified kind or kinds is available for the
-     * taking.
+     * taking, or the timeout expires.
      *
-     * @param[in] data_mask A \c NMEA0183DataKindMask used to specified on which data kinds should
-     *            the call return, thus unblocking the calling thread. Defaults to
-     *            \c NMEA0183DataKindMask::all().
+     * @param[in, out] data_mask A \c NMEA0183DataKindMask used to specify on which data kinds
+     *            should the call return, thus unblocking the calling thread. When \c wait_for_data
+     *            returns, data_mask holds the types of data that have been received.
+     * @param[in] timeout The time in millisecond after which the function must return even when no
+     *                    data was received
      *
      * @return \c wait_for_data() can return:
      *     * ReturnCode::RETURN_CODE_OK if a sample of any of the kinds specified in the mask has
      *       been received.
-     *     * ReturnCode::RETURN_CODE_NO_DATA if some other thread called \c close() on the
+     *     * ReturnCode::RETURN_CODE_TIMEOUT if the timeout was reached without receiving any data
+     *       sample of the kinds specified in the @param data_mask.
+     *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
      *       \c GnssInterfaceImpl instance, which unblocks any \c wait_for_data() calls.
      */
-    ReturnCode wait_for_data(
-            NMEA0183DataKindMask data_mask);
+    virtual ReturnCode wait_for_data(
+            NMEA0183DataKindMask data_mask,
+            std::chrono::milliseconds timeout) noexcept;
 
 protected:
 
@@ -148,8 +159,8 @@ protected:
     //! Flag to indicate whether the reading routine is running
     std::atomic<bool> routine_running_;
 
-    //! Flag to indicate that a new gpgga message has been received
-    std::atomic<bool> new_position_;
+    //! \c NMEA0183DataKindMask to indicate which \c NMEA0183DataKind have been received and are yet to be taken
+    NMEA0183DataKindMask data_received_;
 
     //! Flag to indicate whether an internal error has ocurred
     std::atomic<bool> internal_error_;
@@ -180,7 +191,7 @@ protected:
      */
     std::vector<std::string> break_string_(
             const std::string& str,
-            char separator);
+            char separator) noexcept;
 
     /**
      * Convert the NMEA 1082 string represention of an angle in degrees (DDMM.mmmm) into a float.
@@ -190,7 +201,7 @@ protected:
      * @return The angle as a float
      */
     float parse_to_degrees_(
-            const std::string& str);
+            const std::string& str) noexcept;
 
     /**
      * Parse a NMEA 1082 sentence
@@ -204,7 +215,7 @@ protected:
      * @return true on success, false otherwise.
      */
     bool parse_raw_line_(
-            const std::string& line);
+            const std::string& line) noexcept;
 
     /**
      * Take a GPGGA sentence, extract the GPGGA data from it, and push it to the collection.
@@ -214,7 +225,7 @@ protected:
      * @return true if the GPGGA data contained a fix position, false otherwise.
      */
     bool process_gpgga_(
-            const std::string& gpgga_sentence);
+            const std::string& gpgga_sentence) noexcept;
 
     /**
      * Routine run by read_thread_.
@@ -224,7 +235,14 @@ protected:
      *
      * TODO: This could just be a lambda
      */
-    void read_routine_();
+    void read_routine_() noexcept;
+
+    /**
+     * Check whether a serial connection is opened. Mind that this function is not thread safe.
+     *
+     * @return true if there is an opened serial connection; false otherwise.
+     */
+    bool is_open_nts_() noexcept;
 
 };
 

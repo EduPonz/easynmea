@@ -16,4 +16,5 @@ enough, or if more test cases are required.
 .. toctree::
    :maxdepth: 1
 
+   /rst/developer_documentation/lib_unit_tests/gnssinterfaceimpl
    /rst/developer_documentation/lib_unit_tests/serialinterface

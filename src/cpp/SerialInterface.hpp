@@ -49,6 +49,13 @@ public:
     }
 
     /**
+     * Destructor.
+     */
+    virtual ~SerialInterface() noexcept
+    {
+    }
+
+    /**
      * Open the serial port
      *
      * \pre The communication was not already openned.
@@ -173,10 +180,13 @@ protected:
      * @param ec The error code returned by read_some
      * @return The number of read characters, i.e. 1 when something is read, 0 when it's not
      */
-    virtual std::size_t read_char(char& c, asio::error_code& ec) noexcept
+    virtual std::size_t read_char(
+            char& c,
+            asio::error_code& ec) noexcept
     {
         return serial_->read_some(asio::buffer(&c, 1), ec);
     }
+
 };
 
 } // namespace eduponz

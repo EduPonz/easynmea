@@ -15,6 +15,7 @@ Extense
 getter
 GitHub
 GNSS
+GnssInterfaceImpl
 GTest
 hhmmss
 Struct

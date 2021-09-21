@@ -122,6 +122,11 @@ public:
         return Bitmask(static_cast<underlying_type>(-1));
     }
 
+    bool is_none() const
+    {
+        return (mask_ == 0);
+    }
+
     Bitmask<E>& operator &= (
             const Bitmask& other)
     {
