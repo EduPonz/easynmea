@@ -1,20 +1,14 @@
-@startuml GnssInterfaceImplTests
+@startuml
 hide empty members
 
 class GnssInterfaceImpl
 
-class GnssInterfaceImplTests
-{
-    + void set_serial_interface(SerialInterface<>* serial_interface)
-}
+GnssInterfaceImplTests : void set_serial_interface(SerialInterface<>* serial_interface)
 
-class SerialInterfaceMock
-{
-    + MOCK_METHOD(open);
-    + MOCK_METHOD(is_open);
-    + MOCK_METHOD(close);
-    + MOCK_METHOD(read_line);
-}
+SerialInterfaceMock : MOCK_METHOD(open)
+SerialInterfaceMock : MOCK_METHOD(is_open)
+SerialInterfaceMock : MOCK_METHOD(close)
+SerialInterfaceMock : MOCK_METHOD(read_line)
 
 class SerialInterface<asio::serial_port>
 

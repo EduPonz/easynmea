@@ -1,15 +1,12 @@
-@startuml GnssInterfaceImpl
+@startuml
 hide empty members
-class GnssInterfaceImpl
-{
-    + GnssInterfaceImpl() noexcept;
-    + virtual ReturnCode open(const char* serial_port, long baudrate) noexcept;
-    + virtual bool is_open() noexcept;
-    + virtual ReturnCode close() noexcept;
-    + virtual ReturnCode take_next(GPGGAData& gpgga) noexcept;
-    + virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask,
-                                       std::chrono::milliseconds timeout) noexcept;
-}
+
+GnssInterfaceImpl : GnssInterfaceImpl() noexcept
+GnssInterfaceImpl : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
+GnssInterfaceImpl : virtual bool is_open() noexcept
+GnssInterfaceImpl : virtual ReturnCode close() noexcept
+GnssInterfaceImpl : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
+GnssInterfaceImpl : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
 
 class FixedSizeQueue<typename T, int max_size, typename Container = std::deque<T>>
 
