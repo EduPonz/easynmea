@@ -14,6 +14,7 @@
 .. |GPGGAData-api| replace:: :cpp:class:`GPGGAData<eduponz::gnss_interface::GPGGAData>`
 .. |ReturnCode::RETURN_CODE_OK-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_OK<eduponz::gnss_interface::ReturnCode::RETURN_CODE_OK>`
 .. |ReturnCode::RETURN_CODE_NO_DATA-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_NO_DATA<eduponz::gnss_interface::ReturnCode::RETURN_CODE_NO_DATA>`
+.. |ReturnCode::RETURN_CODE_TIMEOUT-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_TIMEOUT<eduponz::gnss_interface::ReturnCode::RETURN_CODE_TIMEOUT>`
 .. |ReturnCode::RETURN_CODE_ERROR-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_ERROR<eduponz::gnss_interface::ReturnCode::RETURN_CODE_ERROR>`
 .. |ReturnCode::RETURN_CODE_ILLEGAL_OPERATION-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_ILLEGAL_OPERATION<eduponz::gnss_interface::ReturnCode::RETURN_CODE_ILLEGAL_OPERATION>`
 

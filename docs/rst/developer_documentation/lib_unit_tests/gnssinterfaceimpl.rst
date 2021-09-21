@@ -76,7 +76,7 @@ wait_for_data()
 2. **wait_for_dataClosed**: Check that |GnssInterfaceImpl::wait_for_data-api| returns
    |ReturnCode::RETURN_CODE_ILLEGAL_OPERATION-api| when called on a closed |GnssInterfaceImpl-api|.
 3. **wait_for_dataDataEmptyMask**: Check that |GnssInterfaceImpl::wait_for_data-api| will return
-   |ReturnCode::RETURN_CODE_NO_DATA-api| after timing out when an empty |NMEA0183DataKindMask-api| is passed, even when
+   |ReturnCode::RETURN_CODE_TIMEOUT-api| after timing out when an empty |NMEA0183DataKindMask-api| is passed, even when
    data from any of the supported types has been received.
    It also checks that the output |NMEA0183DataKindMask-api| is set to ``none``.
 4. **wait_for_dataError**: Check that whenever |SerialInterface::read_line-api| returns false, the call to
