@@ -82,7 +82,7 @@ public:
         RETURN_CODE_TIMEOUT = 2,
 
         //! Bad input parameter to function call
-        RETURN_CODE_BAD_PARAMETER = 2,
+        RETURN_CODE_BAD_PARAMETER = 3,
 
         //! The operation is illegal
         RETURN_CODE_ILLEGAL_OPERATION = 4,
