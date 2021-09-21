@@ -15,6 +15,21 @@ Library Architecture
 2. **Implementation level**: This level contains all the internal classes which provide functionality to the library.
 3. **Serial interface level**: This level contains the classes for interacting with the serial port (through Asio)
 
+.. _dev_docs_libs_arch_impl:
+
+Implementation Level
+--------------------
+
+The implementation level's main component is the |GnssInterfaceImpl-api| class, which provides with implementation for
+the |GnssInterface-api| public API, i.e opening and closing the serial port, waiting until data of one or more NMEA 0183
+types has been received, checking whether the serial port connection is opened, and taking the next unread sample of a
+given NMEA 0183 type.
+The |GnssInterfaceImpl-api| holds a |FixedSizeQueue-api| of ten elements for each supported
+NMEA 0183 type.
+This way, keeping outdated samples, as well as dynamic allocation of data samples, is avoided.
+The managing of the serial port is enable through the |SerialInterface-api| class.
+
+.. uml:: ../../uml/GnssInterfaceImpl.puml
 
 .. _dev_docs_libs_arch_serial:
 
