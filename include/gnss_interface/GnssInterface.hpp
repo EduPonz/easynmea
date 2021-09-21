@@ -25,6 +25,8 @@
 #ifndef _GNSS_INTERFACE_HPP_
 #define _GNSS_INTERFACE_HPP_
 
+#include <chrono>
+
 #include "Bitmask.hpp"
 #include "data.hpp"
 #include "types.hpp"
@@ -89,12 +91,13 @@ public:
      *
      * @return \c close() can return:
      *     * ReturnCode::RETURN_CODE_OK if the connection was successfully closed.
+     *     * ReturnCode::RETURN_CODE_ERROR if the connection could not be closed.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
     ReturnCode close();
 
     /**
-     * \brief Take the next untaken GPGGA data sample available
+     * \brief Take the next untaken GPGGA data sample available.
      *
      * \c GnssInterface stores up to the last 10 reported GPGGA data samples. \c take_next() is used
      * to retrieve the oldest untaken GPGGA sample.
@@ -109,24 +112,31 @@ public:
             GPGGAData& gpgga);
 
     /**
-     * \brief Block the calling thread until there is data available
+     * \brief Block the calling thread until there is data available.
      *
      * Block the calling thread until data of the specified kind or kinds is available for the
-     * taking.
+     * taking, or the timeout expires.
      *
-     * @param[in] data_mask A \c NMEA0183DataKindMask used to specified on which data kinds should
-     *            the call return, thus unblocking the calling thread. Defaults to
+     * @param[in] data_mask A \c NMEA0183DataKindMask used to specify on which data kinds should
+     *            the call return, thus unblocking the calling thread. When \c wait_for_data returns
+     *            data_mask holds the types of data that have been received. Defaults to
      *            \c NMEA0183DataKindMask::all().
+     * @param[in] timeout The time in millisecond after which the function must return even when no
+     *                    data was received. Defaults to 8760 hours (1 year).
      *
      * @return \c wait_for_data() can return:
      *     * ReturnCode::RETURN_CODE_OK if a sample of any of the kinds specified in the mask has
      *       been received.
-     *     * ReturnCode::RETURN_CODE_NO_DATA if some other thread called \c close() on the
-     *       \c GnssInterface instance, which unblocks any \c wait_for_data() calls.
+     *     * ReturnCode::RETURN_CODE_TIMEOUT if the timeout was reached without receiving any data
+     *       sample of the kinds specified in the @param data_mask.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
+     *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
+     *       \c GnssInterface instance, which unblocks any \c wait_for_data() calls.
      */
     ReturnCode wait_for_data(
-            NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all());
+            NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all(),
+            std::chrono::milliseconds timeout = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::hours(
+                8760)));
 
 private:
 

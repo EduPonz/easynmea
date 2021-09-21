@@ -18,56 +18,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <chrono>
+#include <gmock/gmock.h>
 
-#include <gnss_interface/GnssInterface.hpp>
-#include <gnss_interface/types.hpp>
+#include <SerialInterface.hpp>
 
-#include "GnssInterfaceImpl.hpp"
-#include "SerialInterface.hpp"
+namespace eduponz {
+namespace gnss_interface {
 
-using namespace eduponz::gnss_interface;
-
-GnssInterface::GnssInterface()
-    : impl_(new GnssInterfaceImpl())
+class SerialInterfaceMock : public SerialInterface<>
 {
-}
+public:
 
-GnssInterface::~GnssInterface()
-{
-    if (impl_)
-    {
-        delete impl_;
-        impl_ = nullptr;
-    }
-}
+    MOCK_METHOD(bool,
+        open,
+        (std::string port,
+         uint64_t baudrate),
+        (noexcept, override));
 
-ReturnCode GnssInterface::open(
-        const char* serial_port,
-        long baudrate)
-{
-    return impl_->open(serial_port, baudrate);
-}
+    MOCK_METHOD(bool,
+        is_open,
+        (),
+        (noexcept, override));
 
-bool GnssInterface::is_open()
-{
-    return impl_->is_open();
-}
+    MOCK_METHOD(bool,
+        close,
+        (),
+        (noexcept, override));
 
-ReturnCode GnssInterface::close()
-{
-    return impl_->close();
-}
+    MOCK_METHOD(bool,
+        read_line,
+        (std::string& result),
+        (noexcept, override));
+};
 
-ReturnCode GnssInterface::take_next(
-        GPGGAData& gpgga)
-{
-    return impl_->take_next(gpgga);
-}
-
-ReturnCode GnssInterface::wait_for_data(
-        NMEA0183DataKindMask data_mask,
-        std::chrono::milliseconds timeout)
-{
-    return impl_->wait_for_data(data_mask, timeout);
-}
+} // namespace eduponz
+} // namespace gnss_interface
