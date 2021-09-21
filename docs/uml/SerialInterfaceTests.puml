@@ -1,29 +1,23 @@
-@startuml SerialInterfaceTests
+@startuml
 hide empty members
 
 class SerialInterface<SerialPortMock>
 
-class SerialInterfaceTest
-{
-    + std::size_t read_char(char& c, asio::error_code& ec) noexcept override
-    + void set_serial_port(SerialPortMock* serial)
-    + asio::io_service& io_service()
-    + void set_msg(std::string msg)
-    + void use_parent_read_char(bool should_use)
-    - std::string msg_;
-    - uint8_t char_count_;
-    - bool use_parent_read_char_;
-}
+SerialInterfaceTest : std::size_t read_char(char& c, asio::error_code& ec) noexcept override
+SerialInterfaceTest : void set_serial_port(SerialPortMock* serial)
+SerialInterfaceTest : asio::io_service& io_service()
+SerialInterfaceTest : void set_msg(std::string msg)
+SerialInterfaceTest : void use_parent_read_char(bool should_use)
+SerialInterfaceTest : std::string msg_
+SerialInterfaceTest : uint8_t char_count_
+SerialInterfaceTest : bool use_parent_read_char_
 
-class SerialPortMock
-{
-    + SerialPortMock(asio::io_service& io_service)
-    + MOCK_METHOD(open);
-    + MOCK_METHOD(is_open);
-    + MOCK_METHOD(set_option);
-    + MOCK_METHOD(close);
-    + MOCK_METHOD(read_some);
-}
+SerialPortMock : SerialPortMock(asio::io_service& io_service)
+SerialPortMock : MOCK_METHOD(open);
+SerialPortMock : MOCK_METHOD(is_open);
+SerialPortMock : MOCK_METHOD(set_option);
+SerialPortMock : MOCK_METHOD(close);
+SerialPortMock : MOCK_METHOD(read_some);
 
 SerialInterface o-- "1" SerialPortMock
 SerialInterface <|-- SerialInterfaceTest
