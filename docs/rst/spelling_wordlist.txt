@@ -9,6 +9,7 @@ Chocolatey
 CMake
 Codecov
 datas
+destructor
 Destructor
 Doxygen
 Extense

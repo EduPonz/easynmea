@@ -28,46 +28,41 @@
 
 using namespace eduponz::gnss_interface;
 
-GnssInterface::GnssInterface()
-    : impl_(new GnssInterfaceImpl())
+GnssInterface::GnssInterface() noexcept
+    : impl_(std::make_unique<GnssInterfaceImpl>())
 {
 }
 
-GnssInterface::~GnssInterface()
+GnssInterface::~GnssInterface() noexcept
 {
-    if (impl_)
-    {
-        delete impl_;
-        impl_ = nullptr;
-    }
 }
 
 ReturnCode GnssInterface::open(
         const char* serial_port,
-        long baudrate)
+        long baudrate) noexcept
 {
     return impl_->open(serial_port, baudrate);
 }
 
-bool GnssInterface::is_open()
+bool GnssInterface::is_open() noexcept
 {
     return impl_->is_open();
 }
 
-ReturnCode GnssInterface::close()
+ReturnCode GnssInterface::close() noexcept
 {
     return impl_->close();
 }
 
 ReturnCode GnssInterface::take_next(
-        GPGGAData& gpgga)
+        GPGGAData& gpgga) noexcept
 {
     return impl_->take_next(gpgga);
 }
 
 ReturnCode GnssInterface::wait_for_data(
         NMEA0183DataKindMask data_mask,
-        std::chrono::milliseconds timeout)
+        std::chrono::milliseconds timeout) noexcept
 {
     return impl_->wait_for_data(data_mask, timeout);
 }
