@@ -49,17 +49,47 @@ struct NMEA0183Data
      *        \c NMEA0183DataKind::INVALID
      */
     NMEA0183Data(
-            NMEA0183DataKind data_kind = NMEA0183DataKind::INVALID)
+            NMEA0183DataKind data_kind = NMEA0183DataKind::INVALID) noexcept
         : message("")
         , kind(data_kind)
     {
     };
+
+    //! Default virtual constructor
+    virtual ~NMEA0183Data() = default;
 
     //! The received message
     std::string message;
 
     //! The NMEA0183DataKind of the data
     NMEA0183DataKind kind;
+
+    /**
+     * Check whether a \c NMEA0183Data is equal to this one
+     *
+     * @param[in] other A constant reference to the \c NMEA0183Data to compare with this one
+     *
+     * @return true if equal; false otherwise
+     */
+    inline bool operator ==(
+            const NMEA0183Data& other) const noexcept
+    {
+        return (message == other.message && kind == other.kind);
+    }
+
+    /**
+     * Check whether a \c NMEA0183Data is different from this one
+     *
+     * @param[in] other A constant reference to the \c NMEA0183Data to compare with this one
+     *
+     * @return true if different; false otherwise
+     */
+    inline bool operator !=(
+            const NMEA0183Data& other) const noexcept
+    {
+        return !(*this == other);
+    }
+
 };
 
 /**
@@ -69,6 +99,22 @@ struct NMEA0183Data
  */
 struct GPGGAData : NMEA0183Data
 {
+    /**
+     *  Default constructor; it empty-initializes the struct, setting \c kind to
+     * \c NMEA0183DataKind::GPGGA
+     */
+    GPGGAData() noexcept
+        : NMEA0183Data::NMEA0183Data(NMEA0183DataKind::GPGGA)
+        , timestamp(0)
+        , latitude (0)
+        , longitude (0)
+        , fix (0)
+        , satellites_on_view (0)
+        , horizontal_precision (0)
+        , altitude (0)
+    {
+    };
+
     //! UTC time hhmmss.milliseconds
     float timestamp;
 
@@ -96,20 +142,38 @@ struct GPGGAData : NMEA0183Data
     float altitude;
 
     /**
-     *  Default constructor; it empty-initializes the struct, setting \c kind to
-     * \c NMEA0183DataKind::GPGGA
+     * Check whether a \c GPGGAData is equal to this one
+     *
+     * @param[in] other A constant reference to the \c GPGGAData to compare with this one
+     *
+     * @return true if equal; false otherwise
      */
-    GPGGAData()
-        : NMEA0183Data::NMEA0183Data(NMEA0183DataKind::GPGGA)
-        , timestamp(0)
-        , latitude (0)
-        , longitude (0)
-        , fix (0)
-        , satellites_on_view (0)
-        , horizontal_precision (0)
-        , altitude (0)
+    inline bool operator ==(
+            const GPGGAData& other) const noexcept
     {
-    };
+        return (NMEA0183Data::operator ==(other) &&
+                timestamp == other.timestamp &&
+                latitude == other.latitude &&
+                longitude == other.longitude &&
+                fix == other.fix &&
+                satellites_on_view == other.satellites_on_view &&
+                horizontal_precision == other.horizontal_precision &&
+                altitude == other.altitude);
+    }
+
+    /**
+     * Check whether a \c GPGGAData is different from this one
+     *
+     * @param[in] other A constant reference to the \c GPGGAData to compare with this one
+     *
+     * @return true if different; false otherwise
+     */
+    inline bool operator !=(
+            const GPGGAData& other) const noexcept
+    {
+        return !(*this == other);
+    }
+
 };
 
 } // namespace gnss_interface
