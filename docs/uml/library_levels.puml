@@ -1,0 +1,11 @@
+@startuml
+skinparam linetype ortho
+
+component [API Level] as api_level
+component [Implementation Level] as impl_level
+component [Serial Interface Level] as serial_level
+
+api_level <.. impl_level
+impl_level <.. serial_level
+
+@enduml
