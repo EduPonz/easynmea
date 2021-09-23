@@ -17,5 +17,6 @@ enough, or if more test cases are required.
    :maxdepth: 1
 
    /rst/developer_documentation/lib_unit_tests/data
+   /rst/developer_documentation/lib_unit_tests/gnssinterface
    /rst/developer_documentation/lib_unit_tests/gnssinterfaceimpl
    /rst/developer_documentation/lib_unit_tests/serialinterface

@@ -6,6 +6,7 @@
 .. API aliases
 .. |GnssInterface-api| replace:: :cpp:class:`GnssInterface<eduponz::gnss_interface::GnssInterface>`
 .. |GnssInterface::open-api| replace:: :cpp:func:`GnssInterface::open()<eduponz::gnss_interface::GnssInterface::open>`
+.. |GnssInterface::is_open-api| replace:: :cpp:func:`GnssInterface::is_open()<eduponz::gnss_interface::GnssInterface::is_open>`
 .. |GnssInterface::close-api| replace:: :cpp:func:`GnssInterface::close()<eduponz::gnss_interface::GnssInterface::close>`
 .. |GnssInterface::wait_for_data-api| replace:: :cpp:func:`GnssInterface::wait_for_data()<eduponz::gnss_interface::GnssInterface::wait_for_data>`
 .. |GnssInterface::take_next-api| replace:: :cpp:func:`GnssInterface::take_next()<eduponz::gnss_interface::GnssInterface::take_next>`
@@ -28,6 +29,7 @@
 .. |SerialInterface::close-api| replace:: :cpp:func:`SerialInterface::close()<eduponz::gnss_interface::SerialInterface::close>`
 .. |SerialInterface::read_line-api| replace:: :cpp:func:`SerialInterface::read_line()<eduponz::gnss_interface::SerialInterface::read_line>`
 .. |GnssInterfaceImpl-api| replace:: :cpp:class:`GnssInterfaceImpl<eduponz::gnss_interface::GnssInterfaceImpl>`
+.. |GnssInterfaceImpl::open-api| replace:: :cpp:func:`GnssInterfaceImpl::open()<eduponz::gnss_interface::GnssInterfaceImpl::open>`
 .. |GnssInterfaceImpl::is_open-api| replace:: :cpp:func:`GnssInterfaceImpl::is_open()<eduponz::gnss_interface::GnssInterfaceImpl::is_open>`
 .. |GnssInterfaceImpl::close-api| replace:: :cpp:func:`GnssInterfaceImpl::close()<eduponz::gnss_interface::GnssInterfaceImpl::close>`
 .. |GnssInterfaceImpl::wait_for_data-api| replace:: :cpp:func:`GnssInterfaceImpl::wait_for_data()<eduponz::gnss_interface::GnssInterfaceImpl::wait_for_data>`

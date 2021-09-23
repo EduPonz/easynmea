@@ -1,0 +1,18 @@
+@startuml
+hide empty members
+
+class GnssInterface
+class GnssInterfaceImpl
+
+GnssInterfaceTest : void set_impl(std::unique_ptr<GnssInterfaceImplMock> impl)
+
+GnssInterfaceImplMock : MOCK_METHOD(open)
+GnssInterfaceImplMock : MOCK_METHOD(is_open)
+GnssInterfaceImplMock : MOCK_METHOD(close)
+GnssInterfaceImplMock : MOCK_METHOD(take_next)
+GnssInterfaceImplMock : MOCK_METHOD(wait_for_data)
+
+GnssInterfaceImpl <|-- GnssInterfaceImplMock
+GnssInterface o-- "1" GnssInterfaceImplMock
+GnssInterface <|-- GnssInterfaceTest
+@enduml
