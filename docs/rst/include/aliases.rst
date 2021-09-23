@@ -12,6 +12,7 @@
 .. |NMEA0183DataKind-api| replace:: :cpp:enumerator:`NMEA0183DataKind<eduponz::gnss_interface::NMEA0183DataKind>`
 .. |NMEA0183DataKind::GPGGA-api| replace:: :cpp:enumerator:`NMEA0183DataKind::GPGGA<eduponz::gnss_interface::NMEA0183DataKind::GPGGA>`
 .. |NMEA0183DataKindMask-api| replace:: :cpp:type:`NMEA0183DataKindMask<eduponz::gnss_interface::NMEA0183DataKindMask>`
+.. |NMEA0183Data-api| replace:: :cpp:class:`NMEA0183Data<eduponz::gnss_interface::NMEA0183Data>`
 .. |GPGGAData-api| replace:: :cpp:class:`GPGGAData<eduponz::gnss_interface::GPGGAData>`
 .. |ReturnCode-api| replace:: :cpp:class:`ReturnCode<eduponz::gnss_interface::ReturnCode>`
 .. |ReturnCode::RETURN_CODE_OK-api| replace:: :cpp:enumerator:`ReturnCode::RETURN_CODE_OK<eduponz::gnss_interface::ReturnCode::RETURN_CODE_OK>`
