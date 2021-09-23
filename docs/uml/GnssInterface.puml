@@ -1,0 +1,63 @@
+@startuml
+skinparam linetype ortho
+hide empty members
+
+class GnssInterface
+class GnssInterfaceImpl
+enum ReturnCode
+class NMEA0183Data
+class GPGGAData
+class Bitmask<typename E>
+class NMEA0183DataKind
+class NMEA0183DataKindMask<NMEA0183DataKind>
+
+GnssInterface : GnssInterface() noexcept
+GnssInterface : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
+GnssInterface : virtual bool is_open() noexcept
+GnssInterface : virtual ReturnCode close() noexcept
+GnssInterface : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
+GnssInterface : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
+
+ReturnCode : RETURN_CODE_OK
+ReturnCode : RETURN_CODE_NO_DATA
+ReturnCode : RETURN_CODE_TIMEOUT
+ReturnCode : RETURN_CODE_BAD_PARAMETER
+ReturnCode : RETURN_CODE_ILLEGAL_OPERATION
+ReturnCode : RETURN_CODE_UNSUPPORTED
+ReturnCode : RETURN_CODE_ERROR
+
+NMEA0183Data : std::string message
+NMEA0183Data : NMEA0183DataKind kind
+
+GPGGAData : float timestamp
+GPGGAData : float latitude
+GPGGAData : float longitude
+GPGGAData : uint8_t fix
+GPGGAData : uint16_t satellites_on_view
+GPGGAData : float horizontal_precision
+GPGGAData : float altitude
+
+Bitmask : void set(const E& value)
+Bitmask : void clear(const E& value)
+Bitmask : bool is_set(const E& value)
+Bitmask : Bitmask none()
+Bitmask : Bitmask all()
+Bitmask : bool is_none()
+
+NMEA0183DataKind : INVALID
+NMEA0183DataKind : GPGGA
+
+GnssInterface <.. ReturnCode : <<uses>>
+GnssInterface <.. GPGGAData : <<uses>>
+GnssInterface <.. NMEA0183DataKindMask : <<uses>>
+GnssInterface <|.. GnssInterfaceImpl
+
+NMEA0183Data <.. NMEA0183DataKind : <<uses>>
+
+NMEA0183Data <|-- GPGGAData
+
+Bitmask <.. NMEA0183DataKindMask : <<bind>>
+
+NMEA0183DataKindMask <.. NMEA0183DataKind : <<uses>>
+
+@enduml

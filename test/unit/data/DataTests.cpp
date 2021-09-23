@@ -18,51 +18,63 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <chrono>
+#include <gtest/gtest.h>
 
-#include <gnss_interface/GnssInterface.hpp>
+#include <gnss_interface/data.hpp>
 #include <gnss_interface/types.hpp>
-
-#include "GnssInterfaceImpl.hpp"
-#include "SerialInterface.hpp"
 
 using namespace eduponz::gnss_interface;
 
-GnssInterface::GnssInterface() noexcept
-    : impl_(std::make_unique<GnssInterfaceImpl>())
+TEST(DataTests, NMEA0183DataComparisonOperators)
 {
+    NMEA0183Data data_1;
+    NMEA0183Data data_2;
+
+    ASSERT_EQ(data_1, data_2);
+
+    data_1.kind = NMEA0183DataKind::GPGGA;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.message = "message";
+    ASSERT_NE(data_1, data_2);
 }
 
-GnssInterface::~GnssInterface() noexcept
+TEST(DataTests, GPGGADataComparisonOperators)
 {
+    GPGGAData data_1;
+    GPGGAData data_2;
+
+    ASSERT_EQ(data_1, data_2);
+
+    data_1.altitude = 123;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.horizontal_precision = 123;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.satellites_on_view = 123;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.fix = 2;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.longitude = 123.0;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.latitude = 123.0;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.timestamp = 123.0;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.message = "message";
+    ASSERT_NE(data_1, data_2);
 }
 
-ReturnCode GnssInterface::open(
-        const char* serial_port,
-        long baudrate) noexcept
+int main(
+        int argc,
+        char** argv)
 {
-    return impl_->open(serial_port, baudrate);
-}
-
-bool GnssInterface::is_open() noexcept
-{
-    return impl_->is_open();
-}
-
-ReturnCode GnssInterface::close() noexcept
-{
-    return impl_->close();
-}
-
-ReturnCode GnssInterface::take_next(
-        GPGGAData& gpgga) noexcept
-{
-    return impl_->take_next(gpgga);
-}
-
-ReturnCode GnssInterface::wait_for_data(
-        NMEA0183DataKindMask data_mask,
-        std::chrono::milliseconds timeout) noexcept
-{
-    return impl_->wait_for_data(data_mask, timeout);
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }

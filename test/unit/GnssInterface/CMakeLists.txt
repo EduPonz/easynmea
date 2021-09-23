@@ -18,7 +18,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_subdirectory(data)
-add_subdirectory(GnssInterface)
-add_subdirectory(GnssInterfaceImpl)
-add_subdirectory(SerialInterface)
+add_executable(gnss_interface_tests GnssInterfaceTests.cpp)
+
+target_include_directories(gnss_interface_tests PRIVATE
+    ${GTEST_INCLUDE_DIRS}
+    ${GMOCK_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src/cpp)
+
+target_link_libraries(gnss_interface_tests PUBLIC
+    GTest::GTest
+    GTest::Main
+    ${GMOCK_BOTH_LIBRARIES}
+    gnss_interface)
+
+set(GNSS_INTERFACE_TEST_LIST
+    # open() tests
+    openOk
+    openError
+    openIllegal
+    # is_open() tests
+    is_openOpened
+    is_openClosed
+    # close() tests
+    closeOk
+    closeError
+    closeIllegal
+    # take_next() tests
+    take_nextOk
+    take_nextNoData
+    # wait_for_data() tests
+    wait_for_dataOk
+    wait_for_dataTimeout
+    wait_for_dataTimeoutDefault
+    wait_for_dataIllegal
+    wait_for_dataError)
+
+foreach(test_name ${GNSS_INTERFACE_TEST_LIST})
+
+    add_test(NAME GnssInterfaceTests.${test_name}
+            COMMAND gnss_interface_tests
+            --gtest_filter=GnssInterfaceTests.${test_name}:*/GnssInterfaceTests.${test_name}/*)
+
+endforeach()

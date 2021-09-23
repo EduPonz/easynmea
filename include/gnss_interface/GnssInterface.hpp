@@ -26,6 +26,7 @@
 #define _GNSS_INTERFACE_HPP_
 
 #include <chrono>
+#include <memory>
 
 #include "Bitmask.hpp"
 #include "data.hpp"
@@ -52,10 +53,10 @@ class GnssInterface
 public:
 
     //! Default constructor. Constructs a \c GnssInterface
-    GnssInterface();
+    GnssInterface() noexcept;
 
-    //! Destructor. Frees used memory and closes the serial connection if opened.
-    ~GnssInterface();
+    //! Virtual default destructor.
+    virtual ~GnssInterface() noexcept;
 
     /**
      * \brief Open a serial connection.
@@ -70,19 +71,20 @@ public:
      * @param[in] baudrate The communication baudrate.
      * @return \c open() can return:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
+     *     * ReturnCode::RETURN_CODE_ERROR is the port could not be opened.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
      *       same GnssInterface instance, regardless of the port.
      */
     ReturnCode open(
             const char* serial_port,
-            long baudrate);
+            long baudrate) noexcept;
 
     /**
      * Check whether a serial connection is opened
      *
      * @return true if there is an opened serial connection; false otherwise.
      */
-    bool is_open();
+    bool is_open() noexcept;
 
     /**
      * Close a serial connection
@@ -94,7 +96,7 @@ public:
      *     * ReturnCode::RETURN_CODE_ERROR if the connection could not be closed.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      */
-    ReturnCode close();
+    ReturnCode close() noexcept;
 
     /**
      * \brief Take the next untaken GPGGA data sample available.
@@ -109,7 +111,7 @@ public:
      *     * ReturnCode::RETURN_CODE_NO_DATA if there are not any untaken \c GPGGAData samples.
      */
     ReturnCode take_next(
-            GPGGAData& gpgga);
+            GPGGAData& gpgga) noexcept;
 
     /**
      * \brief Block the calling thread until there is data available.
@@ -128,7 +130,7 @@ public:
      *     * ReturnCode::RETURN_CODE_OK if a sample of any of the kinds specified in the mask has
      *       been received.
      *     * ReturnCode::RETURN_CODE_TIMEOUT if the timeout was reached without receiving any data
-     *       sample of the kinds specified in the @param data_mask.
+     *       sample of the kinds specified in the \c data_mask.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
      *       \c GnssInterface instance, which unblocks any \c wait_for_data() calls.
@@ -136,12 +138,12 @@ public:
     ReturnCode wait_for_data(
             NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all(),
             std::chrono::milliseconds timeout = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::hours(
-                8760)));
+                8760))) noexcept;
 
-private:
+protected:
 
-    //! Pointer to the internal \c GnssInterfaceImpl object.
-    GnssInterfaceImpl* impl_;
+    //! Unique pointer to the internal \c GnssInterfaceImpl object.
+    std::unique_ptr<GnssInterfaceImpl> impl_;
 
 };
 

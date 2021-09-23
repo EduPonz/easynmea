@@ -1,0 +1,15 @@
+@startuml
+skinparam linetype ortho
+hide empty members
+
+class NMEA0183Data
+class GPGGAData
+
+NMEA0183Data : bool operator ==(const NMEA0183Data& other) const noexcept
+NMEA0183Data : bool operator !=(const NMEA0183Data& other) const noexcept
+GPGGAData : bool operator ==(const GPGGAData& other) const noexcept
+GPGGAData : bool operator !=(const GPGGAData& other) const noexcept
+
+NMEA0183Data <|-- GPGGAData
+
+@enduml

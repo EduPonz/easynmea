@@ -5,15 +5,29 @@
 Library Architecture
 ====================
 
-.. warning::
-
-    This section is under construction, so information might be incomplete or missing.
-
 *GNSS Interface* is divided into three levels (from outer to inner):
 
-1. **API level**: This level contains all public API, i.e. the classes in the ``include`` directory.
-2. **Implementation level**: This level contains all the internal classes which provide functionality to the library.
-3. **Serial interface level**: This level contains the classes for interacting with the serial port (through Asio)
+1. :ref:`dev_docs_libs_arch_api` : This level contains all public API, i.e. the classes in the ``include`` directory.
+2. :ref:`dev_docs_libs_arch_impl`: This level contains all the internal classes which provide functionality to the
+   library.
+3. :ref:`dev_docs_libs_arch_serial`: This level contains the classes for interacting with the serial port (through
+   Asio).
+
+.. uml:: ../../uml/library_levels.puml
+
+.. _dev_docs_libs_arch_api:
+
+API Level
+---------
+
+The API level comprises all the *GNSS Interface* public classes and structures, and acts as entry point for the
+library's functionalities.
+It consists of a main class |GnssInterface-api|, which provides application with access to the functionalities, and all
+the supporting classes and structures for return types and input and output parameters.
+Those companion classes and structures are |ReturnCode-api|, |GPGGAData-api|, and |NMEA0183DataKindMask-api|.
+For the actual functionality implementation, |GnssInterface-api| relies on the internal class |GnssInterfaceImpl-api|.
+
+.. uml:: ../../uml/GnssInterface.puml
 
 .. _dev_docs_libs_arch_impl:
 

@@ -18,7 +18,27 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_subdirectory(data)
-add_subdirectory(GnssInterface)
-add_subdirectory(GnssInterfaceImpl)
-add_subdirectory(SerialInterface)
+add_executable(data_tests DataTests.cpp)
+
+target_include_directories(data_tests PRIVATE
+    ${GTEST_INCLUDE_DIRS}
+    ${GMOCK_INCLUDE_DIRS}
+    ${PROJECT_SOURCE_DIR}/include
+    ${PROJECT_SOURCE_DIR}/src/cpp)
+
+target_link_libraries(data_tests PUBLIC
+    GTest::GTest
+    GTest::Main
+    ${GMOCK_BOTH_LIBRARIES})
+
+set(DATA_TEST_LIST
+    NMEA0183DataComparisonOperators
+    GPGGADataComparisonOperators)
+
+foreach(test_name ${DATA_TEST_LIST})
+
+    add_test(NAME DataTests.${test_name}
+            COMMAND data_tests
+            --gtest_filter=DataTests.${test_name}:*/DataTests.${test_name}/*)
+
+endforeach()
