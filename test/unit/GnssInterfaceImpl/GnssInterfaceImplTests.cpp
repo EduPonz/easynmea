@@ -81,13 +81,13 @@ TEST(GnssInterfaceImplTests, openOpened)
 
     EXPECT_CALL(*serial, is_open)
         .WillOnce(Return(true))
-        .WillOnce(Return(true));
+        .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
         .Times(0);
 
     EXPECT_CALL(*serial, close)
-        .Times(1);
+        .Times(AnyNumber());
 
     EXPECT_CALL(*serial, read_line)
         .Times(AnyNumber())
@@ -127,7 +127,8 @@ TEST(GnssInterfaceImplTests, is_openOpened)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillRepeatedly(Return(true));
+        .WillOnce(Return(true))
+        .WillOnce(Return(false));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);

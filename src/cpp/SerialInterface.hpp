@@ -162,16 +162,10 @@ public:
                         std::cout << "[INFO] Read operation aborted" << std::endl;
                         break;
                     }
-                    case asio::error::eof:
-                    {
-                        std::cout << "[ERROR] Port externally closed while reading" << std::endl;
-                        close();
-                        break;
-                    }
                     default:
                     {
-                        std::cout << "[ERROR] Something happen while reading: " << ec.message()
-                                << std::endl;
+                        std::cout << "[ERROR] Something happened while reading: " << ec.message()
+                                  << std::endl;
                         close();
                         break;
                     }
@@ -210,14 +204,7 @@ protected:
             const asio::error_code& error_code,
             std::size_t bytes_transferred)
         {
-            if (!error_code)
-            {
-                if (c == '\0')
-                {
-                    serial_->async_read_some(asio::buffer(&c, 1), on_char_read);
-                }
-            }
-            else
+            if (error_code)
             {
                 ec = error_code;
                 ret = 0;
@@ -228,7 +215,7 @@ protected:
         // Prepare io_service, give it some work, and run it
         io_service_.reset();
         serial_->async_read_some(asio::buffer(&c, 1), on_char_read);
-        io_service_.run();  // This will block until a new line is ready
+        io_service_.run();  // This will block until a new char is ready
         return ret;
     }
 

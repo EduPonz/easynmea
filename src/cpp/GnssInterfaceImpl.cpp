@@ -110,16 +110,8 @@ ReturnCode GnssInterfaceImpl::close() noexcept
         routine_running_.store(false);
         // If close() succeeds, then return OK, else return ERROR
         ret = serial_interface_->close() ? ReturnCode::RETURN_CODE_OK : ReturnCode::RETURN_CODE_ERROR;
-        /**
-         * If the call to close() came from a thread other than the reading thread, then we can wait
-         * for the reading thread to join. It the reading thread is the one calling close(), then it
-         * cannot wait on a join of itself.
-         */
-        if (read_thread_ && read_thread_->get_id() != std::this_thread::get_id())
-        {
-            read_thread_->join();
-            read_thread_ = nullptr;
-        }
+        read_thread_->join();
+        read_thread_ = nullptr;
         // Break any wait_for_data
         lck.unlock();
         cv_.notify_all();

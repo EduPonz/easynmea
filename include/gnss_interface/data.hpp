@@ -130,7 +130,7 @@ struct GPGGAData : NMEA0183Data
      *    - 1 -> fix
      *    - 2 -> differential fix
      */
-    uint8_t fix;
+    uint16_t fix;
 
     //! Number of satellites on view
     uint16_t satellites_on_view;

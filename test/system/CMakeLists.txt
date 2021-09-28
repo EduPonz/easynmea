@@ -18,5 +18,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_subdirectory(unit)
-add_subdirectory(system)
+find_package(PythonInterp 3 REQUIRED)
+
+add_executable(system_tests system_tests.cpp)
+target_link_libraries(system_tests gnss_interface)
+
+set(SYSTEM_TESTS_RUN_DIR ${CMAKE_CURRENT_BINARY_DIR})
+
+configure_file(system_tests.py ${SYSTEM_TESTS_RUN_DIR}/system_tests.py COPYONLY)
+configure_file(send2serial.py ${SYSTEM_TESTS_RUN_DIR}/send2serial.py COPYONLY)
+configure_file(system_tests.yaml.in ${SYSTEM_TESTS_RUN_DIR}/system_tests.yaml @ONLY)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/nmea_sentences DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/validation DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/results)
+
+set(SYSTEM_TEST_LIST
+    gpgga_read_some_and_close
+    port_closed_externally
+    stop_sending_data
+    late_sending)
+
+foreach(test_name ${SYSTEM_TEST_LIST})
+
+    add_test(NAME SystemTests.${test_name}
+            COMMAND ${PYTHON_EXECUTABLE} ${SYSTEM_TESTS_RUN_DIR}/system_tests.py
+            -c ${SYSTEM_TESTS_RUN_DIR}/system_tests.yaml
+            -t ${test_name}
+            -d)
+
+endforeach()

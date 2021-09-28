@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=validation.schema.json
+data:
+  - nmea_type: GPGGA
+    sentence: $GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46
+    latitude: 57.0529
+    longitude: 9.91576
+    fix: 1
+    number_of_satellites: 7
+    horizontal_precision: 1.97
+    altitude: -21.2
+  - nmea_type: GPGGA
+    sentence: $GPGGA,072706.000,5703.1740,N,00954.9459,E,1,8,1.28,-21.2,M,42.5,M,,*4E
+    latitude: 57.0529
+    longitude: 9.91576
+    fix: 1
+    number_of_satellites: 8
+    horizontal_precision: 1.28
+    altitude: -21.2
+  - nmea_type: GPGGA
+    sentence: $GPGGA,072707.000,5703.1740,N,00954.9459,E,1,8,1.27,-21.2,M,42.5,M,,*40
+    latitude: 57.0529
+    longitude: 9.91576
+    fix: 1
+    number_of_satellites: 8
+    horizontal_precision: 1.27
+    altitude: -21.2
+  - nmea_type: GPGGA
+    sentence: $GPGGA,072708.000,5703.1736,N,00954.9457,E,1,8,1.28,-21.6,M,42.5,M,,*4B
+    latitude: 57.0529
+    longitude: 9.91576
+    fix: 1
+    number_of_satellites: 8
+    horizontal_precision: 1.28
+    altitude: -21.6
