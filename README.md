@@ -1,6 +1,7 @@
 # GNSS Interface {#index}
 
 [![automated_testing](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml)
+[![Publish Docker image](https://github.com/EduPonz/gnss_interface/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/gnss_interface/actions/workflows/publish_docker_image.yml)
 [![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
 [![Docker pulls](https://img.shields.io/docker/pulls/eduponz/gnss_interface.svg)](https://hub.docker.com/repository/docker/eduponz/gnss_interface)
 [![codecov](https://codecov.io/gh/EduPonz/gnss_interface/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/gnss_interface)

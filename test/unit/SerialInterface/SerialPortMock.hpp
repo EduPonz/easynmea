@@ -51,8 +51,8 @@ public:
         close,
         (asio::error_code& ec));
 
-    MOCK_METHOD(std::size_t,
-        read_some,
+    MOCK_METHOD(void,
+        async_read_some,
         (const asio::mutable_buffers_1& buffers,
-         asio::error_code& ec));
+         std::function<void (const asio::error_code&, std::size_t)> on_char_read));
 };

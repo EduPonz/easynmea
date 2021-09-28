@@ -389,7 +389,7 @@ TEST(SerialInterfaceTests, read_lineClosed)
     EXPECT_CALL(*serial_port_mock, is_open)
         .Times(2)
         .WillRepeatedly(Return(false));
-    EXPECT_CALL(*serial_port_mock, read_some).Times(0);
+    EXPECT_CALL(*serial_port_mock, async_read_some).Times(0);
 
     /* Set mock object */
     serial.set_serial_port(serial_port_mock);
@@ -404,40 +404,6 @@ TEST(SerialInterfaceTests, read_lineClosed)
     result = "Some content";
     ASSERT_FALSE(serial.read_line(result));
     ASSERT_EQ(result, "Some content");
-}
-
-TEST(SerialInterfaceTests, read_lineReadError)
-{
-    /* Create mock */
-    SerialInterfaceTest serial;
-    SerialPortMock* serial_port_mock = new SerialPortMock(serial.io_service());
-
-    /* Set test expectations */
-    EXPECT_CALL(*serial_port_mock, is_open)
-        .Times(2)
-        .WillRepeatedly(Return(true));
-    EXPECT_CALL(*serial_port_mock, read_some)
-        .Times(AtLeast(2))
-        .WillRepeatedly(SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())));
-
-    /* Set mock object */
-    serial.set_serial_port(serial_port_mock);
-
-    /* Call with an empty string */
-    std::string result;
-    result.clear();
-    ASSERT_FALSE(serial.read_line(result));
-    ASSERT_TRUE(result.empty());
-
-    /**
-     * Call with an non-empty string. Before attempting to read, read_line() should clear the
-     * string, meaning that it is expected to be returned empty if the serial connection was opened.
-     */
-    result = "Some content";
-    ASSERT_FALSE(serial.read_line(result));
-    std::string empty_str;
-    empty_str.clear();
-    ASSERT_EQ(result, empty_str);
 }
 
 int main(

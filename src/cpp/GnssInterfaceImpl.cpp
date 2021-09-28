@@ -108,6 +108,8 @@ ReturnCode GnssInterfaceImpl::close() noexcept
     if (is_open_nts_())
     {
         routine_running_.store(false);
+        // If close() succeeds, then return OK, else return ERROR
+        ret = serial_interface_->close() ? ReturnCode::RETURN_CODE_OK : ReturnCode::RETURN_CODE_ERROR;
         /**
          * If the call to close() came from a thread other than the reading thread, then we can wait
          * for the reading thread to join. It the reading thread is the one calling close(), then it
@@ -118,8 +120,6 @@ ReturnCode GnssInterfaceImpl::close() noexcept
             read_thread_->join();
             read_thread_ = nullptr;
         }
-        // If close() succeeds, then return OK, else return ERROR
-        ret = serial_interface_->close() ? ReturnCode::RETURN_CODE_OK : ReturnCode::RETURN_CODE_ERROR;
         // Break any wait_for_data
         lck.unlock();
         cv_.notify_all();
@@ -309,11 +309,9 @@ void GnssInterfaceImpl::read_routine_() noexcept
             parse_raw_line_(line);
             continue;
         }
-        // TODO: Decide what to do if SerialInterface::read_line() fails, for now we close down the
-        // GnssInterface
         routine_running_.store(false);
         internal_error_.store(true);
-        close();
+        cv_.notify_all();
     }
 }
 

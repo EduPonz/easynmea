@@ -316,8 +316,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataError)
         .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+        .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
         .Times(AnyNumber())
@@ -397,8 +396,7 @@ TEST(GnssInterfaceImplTests, destroyNoClose)
     EXPECT_CALL(*serial, is_open)
         .WillOnce(Return(false))
         .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+        .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, open)
         .WillOnce(Return(true));

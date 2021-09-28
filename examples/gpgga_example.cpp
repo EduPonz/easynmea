@@ -147,8 +147,11 @@ void working_routine(
      */
     if (ret == ReturnCode::RETURN_CODE_ERROR)
     {
-        std::cout << "Something went wrong while waiting for data. Closing down" << std::endl;
-        running.store(false);
+        if (running)
+        {
+            std::cout << "Something went wrong while waiting for data. Closing down" << std::endl;
+            running.store(false);
+        }
         cv.notify_one();
     }
 }
@@ -236,7 +239,7 @@ int main(
     /* Close the serial connection */
     gnss.close();
 
-    /* Wait for the workinf thread to join*/
+    /* Wait for the working thread to join*/
     working_thread.join();
 
     /* Exit successfully */
