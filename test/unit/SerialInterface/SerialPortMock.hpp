@@ -28,31 +28,33 @@
 class SerialPortMock
 {
 public:
-    SerialPortMock(asio::io_service& io_service)
+
+    SerialPortMock(
+            asio::io_service& io_service)
     {
         static_cast<void>(io_service);
     }
 
     MOCK_METHOD(void,
-        open,
-        (const std::string& device,
-         asio::error_code& ec));
+            open,
+            (const std::string& device,
+            asio::error_code& ec));
 
     MOCK_METHOD(bool,
-        is_open,
-        ());
+            is_open,
+            ());
 
     MOCK_METHOD(bool,
-        set_option,
-        (asio::serial_port_base::baud_rate baudrate,
-         asio::error_code& ec));
+            set_option,
+            (asio::serial_port_base::baud_rate baudrate,
+            asio::error_code& ec));
 
     MOCK_METHOD(void,
-        close,
-        (asio::error_code& ec));
+            close,
+            (asio::error_code& ec));
 
     MOCK_METHOD(void,
-        async_read_some,
-        (const asio::mutable_buffers_1& buffers,
-         std::function<void (const asio::error_code&, std::size_t)> on_char_read));
+            async_read_some,
+            (const asio::mutable_buffers_1& buffers,
+            std::function<void (const asio::error_code&, std::size_t)> on_char_read));
 };

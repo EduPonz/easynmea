@@ -41,13 +41,16 @@ public:
 
     GnssInterfaceImplTest()
         : GnssInterfaceImpl()
-    {}
+    {
+    }
 
-    void set_serial_interface(SerialInterface<>* serial_interface)
+    void set_serial_interface(
+            SerialInterface<>* serial_interface)
     {
         delete serial_interface_;
         serial_interface_ = serial_interface;
     }
+
 };
 
 TEST(GnssInterfaceImplTests, openSuccess)
@@ -55,19 +58,19 @@ TEST(GnssInterfaceImplTests, openSuccess)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(false))
-        .WillOnce(Return(true));
+            .WillOnce(Return(false))
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        // .Times(AnyNumber())
-        .WillOnce(Return(true));
+    // .Times(AnyNumber())
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(DoAll(SetArgReferee<0>("\n"), Return(true)));
+            .Times(AnyNumber())
+            .WillRepeatedly(DoAll(SetArgReferee<0>("\n"), Return(true)));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -80,18 +83,18 @@ TEST(GnssInterfaceImplTests, openOpened)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .Times(0);
+            .Times(0);
 
     EXPECT_CALL(*serial, close)
-        .Times(AnyNumber());
+            .Times(AnyNumber());
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(SetArgReferee<0>("\n"));
+            .Times(AnyNumber())
+            .WillRepeatedly(SetArgReferee<0>("\n"));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -104,17 +107,17 @@ TEST(GnssInterfaceImplTests, openWrongPort)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber());
+            .Times(AnyNumber());
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(false));
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, close)
-        .Times(AnyNumber());
+            .Times(AnyNumber());
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(SetArgReferee<0>("\n"));
+            .Times(AnyNumber())
+            .WillRepeatedly(SetArgReferee<0>("\n"));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -127,8 +130,8 @@ TEST(GnssInterfaceImplTests, is_openOpened)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -141,7 +144,7 @@ TEST(GnssInterfaceImplTests, is_openClosed)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillRepeatedly(Return(false));
+            .WillRepeatedly(Return(false));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -158,19 +161,19 @@ TEST(GnssInterfaceImplTests, closeSuccess)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(SetArgReferee<0>("\n"));
+            .Times(AnyNumber())
+            .WillRepeatedly(SetArgReferee<0>("\n"));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -184,19 +187,19 @@ TEST(GnssInterfaceImplTests, closeError)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(false));
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(SetArgReferee<0>("\n"));
+            .Times(AnyNumber())
+            .WillRepeatedly(SetArgReferee<0>("\n"));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -210,7 +213,7 @@ TEST(GnssInterfaceImplTests, closeClosed)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillRepeatedly(Return(false));
+            .WillRepeatedly(Return(false));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -224,21 +227,21 @@ TEST(GnssInterfaceImplTests, wait_for_dataData)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber())
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillRepeatedly(Return(false));
+            .Times(AnyNumber())
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillRepeatedly(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
+            .Times(AnyNumber())
+            .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -256,8 +259,8 @@ TEST(GnssInterfaceImplTests, wait_for_dataClosed)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber())
-        .WillRepeatedly(Return(false));
+            .Times(AnyNumber())
+            .WillRepeatedly(Return(false));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -271,21 +274,21 @@ TEST(GnssInterfaceImplTests, wait_for_dataDataEmptyMask)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber())
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .Times(AnyNumber())
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
+            .Times(AnyNumber())
+            .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -306,22 +309,22 @@ TEST(GnssInterfaceImplTests, wait_for_dataError)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber())
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(false));
+            .Times(AnyNumber())
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(false)));
+            .Times(AnyNumber())
+            .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(false)));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -344,27 +347,27 @@ TEST(GnssInterfaceImplTests, take_next)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .Times(AnyNumber())
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true))
-        .WillRepeatedly(Return(false));
+            .Times(AnyNumber())
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true))
+            .WillRepeatedly(Return(false));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .Times(AnyNumber());
+            .Times(AnyNumber());
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillOnce(DoAll(SetArgReferee<0>(sentence_1), Return(true)))
-        .WillOnce(DoAll(SetArgReferee<0>(sentence_2), Return(true)))
-        .WillOnce(DoAll(SetArgReferee<0>(sentence_3), Return(true)))
-        .WillRepeatedly(DoAll(SetArgReferee<0>(sentence_4), Return(true)));
+            .Times(AnyNumber())
+            .WillOnce(DoAll(SetArgReferee<0>(sentence_1), Return(true)))
+            .WillOnce(DoAll(SetArgReferee<0>(sentence_2), Return(true)))
+            .WillOnce(DoAll(SetArgReferee<0>(sentence_3), Return(true)))
+            .WillRepeatedly(DoAll(SetArgReferee<0>(sentence_4), Return(true)));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);
@@ -395,19 +398,19 @@ TEST(GnssInterfaceImplTests, destroyNoClose)
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
-        .WillOnce(Return(false))
-        .WillOnce(Return(true))
-        .WillOnce(Return(true));
+            .WillOnce(Return(false))
+            .WillOnce(Return(true))
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, close)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     EXPECT_CALL(*serial, read_line)
-        .Times(AnyNumber())
-        .WillRepeatedly(SetArgReferee<0>("\n"));
+            .Times(AnyNumber())
+            .WillRepeatedly(SetArgReferee<0>("\n"));
 
     GnssInterfaceImplTest impl;
     impl.set_serial_interface(serial);

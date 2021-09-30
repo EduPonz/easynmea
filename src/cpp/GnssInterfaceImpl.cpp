@@ -156,10 +156,10 @@ ReturnCode GnssInterfaceImpl::wait_for_data(
      */
     std::unique_lock<std::mutex> lck(data_mutex_);
     bool did_timeout = !cv_.wait_for(lck, timeout, [&]()
-            {
-                return !routine_running_.load() ||
-                (data_mask.is_set(NMEA0183DataKind::GPGGA) && data_received_.is_set(NMEA0183DataKind::GPGGA));
-            });
+                    {
+                        return !routine_running_.load() ||
+                        (data_mask.is_set(NMEA0183DataKind::GPGGA) && data_received_.is_set(NMEA0183DataKind::GPGGA));
+                    });
 
     // If the wait timed out, return TIMEOUT
     if (did_timeout)

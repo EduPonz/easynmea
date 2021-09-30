@@ -203,13 +203,13 @@ protected:
         std::function<void (const asio::error_code&, std::size_t)> on_char_read = [&](
             const asio::error_code& error_code,
             std::size_t bytes_transferred)
-        {
-            if (error_code)
-            {
-                ec = error_code;
-                ret = 0;
-            }
-        };
+                {
+                    if (error_code)
+                    {
+                        ec = error_code;
+                        ret = 0;
+                    }
+                };
 
         c = '\0';
         // Prepare io_service, give it some work, and run it

@@ -29,10 +29,8 @@
 
 #include "types.hpp"
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 
 /**
@@ -53,7 +51,7 @@ struct NMEA0183Data
         : message("")
         , kind(data_kind)
     {
-    };
+    }
 
     //! Default virtual constructor
     virtual ~NMEA0183Data() = default;
@@ -113,7 +111,7 @@ struct GPGGAData : NMEA0183Data
         , horizontal_precision (0)
         , altitude (0)
     {
-    };
+    }
 
     //! UTC time hhmmss.milliseconds
     float timestamp;
@@ -152,13 +150,13 @@ struct GPGGAData : NMEA0183Data
             const GPGGAData& other) const noexcept
     {
         return (NMEA0183Data::operator ==(other) &&
-                timestamp == other.timestamp &&
-                latitude == other.latitude &&
-                longitude == other.longitude &&
-                fix == other.fix &&
-                satellites_on_view == other.satellites_on_view &&
-                horizontal_precision == other.horizontal_precision &&
-                altitude == other.altitude);
+               timestamp == other.timestamp &&
+               latitude == other.latitude &&
+               longitude == other.longitude &&
+               fix == other.fix &&
+               satellites_on_view == other.satellites_on_view &&
+               horizontal_precision == other.horizontal_precision &&
+               altitude == other.altitude);
     }
 
     /**
