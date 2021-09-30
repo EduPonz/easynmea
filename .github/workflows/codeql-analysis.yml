@@ -41,6 +41,15 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Install apt packages
+      run: |
+        sudo apt update && sudo apt -y install \
+          software-properties-common \
+          cmake \
+          g++ \
+          wget \
+          libasio-dev
+
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
