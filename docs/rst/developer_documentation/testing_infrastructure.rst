@@ -131,3 +131,13 @@ Then, the job uses `gcovr <https://gcovr.com/en/stable/>`_ to generate a report 
 `Codecov <https://app.codecov.io/gh/EduPonz/gnss_interface/>`_.
 In turn, Codecov checks the code coverage on the changes proposed in the pull request, as well as the overall coverage.
 If any of those two decreases, the code coverage check fails, and the pull request cannot be merged.
+
+.. _dev_docs_codeql:
+
+Code Quality Analysis
+---------------------
+
+With every push to :class:`main`, and with every pull request targeting it, and automated job is run to check code
+vulnerabilities using `CodeQL <https://codeql.github.com/>`_.
+This job presents vulnerabilities in the form of code scanning alerts (see
+`About code scanning with CodeQL <https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/about-code-scanning-with-codeql>`_).
