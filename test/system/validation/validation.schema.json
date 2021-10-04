@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/root",
+    "definitions": {
+        "root": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "data": {
+                    "type": "array",
+                    "description": "Data samples received by the GNSS Interface system_tests application",
+                    "items": {
+                        "$ref": "#/definitions/data"
+                    }
+                }
+            },
+            "required": [
+                "data"
+            ],
+            "title": "root"
+        },
+        "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "nmea_type": {
+                    "type": "string",
+                    "description": "The NMEA 0183 type of sentence"
+                },
+                "sentence": {
+                    "type": "string",
+                    "description": "The received NMEA 0183 sentence"
+                },
+                "latitude": {
+                    "type": "number",
+                    "description": "The GNSS latitude in degrees North"
+                },
+                "longitude": {
+                    "type": "number",
+                    "description": "The GNSS longitude in degrees East"
+                },
+                "fix": {
+                    "type": "integer",
+                    "description": "The GNSS type of fix",
+                    "minimum": 0,
+                    "maximum": 2
+                },
+                "number_of_satellites": {
+                    "type": "integer",
+                    "description": "The number of satellites on view",
+                    "minimum": 0
+                },
+                "horizontal_precision": {
+                    "type": "number",
+                    "description": "The GNSS horizontal position in meters",
+                    "minimum": 0
+                },
+                "altitude": {
+                    "type": "number",
+                    "description": "The GNSS reported altitude in meters"
+                }
+            },
+            "required": [
+                "altitude",
+                "fix",
+                "horizontal_precision",
+                "latitude",
+                "longitude",
+                "nmea_type",
+                "number_of_satellites",
+                "sentence"
+            ],
+            "title": "data"
+        }
+    }
+}

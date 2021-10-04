@@ -1,0 +1,30 @@
+@startuml
+
+caption System tests components
+
+[system_tests.py] <.up. [system_tests.yaml] : loads
+[system_tests.py] <.up. [expected_results.yaml] : loads
+
+package "GNSS Device Double" as gnss_device {
+    [send2serial.py] <.. [gnss_sentences.nmea] : loads
+}
+
+package "Virtual Serial Ports" as virtual_ports {
+    send_port - [socat] : creates
+    [socat] - recv_port : creates
+}
+
+package "GNSS Interface Application" as gnss_app {
+    [system_tests] .> [results.yaml] : writes
+}
+
+[send2serial.py] -down-> send_port : writes
+recv_port -up-> [system_tests] : reads
+
+[system_tests.py] --> [send2serial.py] : runs
+[system_tests.py] --> [socat] : runs
+[system_tests.py] --> [system_tests] : runs
+
+[system_tests.py] <.. [results.yaml] : validates
+
+@enduml

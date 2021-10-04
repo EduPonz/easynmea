@@ -32,10 +32,8 @@ using ::testing::DoAll;
 using ::testing::Return;
 using ::testing::SetArgReferee;
 
-namespace eduponz
-{
-namespace gnss_interface
-{
+namespace eduponz {
+namespace gnss_interface {
 
 class SerialInterfaceTest : public SerialInterface<SerialPortMock>
 {
@@ -51,7 +49,8 @@ public:
      *
      * @param serial Raw pointer to the \c SerialPortMock object.
      */
-    void set_serial_port(SerialPortMock* serial)
+    void set_serial_port(
+            SerialPortMock* serial)
     {
         serial_.reset(serial);
     }
@@ -79,7 +78,9 @@ public:
      *                implementation.
      * @return The number of read characters.
      */
-    std::size_t read_char(char& c, asio::error_code& ec) noexcept override
+    std::size_t read_char(
+            char& c,
+            asio::error_code& ec) noexcept override
     {
         if (use_parent_read_char_)
         {
@@ -97,7 +98,8 @@ public:
      *
      * @param msg The string to set a read message
      */
-    void set_msg(std::string msg)
+    void set_msg(
+            std::string msg)
     {
         char_count_ = 0;
         msg_ = msg;
@@ -106,7 +108,8 @@ public:
     /**
      * Set whether \c read_char should use the parent's implementation or not.
      */
-    void use_parent_read_char(bool should_use = true)
+    void use_parent_read_char(
+            bool should_use = true)
     {
         use_parent_read_char_ = should_use;
     }
@@ -126,8 +129,8 @@ private:
     bool use_parent_read_char_ = true;
 };
 
-}
-}
+} // namespace gnss_interface
+} // namespace eduponz
 
 TEST(SerialInterfaceTests, openSuccess)
 {
@@ -163,7 +166,7 @@ TEST(SerialInterfaceTests, openSuccess)
      */
     asio::error_code ec_2;
     EXPECT_CALL(*serial_port_mock, set_option)
-        .WillOnce(DoAll(SetArgReferee<1>(asio::error_code()), Return(true)));
+            .WillOnce(DoAll(SetArgReferee<1>(asio::error_code()), Return(true)));
 
     /* Set the mock as the SerialInterfaceTest serial port handler */
     serial.set_serial_port(serial_port_mock);
@@ -235,7 +238,9 @@ TEST(SerialInterfaceTests, openWrongPort)
      */
     std::string serial_port_str = "/dev/ttyUSB0";
     asio::error_code ec;
-    EXPECT_CALL(*serial_port_mock, open(serial_port_str, ec)).WillOnce(SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())));
+    EXPECT_CALL(*serial_port_mock,
+            open(serial_port_str,
+            ec)).WillOnce(SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())));
 
     /**
      * Set option should NOT be called to set the baud rate.
@@ -279,10 +284,10 @@ TEST(SerialInterfaceTests, openWrongBaudrate)
      * Set option should be called to set the baud rate. In this case, it should return false an give and set and error code.
      */
     EXPECT_CALL(*serial_port_mock, set_option)
-        .WillOnce(
-            DoAll(
-                SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())),
-                Return(false)));
+            .WillOnce(
+        DoAll(
+            SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())),
+            Return(false)));
 
     /* Set the mock as the SerialInterfaceTest serial port handler */
     serial.set_serial_port(serial_port_mock);
@@ -315,7 +320,7 @@ TEST(SerialInterfaceTests, closeSuccess)
     SerialPortMock* serial_port_mock = new SerialPortMock(serial.io_service());
     EXPECT_CALL(*serial_port_mock, is_open).WillOnce(Return(true));
     EXPECT_CALL(*serial_port_mock, close)
-        .WillOnce(SetArgReferee<0>(asio::error_code()));
+            .WillOnce(SetArgReferee<0>(asio::error_code()));
     serial.set_serial_port(serial_port_mock);
     ASSERT_TRUE(serial.close());
 }
@@ -337,7 +342,7 @@ TEST(SerialInterfaceTests, closeAsioError)
     EXPECT_CALL(*serial_port_mock, is_open).WillOnce(Return(true));
     asio::error_code ec;
     EXPECT_CALL(*serial_port_mock, close(ec))
-        .WillOnce(SetArgReferee<0>(asio::error_code(25, asio::error::get_system_category())));
+            .WillOnce(SetArgReferee<0>(asio::error_code(25, asio::error::get_system_category())));
     serial.set_serial_port(serial_port_mock);
     ASSERT_FALSE(serial.close());
 }
@@ -350,8 +355,8 @@ TEST(SerialInterfaceTests, read_lineSuccess)
 
     /* Set test expectations */
     EXPECT_CALL(*serial_port_mock, is_open)
-        .Times(2)
-        .WillRepeatedly(Return(true));
+            .Times(2)
+            .WillRepeatedly(Return(true));
 
     std::string msg = "hello\n";
 
@@ -365,7 +370,7 @@ TEST(SerialInterfaceTests, read_lineSuccess)
     result.clear();
     ASSERT_TRUE(serial.read_line(result));
     ASSERT_TRUE(!result.empty());
-    ASSERT_EQ(result, msg.substr(0, msg.size()-1));
+    ASSERT_EQ(result, msg.substr(0, msg.size() - 1));
 
     /**
      * Call with an non-empty string. Before attempting to read, read_line() should clear the
@@ -376,7 +381,7 @@ TEST(SerialInterfaceTests, read_lineSuccess)
     serial.set_msg(msg);
     ASSERT_TRUE(serial.read_line(result));
     ASSERT_TRUE(!result.empty());
-    ASSERT_EQ(result, msg.substr(0, msg.size()-2));
+    ASSERT_EQ(result, msg.substr(0, msg.size() - 2));
 }
 
 TEST(SerialInterfaceTests, read_lineClosed)
@@ -387,9 +392,9 @@ TEST(SerialInterfaceTests, read_lineClosed)
 
     /* Set test expectations */
     EXPECT_CALL(*serial_port_mock, is_open)
-        .Times(2)
-        .WillRepeatedly(Return(false));
-    EXPECT_CALL(*serial_port_mock, read_some).Times(0);
+            .Times(2)
+            .WillRepeatedly(Return(false));
+    EXPECT_CALL(*serial_port_mock, async_read_some).Times(0);
 
     /* Set mock object */
     serial.set_serial_port(serial_port_mock);
@@ -404,40 +409,6 @@ TEST(SerialInterfaceTests, read_lineClosed)
     result = "Some content";
     ASSERT_FALSE(serial.read_line(result));
     ASSERT_EQ(result, "Some content");
-}
-
-TEST(SerialInterfaceTests, read_lineReadError)
-{
-    /* Create mock */
-    SerialInterfaceTest serial;
-    SerialPortMock* serial_port_mock = new SerialPortMock(serial.io_service());
-
-    /* Set test expectations */
-    EXPECT_CALL(*serial_port_mock, is_open)
-        .Times(2)
-        .WillRepeatedly(Return(true));
-    EXPECT_CALL(*serial_port_mock, read_some)
-        .Times(AtLeast(2))
-        .WillRepeatedly(SetArgReferee<1>(asio::error_code(25, asio::error::get_system_category())));
-
-    /* Set mock object */
-    serial.set_serial_port(serial_port_mock);
-
-    /* Call with an empty string */
-    std::string result;
-    result.clear();
-    ASSERT_FALSE(serial.read_line(result));
-    ASSERT_TRUE(result.empty());
-
-    /**
-     * Call with an non-empty string. Before attempting to read, read_line() should clear the
-     * string, meaning that it is expected to be returned empty if the serial connection was opened.
-     */
-    result = "Some content";
-    ASSERT_FALSE(serial.read_line(result));
-    std::string empty_str;
-    empty_str.clear();
-    ASSERT_EQ(result, empty_str);
 }
 
 int main(

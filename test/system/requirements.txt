@@ -1,0 +1,4 @@
+argparse
+pathlib
+pyserial
+pyyaml

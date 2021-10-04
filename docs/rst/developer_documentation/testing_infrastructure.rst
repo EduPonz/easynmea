@@ -42,23 +42,32 @@ Other testing framework such as Catch and Boost.Test, however they were discarde
 * `Boost.Test <https://www.boost.org/doc/libs/1_75_0/libs/test/doc/html/index.html>`_, which also offers a header only
   version, but again, it does not have built-in mocking support.
 
-.. _dev_docs_testing_cmake_options:
+.. _dev_docs_testing_build_tests:
 
-CMake Options
--------------
+Build Tests
+-----------
 
 The *GNSS Interface* tests can be divided into two large categories:
 
-1. Library tests: Unit and system tests for the *GNSS Interface* library itself.
-2.  Documentation tests: Automated tests for the documentation.
+1. **Library tests**: Unit and system tests for the *GNSS Interface* library itself.
+2. **Documentation tests**: Automated tests for the documentation.
 
-It should be possible to build these sets of tests separately, specially since not everyone would build the
-documentation.
-For that reason, 3 CMake options are added:
+Although none of these tests are built by default, it is possible to build them separately.
+This is because not everyone would build the documentation.
+To do that, 3 CMake options are added:
 
 1. :class:`BUILD_LIBRARY_TESTS`: Builds the library tests
 2. :class:`BUILD_DOCUMENTATION_TESTS`: Builds the documentation tests. This entails building the documentation.
 3. :class:`BUILD_TESTS`: Builds all the *GNSS Interface* tests, meaning both library and documentation tests.
+
+Furthermore, the system tests within the **Library tests** do require the installation of some extra python
+dependencies, which are listed in `<path_to_repo>/test/system/requirements.txt`.
+These are necessary to simulate a serial connection and a GNSS device.
+They can be installed with:
+
+.. code:: bash
+
+    python3 install -r <path_to_repo>/test/system/requirements.txt
 
 .. _dev_docs_testing_directories:
 

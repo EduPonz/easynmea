@@ -1,0 +1,110 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/root",
+    "definitions": {
+        "root": {
+            "type": "object",
+            "description": "GNSS Interface System Tests configuration file",
+            "additionalProperties": false,
+            "properties": {
+                "nmea_write_app": {
+                    "type": "string",
+                    "description": "Path to the python application used to send NMEA 0183 sentences to the serial port"
+                },
+                "gnss_interface_app": {
+                    "type": "string",
+                    "description": "Path to the GNSS Interface application executable used to receive a log incoming NMEA 0183 sentences"
+                },
+                "system_tests": {
+                    "type": "array",
+                    "description": "List of tests with their configuration",
+                    "items": {
+                        "$ref": "#/definitions/system_test"
+                    }
+                }
+            },
+            "required": [
+                "gnss_interface_app",
+                "nmea_write_app",
+                "system_tests"
+            ],
+            "title": "root"
+        },
+        "system_test": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Name of the test"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Brief description of the test"
+                },
+                "send_port": {
+                    "type": "string",
+                    "description": "Path to the port used to send data"
+                },
+                "receive_port": {
+                    "type": "string",
+                    "description": "Path to the port used to receive data"
+                },
+                "virtual_port_ttl": {
+                    "type": "integer",
+                    "description": "Virtual ports time-to-live",
+                    "minimum": 0
+                },
+                "virtual_port_start": {
+                    "type": "integer",
+                    "description": "Time to wait (in seconds) before instantiating the application used to create the virtual ports",
+                    "minimum": 0
+                },
+                "nmea_write_app_ttl": {
+                    "type": "integer",
+                    "description": "NMEA 0183 writing application time-to-live",
+                    "minimum": 0
+                },
+                "nmea_write_app_start": {
+                    "type": "integer",
+                    "description": "Time to wait (in seconds) before instantiating the NMEA 0183 writing application",
+                    "minimum": 0
+                },
+                "gnss_interface_app_ttl": {
+                    "type": "integer",
+                    "description": "GNSS Interface receiving application time-to-live",
+                    "minimum": 0
+                },
+                "gnss_interface_app_start": {
+                    "type": "integer",
+                    "description": "Time to wait (in seconds) before instantiating the GNSS Interface receiving application",
+                    "minimum": 0
+                },
+                "nmea_sentences_file": {
+                    "type": "string",
+                    "description": "Path to file containing NMEA 0183 sentences. This file is used by the NMEA 0183 writing application"
+                },
+                "output_file": {
+                    "type": "string",
+                    "description": "Path to the output file that the GNSS Interface application uses to log the received GNSS data"
+                },
+                "validation_file": {
+                    "type": "string",
+                    "description": "Path to the file against which the output file is validated"
+                }
+            },
+            "required": [
+                "description",
+                "gnss_interface_app_ttl",
+                "name",
+                "nmea_sentences_file",
+                "nmea_write_app_ttl",
+                "output_file",
+                "receive_port",
+                "send_port",
+                "virtual_port_ttl"
+            ],
+            "title": "system_test"
+        }
+    }
+}

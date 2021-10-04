@@ -108,18 +108,10 @@ ReturnCode GnssInterfaceImpl::close() noexcept
     if (is_open_nts_())
     {
         routine_running_.store(false);
-        /**
-         * If the call to close() came from a thread other than the reading thread, then we can wait
-         * for the reading thread to join. It the reading thread is the one calling close(), then it
-         * cannot wait on a join of itself.
-         */
-        if (read_thread_ && read_thread_->get_id() != std::this_thread::get_id())
-        {
-            read_thread_->join();
-            read_thread_ = nullptr;
-        }
         // If close() succeeds, then return OK, else return ERROR
         ret = serial_interface_->close() ? ReturnCode::RETURN_CODE_OK : ReturnCode::RETURN_CODE_ERROR;
+        read_thread_->join();
+        read_thread_ = nullptr;
         // Break any wait_for_data
         lck.unlock();
         cv_.notify_all();
@@ -164,10 +156,10 @@ ReturnCode GnssInterfaceImpl::wait_for_data(
      */
     std::unique_lock<std::mutex> lck(data_mutex_);
     bool did_timeout = !cv_.wait_for(lck, timeout, [&]()
-            {
-                return !routine_running_.load() ||
-                (data_mask.is_set(NMEA0183DataKind::GPGGA) && data_received_.is_set(NMEA0183DataKind::GPGGA));
-            });
+                    {
+                        return !routine_running_.load() ||
+                        (data_mask.is_set(NMEA0183DataKind::GPGGA) && data_received_.is_set(NMEA0183DataKind::GPGGA));
+                    });
 
     // If the wait timed out, return TIMEOUT
     if (did_timeout)
@@ -309,11 +301,9 @@ void GnssInterfaceImpl::read_routine_() noexcept
             parse_raw_line_(line);
             continue;
         }
-        // TODO: Decide what to do if SerialInterface::read_line() fails, for now we close down the
-        // GnssInterface
         routine_running_.store(false);
         internal_error_.store(true);
-        close();
+        cv_.notify_all();
     }
 }
 

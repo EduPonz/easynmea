@@ -19,4 +19,4 @@ This section describes the tests implemented for the *GNSS Interface* documentat
 
 As defined in :ref:`dev_docs_testing_directories`, these tests are located in `<repo-root>/docs/test`.
 Furthermore, it is possible to activate them with CMake option :class:`BUILD_DOCUMENTATION_TESTS` (see
-:ref:`dev_docs_testing_cmake_options`).
+:ref:`dev_docs_testing_build_tests`).

@@ -9,6 +9,7 @@
 #ifndef _GNSS_INTERFACE_SERIALINTERFACE_H
 #define _GNSS_INTERFACE_SERIALINTERFACE_H
 
+#include <functional>
 #include <memory>
 
 #include <asio/io_service.hpp>
@@ -154,7 +155,21 @@ public:
             }
             else
             {
-                std::cout << "[ERROR] Cannot read character. Error: " << ec.message() << std::endl;
+                switch (ec.value())
+                {
+                    case asio::error::operation_aborted:
+                    {
+                        std::cout << "[INFO] Read operation aborted" << std::endl;
+                        break;
+                    }
+                    default:
+                    {
+                        std::cout << "[ERROR] Something happened while reading: " << ec.message()
+                                  << std::endl;
+                        close();
+                        break;
+                    }
+                }
                 return false;
             }
         }
@@ -174,17 +189,34 @@ protected:
      * This function blocks until either:
      *    1. A character is read
      *    2. The serial port is closed
-     *    3. An internal error occurs on asio::read_some
+     *    3. An internal error occurs on asio::async_read_some
      *
      * @param[out] c Reference to the read char
-     * @param ec The error code returned by read_some
+     * @param ec The error code returned by asio::async_read_some
      * @return The number of read characters, i.e. 1 when something is read, 0 when it's not
      */
     virtual std::size_t read_char(
             char& c,
             asio::error_code& ec) noexcept
     {
-        return serial_->read_some(asio::buffer(&c, 1), ec);
+        std::size_t ret = 1;
+        std::function<void (const asio::error_code&, std::size_t)> on_char_read = [&](
+            const asio::error_code& error_code,
+            std::size_t bytes_transferred)
+                {
+                    if (error_code)
+                    {
+                        ec = error_code;
+                        ret = 0;
+                    }
+                };
+
+        c = '\0';
+        // Prepare io_service, give it some work, and run it
+        io_service_.reset();
+        serial_->async_read_some(asio::buffer(&c, 1), on_char_read);
+        io_service_.run();  // This will block until a new char is ready
+        return ret;
     }
 
 };

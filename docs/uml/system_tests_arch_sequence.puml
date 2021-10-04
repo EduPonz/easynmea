@@ -1,0 +1,64 @@
+@startuml
+
+caption System tests sequence diagram
+
+control system_tests.py
+database system_tests.yaml
+participant socat
+queue send_port
+queue recv_port
+participant send2serial.py
+database gnss_sentences.nmea
+participant system_tests
+database results.yaml
+database expected_results.yaml
+
+== Arrange phase ==
+[-> system_tests.py: Start test
+activate system_tests.py
+system_tests.py <- system_tests.yaml: Load
+system_tests.py -> socat: Run
+activate socat
+system_tests.py -> send2serial.py: Run
+activate send2serial.py
+system_tests.py -> system_tests: Run
+activate system_tests
+socat -> send_port: Create
+activate send_port
+socat -> recv_port: Create
+activate recv_port
+send2serial.py <- gnss_sentences.nmea: Load
+
+== Act phase ==
+send2serial.py --> send_port: Write
+send_port --> socat: Propagate
+socat --> recv_port: Propagate
+system_tests <-- recv_port: Read
+system_tests --> results.yaml: Log
+... Write to and read form serial ports until timeout ...
+
+== Close phase ==
+system_tests.py --> system_tests: SIGTERM after timeout
+system_tests --> system_tests.py: Return with exit code
+deactivate system_tests
+system_tests.py --> send2serial.py: SIGKILL after timeout
+deactivate send2serial.py
+send2serial.py --> system_tests.py: Return with exit code
+system_tests.py --> socat: SIGKILL after timeout
+socat -> send_port: Close
+socat <-- send_port: Closed
+deactivate send_port
+socat -> recv_port: Close
+socat <-- recv_port: Closed
+deactivate recv_port
+socat --> system_tests.py: Return
+deactivate socat
+
+== Assert phase ==
+system_tests.py <- results.yaml: Load
+system_tests.py <- expected_results.yaml: Load
+system_tests.py -> system_tests.py: Validate results
+[<- system_tests.py: Report test result
+deactivate system_tests.py
+
+@enduml
