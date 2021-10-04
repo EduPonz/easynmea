@@ -1,12 +1,3 @@
----
-name: Pull request
-about: Make sure the contributing process is followed
-title: ''
-labels: enhancement
-assignees: ''
-
----
-
 ## References
 <!-- List related issues -->
 
@@ -39,6 +30,7 @@ assignees: ''
 * [ ] Check API breaks
 * [ ] Check ABI breaks
 * [ ] Public API changes are properly documented
+* [ ] All checks have passed
 
 ## Post-review Checklist for the PR Author
 
