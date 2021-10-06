@@ -2,12 +2,12 @@
 
 [![automated_testing](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml)
 [![Publish Docker image](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml)
-[![Documentation Status](https://readthedocs.org/projects/opennmea-interface-docs/badge/?version=latest)](https://opennmea-interface-docs.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/opennmea/badge/?version=latest)](https://opennmea.readthedocs.io/en/latest/?badge=latest)
 [![Docker pulls](https://img.shields.io/docker/pulls/eduponz/opennmea.svg)](https://hub.docker.com/repository/docker/eduponz/opennmea)
 [![codecov](https://codecov.io/gh/EduPonz/opennmea/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/opennmea)
 [![CodeQL](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml)
 
-**opennmea** is a `C++` library to get **NMEA** information from NMEA modules which communicate with **NMEA 0183** over UART.
+**OpenNMEA** is a `C++` library to get **NMEA** information from NMEA modules which communicate with **NMEA 0183** over UART.
 It can retrieve NMEA data from any NMEA device sending **NMEA 0183** sentences over UART.
 
 * [Features](#features)
