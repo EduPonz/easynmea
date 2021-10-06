@@ -28,6 +28,7 @@
 #include <string>
 
 #include "types.hpp"
+#include "visibility.hpp"
 
 namespace eduponz {
 namespace easynmea {
@@ -38,7 +39,7 @@ namespace easynmea {
  *
  * @brief Base struct for all NMEA 0183 Data types
  */
-struct NMEA0183Data
+struct EASYNMEA_PUBLIC_TYPE NMEA0183Data
 {
     /**
      * Default constructor; it empty-initializes the struct
@@ -95,7 +96,7 @@ struct NMEA0183Data
  *
  * @brief Struct for data from GPGGA sentences
  */
-struct GPGGAData : NMEA0183Data
+struct EASYNMEA_PUBLIC_TYPE GPGGAData : NMEA0183Data
 {
     /**
      *  Default constructor; it empty-initializes the struct, setting \c kind to

@@ -26,6 +26,7 @@
 #define _EASYNMEA_TYPES_HPP_
 
 #include "Bitmask.hpp"
+#include "visibility.hpp"
 
 namespace eduponz {
 namespace easynmea {
@@ -35,7 +36,7 @@ namespace easynmea {
  *
  * @brief Holds all the supported NMEA 0183 sentences.
  */
-enum class NMEA0183DataKind : int32_t
+enum class EASYNMEA_PUBLIC_TYPE NMEA0183DataKind : int32_t
 {
     //! Represents no valid data kind
     INVALID = 0,
@@ -65,7 +66,7 @@ using NMEA0183DataKindMask = Bitmask<NMEA0183DataKind>;
  *
  * These return codes can be easily compared for applications to handle different scenarios.
  */
-class ReturnCode
+class EASYNMEA_PUBLIC_TYPE ReturnCode
 {
 public:
 

@@ -19,4 +19,11 @@
 # THE SOFTWARE.
 
 add_subdirectory(unit)
-add_subdirectory(system)
+
+# For now, only add System Tests in Linux. This is because they currently rely on socat.
+# TODO: Evaluate Windows alternatives to socat (Virtual Serial Port Driver, Null-modem emulator,
+# etc).
+if(UNIX AND NOT APPLE)
+    add_subdirectory(system)
+endif()
+

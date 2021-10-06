@@ -31,6 +31,7 @@
 #include "Bitmask.hpp"
 #include "data.hpp"
 #include "types.hpp"
+#include "visibility.hpp"
 
 namespace eduponz {
 namespace easynmea {
@@ -48,7 +49,7 @@ class EasyNmeaImpl;
  *     * Wait for specific NMEA sentences to be received.
  *     * Read incoming NMEA data in a parsed and understandable manner.
  */
-class EasyNmea
+class EASYNMEA_PUBLIC_TYPE EasyNmea
 {
 public:
 

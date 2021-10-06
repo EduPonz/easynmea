@@ -18,8 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-# Include WiringPi headers
-include_directories(${WIRINGPI_INCLUDE_DIRS})
+# Include Asio headers
+include_directories(${Asio_INCLUDE_DIRS})
 
 # Project sources
 set(${PROJECT_NAME}_SOURCES
@@ -31,6 +31,10 @@ add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})
 set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${PROJECT_VERSION})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
 
+target_compile_definitions(${PROJECT_NAME} PRIVATE
+        BOOST_ASIO_STANDALONE
+        ASIO_STANDALONE)
+
 # Define public headers
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
@@ -41,6 +45,19 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 
 target_link_libraries(${PROJECT_NAME}
     Threads::Threads)
+
+# Causes the visibility macros to use dllexport rather than dllimport,
+# which is appropriate when building the dll but not consuming it.
+target_compile_definitions(${PROJECT_NAME} PRIVATE "EASYNMEA_BUILDING_LIBRARY")
+
+if(MSVC)
+    target_compile_definitions(${PROJECT_NAME}
+        INTERFACE
+            _CRT_DECLARE_NONSTDC_NAMES=0
+        PRIVATE
+            _WIN32_WINNT=0X0603
+            _CRT_DECLARE_NONSTDC_NAMES=0)
+endif()
 
 ###############################################################################
 # Installation

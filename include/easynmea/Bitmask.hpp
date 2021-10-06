@@ -27,6 +27,8 @@
 
 #include <type_traits>
 
+#include "visibility.hpp"
+
 namespace eduponz {
 namespace easynmea {
 
@@ -67,7 +69,7 @@ namespace easynmea {
  * @tparam E The enumerated type for which the bitmask is constructed
  */
 template <typename E>
-class Bitmask
+class EASYNMEA_PUBLIC_TYPE Bitmask
 {
 
 private:
@@ -77,7 +79,7 @@ private:
 public:
 
     Bitmask()
-        : mask_(0)
+        : mask_(static_cast<underlying_type>(0))
     {
     }
 
@@ -114,7 +116,7 @@ public:
 
     static constexpr Bitmask none()
     {
-        return Bitmask(0);
+        return Bitmask(static_cast<underlying_type>(0));
     }
 
     static constexpr Bitmask all()
@@ -124,7 +126,7 @@ public:
 
     bool is_none() const
     {
-        return (mask_ == 0);
+        return (mask_ == static_cast<underlying_type>(0));
     }
 
     Bitmask<E>& operator &= (
@@ -222,7 +224,7 @@ private:
 };
 
 template<typename E>
-Bitmask<E> operator & (
+Bitmask<E> EASYNMEA_PUBLIC operator & (
         const E& lhs,
         const E& rhs)
 {
@@ -231,7 +233,7 @@ Bitmask<E> operator & (
 }
 
 template<typename E>
-Bitmask<E> operator | (
+Bitmask<E> EASYNMEA_PUBLIC operator | (
         const E& lhs,
         const E& rhs)
 {
@@ -240,7 +242,7 @@ Bitmask<E> operator | (
 }
 
 template<typename E>
-Bitmask<E> operator ^ (
+Bitmask<E> EASYNMEA_PUBLIC operator ^ (
         const E& lhs,
         const E& rhs)
 {

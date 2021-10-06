@@ -20,6 +20,12 @@
 
 find_package(PythonInterp 3 REQUIRED)
 
+find_program(SOCAT socat REQUIRED)
+if(${SOCAT} STREQUAL "SOCAT-NOTFOUND")
+    message(FATAL_ERROR "socat not found")
+endif()
+message(STATUS "Found socat: ${SOCAT}")
+
 add_executable(system_tests system_tests.cpp)
 target_link_libraries(system_tests easynmea)
 

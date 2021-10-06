@@ -322,7 +322,9 @@ EXPAND_ONLY_PREDEF     = YES
 SEARCH_INCLUDES        = YES
 INCLUDE_PATH           =
 INCLUDE_FILE_PATTERNS  =
-PREDEFINED             = "DOXYGEN_DOCUMENTATION=1"
+PREDEFINED             = "DOXYGEN_DOCUMENTATION=1" \
+                         EASYNMEA_PUBLIC= \
+                         EASYNMEA_PUBLIC_TYPE=
 EXPAND_AS_DEFINED      = YES
 SKIP_FUNCTION_MACROS   = YES
 #---------------------------------------------------------------------------
