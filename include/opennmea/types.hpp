@@ -22,13 +22,13 @@
  * @file types.hpp
  */
 
-#ifndef _GNSS_INTERFACE_TYPES_HPP_
-#define _GNSS_INTERFACE_TYPES_HPP_
+#ifndef _OPENNMEA_TYPES_HPP_
+#define _OPENNMEA_TYPES_HPP_
 
 #include "Bitmask.hpp"
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 /**
  * @enum NMEA0183DataKind
@@ -161,7 +161,7 @@ private:
     uint32_t value_;
 };
 
-} // namespace gnss_interface
+} // namespace opennmea
 } // namespace eduponz
 
-#endif //_GNSS_INTERFACE_TYPES_HPP_
+#endif //_OPENNMEA_TYPES_HPP_

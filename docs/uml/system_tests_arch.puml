@@ -5,8 +5,8 @@ caption System tests components
 [system_tests.py] <.up. [system_tests.yaml] : loads
 [system_tests.py] <.up. [expected_results.yaml] : loads
 
-package "GNSS Device Double" as gnss_device {
-    [send2serial.py] <.. [gnss_sentences.nmea] : loads
+package "NMEA Device Double" as nmea_device {
+    [send2serial.py] <.. [opennmea_sentences.nmea] : loads
 }
 
 package "Virtual Serial Ports" as virtual_ports {
@@ -14,7 +14,7 @@ package "Virtual Serial Ports" as virtual_ports {
     [socat] - recv_port : creates
 }
 
-package "GNSS Interface Application" as gnss_app {
+package "OpenNMEA Application" as opennmea_app {
     [system_tests] .> [results.yaml] : writes
 }
 

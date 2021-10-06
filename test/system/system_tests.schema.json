@@ -4,16 +4,16 @@
     "definitions": {
         "root": {
             "type": "object",
-            "description": "GNSS Interface System Tests configuration file",
+            "description": "OpenNMEA System Tests configuration file",
             "additionalProperties": false,
             "properties": {
                 "nmea_write_app": {
                     "type": "string",
                     "description": "Path to the python application used to send NMEA 0183 sentences to the serial port"
                 },
-                "gnss_interface_app": {
+                "opennmea_app": {
                     "type": "string",
-                    "description": "Path to the GNSS Interface application executable used to receive a log incoming NMEA 0183 sentences"
+                    "description": "Path to the OpenNMEA application executable used to receive a log incoming NMEA 0183 sentences"
                 },
                 "system_tests": {
                     "type": "array",
@@ -24,7 +24,7 @@
                 }
             },
             "required": [
-                "gnss_interface_app",
+                "opennmea_app",
                 "nmea_write_app",
                 "system_tests"
             ],
@@ -70,14 +70,14 @@
                     "description": "Time to wait (in seconds) before instantiating the NMEA 0183 writing application",
                     "minimum": 0
                 },
-                "gnss_interface_app_ttl": {
+                "opennmea_app_ttl": {
                     "type": "integer",
-                    "description": "GNSS Interface receiving application time-to-live",
+                    "description": "OpenNMEA receiving application time-to-live",
                     "minimum": 0
                 },
-                "gnss_interface_app_start": {
+                "opennmea_app_start": {
                     "type": "integer",
-                    "description": "Time to wait (in seconds) before instantiating the GNSS Interface receiving application",
+                    "description": "Time to wait (in seconds) before instantiating the OpenNMEA receiving application",
                     "minimum": 0
                 },
                 "nmea_sentences_file": {
@@ -86,7 +86,7 @@
                 },
                 "output_file": {
                     "type": "string",
-                    "description": "Path to the output file that the GNSS Interface application uses to log the received GNSS data"
+                    "description": "Path to the output file that the OpenNMEA application uses to log the received NMEA data"
                 },
                 "validation_file": {
                     "type": "string",
@@ -95,7 +95,7 @@
             },
             "required": [
                 "description",
-                "gnss_interface_app_ttl",
+                "opennmea_app_ttl",
                 "name",
                 "nmea_sentences_file",
                 "nmea_write_app_ttl",

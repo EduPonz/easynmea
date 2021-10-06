@@ -19,6 +19,6 @@
 # THE SOFTWARE.
 
 add_subdirectory(data)
-add_subdirectory(GnssInterface)
-add_subdirectory(GnssInterfaceImpl)
+add_subdirectory(OpenNmea)
+add_subdirectory(OpenNmeaImpl)
 add_subdirectory(SerialInterface)

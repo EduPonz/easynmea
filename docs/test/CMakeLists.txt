@@ -53,7 +53,7 @@ endif()
 add_test(NAME documentation.spell_check
     COMMAND
     ${SPHINX_EXECUTABLE} -Q -W --keep-going
-    -D breathe_projects.gnss_interface=${DOXYGEN_OUTPUT_DIR}/xml
+    -D breathe_projects.opennmea=${DOXYGEN_OUTPUT_DIR}/xml
     -b spelling
     -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
     ${PROJECT_SOURCE_DOCS_DIR}
@@ -63,7 +63,7 @@ add_test(NAME documentation.spell_check
 add_test(NAME documentation.link_check
     COMMAND
     ${SPHINX_EXECUTABLE} -Q -W --keep-going
-    -D breathe_projects.gnss_interface=${DOXYGEN_OUTPUT_DIR}/xml
+    -D breathe_projects.opennmea=${DOXYGEN_OUTPUT_DIR}/xml
     -b linkcheck
     -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
     ${PROJECT_SOURCE_DOCS_DIR}

@@ -10,7 +10,7 @@ assignees: ''
 **Operating System**
 Indicate the operating system you are using [e.g. Ubuntu 20.04]
 
-**GNSS Interface version**
+**OpenNMEA version**
 Library version [e.g. v0.1.0]
 
 **CMake options**

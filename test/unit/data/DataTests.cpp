@@ -20,10 +20,10 @@
 
 #include <gtest/gtest.h>
 
-#include <gnss_interface/data.hpp>
-#include <gnss_interface/types.hpp>
+#include <opennmea/data.hpp>
+#include <opennmea/types.hpp>
 
-using namespace eduponz::gnss_interface;
+using namespace eduponz::opennmea;
 
 TEST(DataTests, NMEA0183DataComparisonOperators)
 {

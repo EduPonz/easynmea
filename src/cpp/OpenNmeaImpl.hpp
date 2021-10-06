@@ -19,11 +19,11 @@
 // THE SOFTWARE.
 
 /**
- * @file GnssInterfaceImpl.hpp
+ * @file OpenNmeaImpl.hpp
  */
 
-#ifndef _GNSS_INTERFACE_IMPL_HPP_
-#define _GNSS_INTERFACE_IMPL_HPP_
+#ifndef _OPENNMEA_IMPL_HPP_
+#define _OPENNMEA_IMPL_HPP_
 
 #include <atomic>
 #include <chrono>
@@ -38,8 +38,8 @@
 #include <thread>
 #include <vector>
 
-#include <gnss_interface/GnssInterface.hpp>
-#include <gnss_interface/types.hpp>
+#include <opennmea/OpenNmea.hpp>
+#include <opennmea/types.hpp>
 
 #include "FixedSizeQueue.hpp"
 #include "SerialInterface.hpp"
@@ -47,22 +47,22 @@
 using namespace std::chrono_literals;
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 /**
- * @class GnssInterfaceImpl
+ * @class OpenNmeaImpl
  *
- * This class provides the actual implementation of \c GnssInterface.
+ * This class provides the actual implementation of \c OpenNmea.
  */
-class GnssInterfaceImpl
+class OpenNmeaImpl
 {
 public:
 
-    //! Default constructor. Constructs a \c GnssInterfaceImpl
-    GnssInterfaceImpl() noexcept;
+    //! Default constructor. Constructs a \c OpenNmeaImpl
+    OpenNmeaImpl() noexcept;
 
     //! Destructor. Frees used memory and closes the serial connection if opened.
-    virtual ~GnssInterfaceImpl() noexcept;
+    virtual ~OpenNmeaImpl() noexcept;
 
     /**
      * \brief Open a serial connection.
@@ -70,7 +70,7 @@ public:
      * It opens a serial connection on a given port with a given baudrate; given that the connection
      * was not previously opened.
      *
-     * \pre The GnssInterfaceImpl does not have any serial port opened. That is, either it is the
+     * \pre The OpenNmeaImpl does not have any serial port opened. That is, either it is the
      * first call to \c open(), or \c close() has been called before \c open().
      *
      * @param[in] serial_port A string containing the serial port name.
@@ -79,7 +79,7 @@ public:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
      *     * ReturnCode::RETURN_CODE_ERROR is the port could not be opened.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
-     *       same GnssInterface instance, regardless of the port.
+     *       same OpenNmea instance, regardless of the port.
      */
     virtual ReturnCode open(
             const char* serial_port,
@@ -107,7 +107,7 @@ public:
     /**
      * \brief Take the next untaken GPGGA data sample available
      *
-     * \c GnssInterfaceImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
+     * \c OpenNmeaImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
      * used to retrieve the oldest untaken GPGGA sample. If eventually \c take_next takes the last
      * gpgga sample received, then the corresponding bit of \c data_received_ is cleared.
      *
@@ -139,7 +139,7 @@ public:
      *       sample of the kinds specified in the @param data_mask.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
-     *       \c GnssInterfaceImpl instance, which unblocks any \c wait_for_data() calls.
+     *       \c OpenNmeaImpl instance, which unblocks any \c wait_for_data() calls.
      */
     virtual ReturnCode wait_for_data(
             NMEA0183DataKindMask data_mask,
@@ -230,7 +230,7 @@ protected:
     /**
      * Routine run by read_thread_.
      *
-     * It reads incoming lines from the GNSS devices, parses them, and signals the \c cv_ when new
+     * It reads incoming lines from the NMEA devices, parses them, and signals the \c cv_ when new
      * data arrives.
      *
      * TODO: This could just be a lambda
@@ -247,6 +247,6 @@ protected:
 };
 
 } // namespace eduponz
-} // namespace gnss_interface
+} // namespace opennmea
 
-#endif //_GNSS_INTERFACE_IMPL_HPP_
+#endif //_OPENNMEA_IMPL_HPP_

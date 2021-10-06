@@ -3,6 +3,6 @@
 ReturnCode
 ----------
 
-.. doxygenclass:: eduponz::gnss_interface::ReturnCode
-    :project: gnss_interface
+.. doxygenclass:: eduponz::opennmea::ReturnCode
+    :project: opennmea
     :members:

@@ -1,14 +1,14 @@
-# GNSS Interface {#index}
+# OpenNMEA {#index}
 
-[![automated_testing](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/gnss_interface/actions/workflows/automated_testing.yml)
-[![Publish Docker image](https://github.com/EduPonz/gnss_interface/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/gnss_interface/actions/workflows/publish_docker_image.yml)
-[![Documentation Status](https://readthedocs.org/projects/gnss-interface-docs/badge/?version=latest)](https://gnss-interface-docs.readthedocs.io/en/latest/?badge=latest)
-[![Docker pulls](https://img.shields.io/docker/pulls/eduponz/gnss_interface.svg)](https://hub.docker.com/repository/docker/eduponz/gnss_interface)
-[![codecov](https://codecov.io/gh/EduPonz/gnss_interface/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/gnss_interface)
-[![CodeQL](https://github.com/EduPonz/gnss_interface/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EduPonz/gnss_interface/actions/workflows/codeql-analysis.yml)
+[![automated_testing](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml)
+[![Publish Docker image](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml)
+[![Documentation Status](https://readthedocs.org/projects/opennmea-interface-docs/badge/?version=latest)](https://opennmea-interface-docs.readthedocs.io/en/latest/?badge=latest)
+[![Docker pulls](https://img.shields.io/docker/pulls/eduponz/opennmea.svg)](https://hub.docker.com/repository/docker/eduponz/opennmea)
+[![codecov](https://codecov.io/gh/EduPonz/opennmea/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/opennmea)
+[![CodeQL](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml)
 
-**gnss_interface** is a `C++` library to get **GNSS** information from GNSS modules which communicate with **NMEA 0183** over UART.
-It can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences over UART.
+**opennmea** is a `C++` library to get **NMEA** information from NMEA modules which communicate with **NMEA 0183** over UART.
+It can retrieve NMEA data from any NMEA device sending **NMEA 0183** sentences over UART.
 
 * [Features](#features)
 * [Getting started](#getting-started)
@@ -21,19 +21,19 @@ It can retrieve GNSS data from any GNSS device sending **NMEA 0183** sentences o
 * [License](#license)
 * [To-Do](#to-do)
 
-For more detailed information, please visit the [GNSS Interface documentation](https://gnss-interface-docs.readthedocs.io/).
+For more detailed information, please visit the [OpenNMEA documentation](https://opennmea-docs.readthedocs.io/).
 
 ## Features
 
-**gnss_interface** provides the `GnssInterface` class, which uses **NMEA 0183** `$GPGGA` sentences to extract **GNSS** information from the modules, providing a simple and easy-to-use API.
+**opennmea** provides the `OpenNmea` class, which uses **NMEA 0183** sentences to extract **NMEA** information from the modules, providing a simple and easy-to-use API.
 
 ## Getting started
 
-**gnss_interface** has been developed and tested in Ubuntu 20.04 Operating System, although it is expected to support Windows 10 and MacOS thanks to [Asio](https://github.com/chriskohlhoff/asio), the cross-platform library used to interact with the serial ports.
+**opennmea** has been developed and tested in Ubuntu 20.04 Operating System, although it is expected to support Windows 10 and MacOS thanks to [Asio](https://github.com/chriskohlhoff/asio), the cross-platform library used to interact with the serial ports.
 
 ### Prerequisites
 
-**gnss_interface** relies on [Asio](https://github.com/chriskohlhoff/asio) for establishing a serial connection with the GNSS module.
+**opennmea** relies on [Asio](https://github.com/chriskohlhoff/asio) for establishing a serial connection with the NMEA module.
 On Ubuntu platforms, this can be installed with:
 
 ```bash
@@ -46,7 +46,7 @@ To build the library, run:
 
 ```bash
 cd ~
-git clone https://github.com/EduPonz/gnss_interface.git
+git clone https://github.com/EduPonz/opennmea.git
 mkdir build && cd build
 cmake ..
 cmake --build .
@@ -55,7 +55,7 @@ cmake --build .
 Once built, the library can be installed in a user specified directory with:
 
 ```bash
-cd ~/gnss_interface/build
+cd ~/opennmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir>
 cmake --build . --target install
 ```
@@ -63,7 +63,7 @@ cmake --build . --target install
 To install the library system-wide, just omit the `CMAKE_INSTALL_PREFIX`:
 
 ```bash
-cd ~/gnss_interface/build
+cd ~/opennmea/build
 cmake ..
 cmake --build . --target install
 ```
@@ -73,7 +73,7 @@ cmake --build . --target install
 It is possible to generate the library's documentation passing CMake option `-DBUILD_DOCUMENTATION=0N` (defaults to `OFF`) on the configuration step:
 
 ```bash
-cd ~/gnss_interface/build
+cd ~/opennmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_DOCUMENTATION=ON
 cmake --build . --target install
 ```
@@ -83,7 +83,7 @@ cmake --build . --target install
 It is also possible to build and install the library's examples passing CMake option `-DBUILD_EXAMPLES=ON` (defaults to `OFF`) on the configuration step:
 
 ```bash
-cd ~/gnss_interface/build
+cd ~/opennmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_EXAMPLES=ON
 cmake --build . --target install
 ```
@@ -120,9 +120,9 @@ The some example's parameters can be configured using command line options.
 Run `./gpgga_example --help`
 
 ```
-------------------------------
-GNSS Interface - GPGGA Example
-------------------------------
+------------------------
+OpenNMEA - GPGGA Example
+------------------------
 Usage: ./gpgga_example [OPTIONS]
     -h/--help:                Print this help and exit
     -b/--baudrate [bauds]:    The connection baud rate in bauds [Defaults: 9600]
@@ -132,23 +132,23 @@ Example: ./gpgga_example -p /dev/ttyUSB0 -b 9600
 
 ## Usage
 
-The **GNSS** information can be retrieved in the following manner (see [gpgga_example.cpp](examples/gpgga_example.cpp)):
+The **NMEA** information can be retrieved in the following manner (see [gpgga_example.cpp](examples/gpgga_example.cpp)):
 
 ```c++
-using namespace eduponz::gnss_interface;
-// Create an interface object
-GnssInterface gnss;
+using namespace eduponz::opennmea;
+// Create an OpenNmea object
+OpenNmea opennmea;
 // Open the serial port
-if (gnss.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
+if (opennmea.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
 {
     // Create a mask to only wait on data from specific NMEA 0183 sentences
     NMEA0183DataKindMask data_kind_mask = NMEA0183DataKind::GPGGA;
     // This call will block until some data of any of the kinds specified in the mask is available.
-    while (gnss.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
+    while (opennmea.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
     {
         // Take all the available data samples of type GPGGA
         GPGGAData gpgga_data;
-        while (gnss.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
+        while (opennmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
         {
             // Do something with the GNSS data
             std::cout << "GNSS position: (" << gpgga_data.latitude << "; " << gpgga_data.longitude << ")" << std::endl;
@@ -156,20 +156,13 @@ if (gnss.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
     }
 }
 // Close the serial connection
-gnss.close();
+opennmea.close();
 ```
 
 ## Authors
 
-**gnss_interface** has been developed by **Eduardo Ponz**.
+**opennmea** has been developed by **Eduardo Ponz**.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
-
-## To-Do
-
-- Export symbols for Windows DLLs.
-- Add robustness to `SerialInterface`.
-- Process other **NMEA 0183** sentences. See [gnss_l86_output.txt](gnss_l86_output.txt) for an example of the messages coming from the module.
-- Send commands to GNSS modules using [**PMTK**](https://www.quectel.com/UploadImage/Downlad/Quectel_GNSS_SDK_Commands_Manual_V1.2.pdf) protocol.

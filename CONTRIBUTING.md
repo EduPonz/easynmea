@@ -1,9 +1,9 @@
 # Contribution Guidelines
 
-The following documents constitutes a set of guidelines to which contributors are expected to adhere when contributing to *GNSS Interface*.
+The following documents constitutes a set of guidelines to which contributors are expected to adhere when contributing to *OpenNMEA*.
 
-*GNSS Interface* is an open source, free-to-use, community driven project; and as such, contributions to expand or improve the code base or documentation are most welcome and encouraged; we just want the best product possible for our community.
-There are several ways in which you can contribute to *GNSS Interface*:
+*OpenNMEA* is an open source, free-to-use, community driven project; and as such, contributions to expand or improve the code base or documentation are most welcome and encouraged; we just want the best product possible for our community.
+There are several ways in which you can contribute to *OpenNMEA*:
 
 * [Code of Conduct](#code-of-conduct)
 * [What is a contribution](#what-is-a-contribution)
@@ -15,19 +15,19 @@ There are several ways in which you can contribute to *GNSS Interface*:
 
 ## Code of Conduct
 
-This project and everyone participating in it is governed by the *GNSS Interface* [Code of Conduct](CODE_OF_CONDUCT.md).
+This project and everyone participating in it is governed by the *OpenNMEA* [Code of Conduct](CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code at all times.
 Please report unacceptable behavior to e.ponzs@gmail.com.
 
 ## What is a contribution
 
 Basically, a contribution is everything you do for this project, from opening an issue, to submitting a pull request, promoting adoption on any platform, etc.
-Before opening an issue or submitting a pull request, please browse the repository [issues](https://github.com/EduPonz/gnss_interface/issues) and [pull requests](https://github.com/EduPonz/gnss_interface/pulls), and maybe take a look at the [project boards](https://github.com/EduPonz/gnss_interface/projects); what you have encountered or want to implement may already already be answered or in process of development.
+Before opening an issue or submitting a pull request, please browse the repository [issues](https://github.com/EduPonz/opennmea/issues) and [pull requests](https://github.com/EduPonz/opennmea/pulls), and maybe take a look at the [project boards](https://github.com/EduPonz/opennmea/projects); what you have encountered or want to implement may already already be answered or in process of development.
 
 ## Opening an issue
 
-The easiest way for you to start contributing to the *GNSS Interface* project is to open an issue on this GitHub repository.
-*GNSS Interface* is open for contributions of any kind; bug reports, feature requests, questions, etc.
+The easiest way for you to start contributing to the *OpenNMEA* project is to open an issue on this GitHub repository.
+*OpenNMEA* is open for contributions of any kind; bug reports, feature requests, questions, etc.
 When opening an issue, please take the following into account:
 
 1. Try to use positive and welcoming language.
@@ -48,7 +48,7 @@ Simply engaging in any of the open discussion and bring new opinions or points o
 ## Submitting a pull request
 
 If writing an issue does not do it for you because you have and idea of what should be done and how, and you have the energy and time to directly contribute to the code base or documentation, submitting a pull request is your way to go.
-Please mind that by doing so, you accept to abide to the pull request process followed on the *GNSS Interface* project, meaning:
+Please mind that by doing so, you accept to abide to the pull request process followed on the *OpenNMEA* project, meaning:
 
 1. First, open an issue ticket labeled as enhancement defining what you attempt to accomplish in terms of user experience or behaviour; or simply chose one of the open ones.
 1. Open a pull request linked to your ticket with some design documentation that can kickoff a discussion.
@@ -57,7 +57,7 @@ Please mind that by doing so, you accept to abide to the pull request process fo
    Moreover, the design is a great contribution in itself, since it allows other people to work on the task with a clear view of the what, where, how, and why.
    In fact, feel free to make design proposals for open feature requests, even when they come from others, and even if you are not planning on implementing them.
    Furthermore, feel free to participate in any open design proposal.
-1. The *GNSS Interface* project tries to follow a test driven development approach.
+1. The *OpenNMEA* project tries to follow a test driven development approach.
    This means that once a design proposal is approved by maintainers, the next step is to start writing the tests described in it.
    It'd be ideal if these tests could be reviewed before starting the implementation, as they will set the base line for knowing when the feature is ready to be incorporated into the main stream.
 1. Of course, not everything can be covered during the design phase, and you'll need to take decisions and create new tests while implementing (it's just the natural way of things).

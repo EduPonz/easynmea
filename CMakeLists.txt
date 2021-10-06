@@ -19,7 +19,7 @@
 # THE SOFTWARE.
 
 ###############################################################################
-# CMake build rules for GNSS L86 Lib
+# CMake build rules for OpenNMEA Lib
 ###############################################################################
 cmake_minimum_required(VERSION 3.10)
 cmake_policy(VERSION 3.10...3.20)
@@ -27,12 +27,12 @@ cmake_policy(VERSION 3.10...3.20)
 ###############################################################################
 # Project
 ###############################################################################
-set(PROJECT_NAME_LARGE "GNSS Interface")
+set(PROJECT_NAME_LARGE "OpenNMEA")
 
-project(gnss_interface VERSION 0.1.0
-    DESCRIPTION "${PROJECT_NAME_LARGE} library provides a simple and easy-to-use API for interfacing with GNSS NMEA 0183 UART modules")
+project(opennmea VERSION 0.1.0
+    DESCRIPTION "${PROJECT_NAME_LARGE} library provides a simple and easy-to-use API for interfacing with NMEA 0183 UART modules")
 
-set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with NMEA 1082 GNSS modules")
+set(${PROJECT_NAME}_DESCRIPTION_SUMMARY "C++ library for interfacing with NMEA 1083 modules")
 
 message(STATUS "Configuring ${PROJECT_NAME_LARGE}")
 message(STATUS "Version: ${PROJECT_VERSION}")
@@ -88,9 +88,9 @@ add_subdirectory(src/cpp)
 ###############################################################################
 # Test
 ###############################################################################
-option(BUILD_TESTS "Build GNSS Interface library and documentation tests" OFF)
-option(BUILD_LIBRARY_TESTS "Build GNSS Interface library tests" OFF)
-option(BUILD_DOCUMENTATION_TESTS "Build GNSS Interface documentation tests" OFF)
+option(BUILD_TESTS "Build OpenNMEA library and documentation tests" OFF)
+option(BUILD_LIBRARY_TESTS "Build OpenNMEA library tests" OFF)
+option(BUILD_DOCUMENTATION_TESTS "Build OpenNMEA documentation tests" OFF)
 
 if (BUILD_TESTS)
     set(BUILD_LIBRARY_TESTS ON)

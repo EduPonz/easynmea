@@ -22,13 +22,13 @@
  * @file Bitmask.hpp
  */
 
-#ifndef _GNSS_INTERFACE_BITMASK_HPP_
-#define _GNSS_INTERFACE_BITMASK_HPP_
+#ifndef _OPENNMEA_BITMASK_HPP_
+#define _OPENNMEA_BITMASK_HPP_
 
 #include <type_traits>
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 /**
  * @brief Generic bitmask for an enumerated type
@@ -248,7 +248,7 @@ Bitmask<E> operator ^ (
     return result ^= rhs;
 }
 
-} //namespace gnss_interface
+} //namespace opennmea
 } //namespace eduponz
 
-#endif // _GNSS_INTERFACE_BITMASK_HPP_
+#endif // _OPENNMEA_BITMASK_HPP_

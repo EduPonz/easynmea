@@ -22,15 +22,15 @@
  * @file data.hpp
  */
 
-#ifndef _GNSS_INTERFACE_DATA_HPP_
-#define _GNSS_INTERFACE_DATA_HPP_
+#ifndef _OPENNMEA_DATA_HPP_
+#define _OPENNMEA_DATA_HPP_
 
 #include <string>
 
 #include "types.hpp"
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 
 /**
@@ -174,7 +174,7 @@ struct GPGGAData : NMEA0183Data
 
 };
 
-} // namespace gnss_interface
+} // namespace opennmea
 } // namespace eduponz
 
-#endif //_GNSS_INTERFACE_DATA_HPP_
+#endif //_OPENNMEA_DATA_HPP_

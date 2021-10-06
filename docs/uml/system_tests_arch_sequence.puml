@@ -8,7 +8,7 @@ participant socat
 queue send_port
 queue recv_port
 participant send2serial.py
-database gnss_sentences.nmea
+database opennmea_sentences.nmea
 participant system_tests
 database results.yaml
 database expected_results.yaml
@@ -27,7 +27,7 @@ socat -> send_port: Create
 activate send_port
 socat -> recv_port: Create
 activate recv_port
-send2serial.py <- gnss_sentences.nmea: Load
+send2serial.py <- opennmea_sentences.nmea: Load
 
 == Act phase ==
 send2serial.py --> send_port: Write

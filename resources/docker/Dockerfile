@@ -51,8 +51,8 @@ RUN cd /usr/src/gtest && \
 
 # Download and build library with examples, documentation, and tests
 RUN cd ~ && \
-    git clone https://github.com/EduPonz/gnss_interface.git && \
-    cd gnss_interface && \
+    git clone https://github.com/EduPonz/opennmea.git && \
+    cd opennmea && \
     pip3 install -r docs/requirements.txt && \
     mkdir build && cd build && \
     cmake .. -DBUILD_EXAMPLES=ON -DBUILD_DOCUMENTATION=ON -DBUILD_TESTS=ON && \

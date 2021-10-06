@@ -17,7 +17,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
-"""Application to run GNSS Interface system tests."""
+"""Application to run OpenNMEA system tests."""
 
 import argparse
 import logging
@@ -30,12 +30,12 @@ import yaml
 
 
 class SystemTest():
-    """Class to create, run, and evaluate GNSS Interface system tests."""
+    """Class to create, run, and evaluate OpenNMEA system tests."""
 
     def __init__(
         self,
         nmea_write_app,
-        gnss_interface_app,
+        opennmea_app,
         name,
         send_port,
         receive_port,
@@ -43,8 +43,8 @@ class SystemTest():
         virtual_port_start,
         nmea_write_app_ttl,
         nmea_write_app_start,
-        gnss_interface_ttl,
-        gnss_interface_start,
+        opennmea_ttl,
+        opennmea_start,
         nmea_sentences_file,
         output_file,
         validation_file,
@@ -52,7 +52,7 @@ class SystemTest():
     ) -> None:
         """Initialize the test parameters."""
         self.nmea_write_app = nmea_write_app
-        self.gnss_interface_app = gnss_interface_app
+        self.opennmea_app = opennmea_app
         self.name = name
         self.send_port = send_port
         self.receive_port = receive_port
@@ -60,8 +60,8 @@ class SystemTest():
         self.virtual_port_start = virtual_port_start
         self.nmea_write_app_ttl = nmea_write_app_ttl
         self.nmea_write_app_start = nmea_write_app_start
-        self.gnss_interface_ttl = gnss_interface_ttl
-        self.gnss_interface_start = gnss_interface_start
+        self.opennmea_ttl = opennmea_ttl
+        self.opennmea_start = opennmea_start
         self.nmea_sentences_file = nmea_sentences_file
         self.output_file = output_file
         self.validation_file = validation_file
@@ -118,15 +118,15 @@ class SystemTest():
                     logger.debug('[SENT] {}'.format(line.rstrip()))
 
     def _receive_thread(self):
-        """Instantiate the GNSS Interface receiving application."""
-        time.sleep(self.gnss_interface_start)
+        """Instantiate the OpenNMEA receiving application."""
+        time.sleep(self.opennmea_start)
         cmd = '{} --serial_port {} --output_file {}'.format(
-            self.gnss_interface_app,
+            self.opennmea_app,
             self.receive_port,
             self.output_file
         )
         logger.debug(
-            "Running GNSS Interface read application. Command: '{}'".format(
+            "Running OpenNMEA read application. Command: '{}'".format(
                 cmd
             )
         )
@@ -141,7 +141,7 @@ class SystemTest():
         try:
             stdout, stderr = process.communicate(
                 input=None,
-                timeout=self.gnss_interface_ttl
+                timeout=self.opennmea_ttl
             )
         except subprocess.TimeoutExpired as exc:
             process.terminate()
@@ -334,7 +334,7 @@ if __name__ == '__main__':
     for test_config in tests_to_run:
         test = SystemTest(
             config['nmea_write_app'],
-            config['gnss_interface_app'],
+            config['opennmea_app'],
             test_config['name'],
             test_config['send_port'],
             test_config['receive_port'],
@@ -350,10 +350,10 @@ if __name__ == '__main__':
                 if 'nmea_write_app_start' in test_config
                 else 0
             ),
-            test_config['gnss_interface_app_ttl'],
+            test_config['opennmea_app_ttl'],
             (
-                test_config['gnss_interface_app_start']
-                if 'gnss_interface_app_start' in test_config
+                test_config['opennmea_app_start']
+                if 'opennmea_app_start' in test_config
                 else 0
             ),
             test_config['nmea_sentences_file'],
