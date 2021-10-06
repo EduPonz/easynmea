@@ -3,6 +3,6 @@
 Bitmask
 -------
 
-.. doxygenclass:: eduponz::gnss_interface::Bitmask
-    :project: gnss_interface
+.. doxygenclass:: eduponz::opennmea::Bitmask
+    :project: opennmea
     :members:

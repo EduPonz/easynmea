@@ -2,8 +2,8 @@
 skinparam linetype ortho
 hide empty members
 
-class GnssInterface
-class GnssInterfaceImpl
+class OpenNmea
+class OpenNmeaImpl
 enum ReturnCode
 class NMEA0183Data
 class GPGGAData
@@ -11,12 +11,12 @@ class Bitmask<typename E>
 class NMEA0183DataKind
 class NMEA0183DataKindMask<NMEA0183DataKind>
 
-GnssInterface : GnssInterface() noexcept
-GnssInterface : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
-GnssInterface : virtual bool is_open() noexcept
-GnssInterface : virtual ReturnCode close() noexcept
-GnssInterface : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
-GnssInterface : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
+OpenNmea : OpenNmea() noexcept
+OpenNmea : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
+OpenNmea : virtual bool is_open() noexcept
+OpenNmea : virtual ReturnCode close() noexcept
+OpenNmea : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
+OpenNmea : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
 
 ReturnCode : RETURN_CODE_OK
 ReturnCode : RETURN_CODE_NO_DATA
@@ -47,10 +47,10 @@ Bitmask : bool is_none()
 NMEA0183DataKind : INVALID
 NMEA0183DataKind : GPGGA
 
-GnssInterface <.. ReturnCode : <<uses>>
-GnssInterface <.. GPGGAData : <<uses>>
-GnssInterface <.. NMEA0183DataKindMask : <<uses>>
-GnssInterface <|.. GnssInterfaceImpl
+OpenNmea <.. ReturnCode : <<uses>>
+OpenNmea <.. GPGGAData : <<uses>>
+OpenNmea <.. NMEA0183DataKindMask : <<uses>>
+OpenNmea <|.. OpenNmeaImpl
 
 NMEA0183Data <.. NMEA0183DataKind : <<uses>>
 

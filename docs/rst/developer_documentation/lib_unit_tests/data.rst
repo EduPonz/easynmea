@@ -5,7 +5,7 @@
 NMEA 0183 Data Types Unit Tests
 ===============================
 
-As described in :ref:`dev_docs_libs_arch_api`, the way in which |GnssInterface-api| provides applications with GNSS data
+As described in :ref:`dev_docs_libs_arch_api`, the way in which |OpenNmea-api| provides applications with NMEA data
 is through the NMEA 0183 data types (|GPGGAData-api|).
 These types feature ``==`` and ``!=`` operators, so that two samples of the same type can be compared between them.
 Therefore, a set of unit tests for these operators of each of the types is required:

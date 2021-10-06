@@ -21,7 +21,7 @@
 find_package(PythonInterp 3 REQUIRED)
 
 add_executable(system_tests system_tests.cpp)
-target_link_libraries(system_tests gnss_interface)
+target_link_libraries(system_tests opennmea)
 
 set(SYSTEM_TESTS_RUN_DIR ${CMAKE_CURRENT_BINARY_DIR})
 

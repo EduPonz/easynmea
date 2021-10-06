@@ -23,24 +23,24 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <gnss_interface/types.hpp>
-#include <GnssInterfaceImpl.hpp>
+#include <opennmea/types.hpp>
+#include <OpenNmeaImpl.hpp>
 
 #include "SerialInterfaceMock.hpp"
 
-using namespace eduponz::gnss_interface;
+using namespace eduponz::opennmea;
 
 using ::testing::AnyNumber;
 using ::testing::DoAll;
 using ::testing::Return;
 using ::testing::SetArgReferee;
 
-class GnssInterfaceImplTest : public GnssInterfaceImpl
+class OpenNmeaImplTest : public OpenNmeaImpl
 {
 public:
 
-    GnssInterfaceImplTest()
-        : GnssInterfaceImpl()
+    OpenNmeaImplTest()
+        : OpenNmeaImpl()
     {
     }
 
@@ -53,7 +53,7 @@ public:
 
 };
 
-TEST(GnssInterfaceImplTests, openSuccess)
+TEST(OpenNmeaImplTests, openSuccess)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -72,13 +72,13 @@ TEST(GnssInterfaceImplTests, openSuccess)
             .Times(AnyNumber())
             .WillRepeatedly(DoAll(SetArgReferee<0>("\n"), Return(true)));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(GnssInterfaceImplTests, openOpened)
+TEST(OpenNmeaImplTests, openOpened)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -96,13 +96,13 @@ TEST(GnssInterfaceImplTests, openOpened)
             .Times(AnyNumber())
             .WillRepeatedly(SetArgReferee<0>("\n"));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(GnssInterfaceImplTests, openWrongPort)
+TEST(OpenNmeaImplTests, openWrongPort)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -119,13 +119,13 @@ TEST(GnssInterfaceImplTests, openWrongPort)
             .Times(AnyNumber())
             .WillRepeatedly(SetArgReferee<0>("\n"));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_ERROR);
 }
 
-TEST(GnssInterfaceImplTests, is_openOpened)
+TEST(OpenNmeaImplTests, is_openOpened)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -133,20 +133,20 @@ TEST(GnssInterfaceImplTests, is_openOpened)
             .WillOnce(Return(true))
             .WillOnce(Return(false));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_TRUE(impl.is_open());
 }
 
-TEST(GnssInterfaceImplTests, is_openClosed)
+TEST(OpenNmeaImplTests, is_openClosed)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
             .WillRepeatedly(Return(false));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_FALSE(impl.is_open());
@@ -156,7 +156,7 @@ TEST(GnssInterfaceImplTests, is_openClosed)
     ASSERT_FALSE(impl.is_open());
 }
 
-TEST(GnssInterfaceImplTests, closeSuccess)
+TEST(OpenNmeaImplTests, closeSuccess)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -175,14 +175,14 @@ TEST(GnssInterfaceImplTests, closeSuccess)
             .Times(AnyNumber())
             .WillRepeatedly(SetArgReferee<0>("\n"));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
     ASSERT_EQ(impl.close(), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(GnssInterfaceImplTests, closeError)
+TEST(OpenNmeaImplTests, closeError)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -201,27 +201,27 @@ TEST(GnssInterfaceImplTests, closeError)
             .Times(AnyNumber())
             .WillRepeatedly(SetArgReferee<0>("\n"));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
     ASSERT_EQ(impl.close(), ReturnCode::RETURN_CODE_ERROR);
 }
 
-TEST(GnssInterfaceImplTests, closeClosed)
+TEST(OpenNmeaImplTests, closeClosed)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
             .WillRepeatedly(Return(false));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.close(), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(GnssInterfaceImplTests, wait_for_dataData)
+TEST(OpenNmeaImplTests, wait_for_dataData)
 {
     std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
@@ -243,7 +243,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataData)
             .Times(AnyNumber())
             .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
@@ -254,7 +254,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataData)
     ASSERT_TRUE(mask.is_set(NMEA0183DataKind::GPGGA));
 }
 
-TEST(GnssInterfaceImplTests, wait_for_dataClosed)
+TEST(OpenNmeaImplTests, wait_for_dataClosed)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -262,13 +262,13 @@ TEST(GnssInterfaceImplTests, wait_for_dataClosed)
             .Times(AnyNumber())
             .WillRepeatedly(Return(false));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.wait_for_data(NMEA0183DataKindMask::all(), 100ms), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(GnssInterfaceImplTests, wait_for_dataDataEmptyMask)
+TEST(OpenNmeaImplTests, wait_for_dataDataEmptyMask)
 {
     std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
@@ -290,7 +290,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataDataEmptyMask)
             .Times(AnyNumber())
             .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(true)));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
@@ -303,7 +303,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataDataEmptyMask)
     ASSERT_EQ(impl.close(), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(GnssInterfaceImplTests, wait_for_dataError)
+TEST(OpenNmeaImplTests, wait_for_dataError)
 {
     std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
@@ -326,7 +326,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataError)
             .Times(AnyNumber())
             .WillRepeatedly(DoAll(SetArgReferee<0>(sentence), Return(false)));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
@@ -337,7 +337,7 @@ TEST(GnssInterfaceImplTests, wait_for_dataError)
     ASSERT_TRUE(mask.is_none());
 }
 
-TEST(GnssInterfaceImplTests, take_next)
+TEST(OpenNmeaImplTests, take_next)
 {
     std::string sentence_1 = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
     std::string sentence_2 = "$GPGGA,072705.000,5703.1740,S,00954.9459,W,1,7,1.97,-21.2,M,42.5,M,,*46\n";
@@ -369,7 +369,7 @@ TEST(GnssInterfaceImplTests, take_next)
             .WillOnce(DoAll(SetArgReferee<0>(sentence_3), Return(true)))
             .WillRepeatedly(DoAll(SetArgReferee<0>(sentence_4), Return(true)));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);
@@ -393,7 +393,7 @@ TEST(GnssInterfaceImplTests, take_next)
 }
 
 
-TEST(GnssInterfaceImplTests, destroyNoClose)
+TEST(OpenNmeaImplTests, destroyNoClose)
 {
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -412,7 +412,7 @@ TEST(GnssInterfaceImplTests, destroyNoClose)
             .Times(AnyNumber())
             .WillRepeatedly(SetArgReferee<0>("\n"));
 
-    GnssInterfaceImplTest impl;
+    OpenNmeaImplTest impl;
     impl.set_serial_interface(serial);
 
     ASSERT_EQ(impl.open("some_port", 12), ReturnCode::RETURN_CODE_OK);

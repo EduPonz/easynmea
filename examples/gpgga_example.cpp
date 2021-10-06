@@ -34,11 +34,11 @@
 #include <thread>
 #include <vector>
 
-#include <gnss_interface/GnssInterface.hpp>
+#include <opennmea/OpenNmea.hpp>
 
 /* Example's global variables */
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 namespace gpgga_example {
 
 std::condition_variable cv;  // For controlling when to exit the example in an ordered manner
@@ -48,9 +48,9 @@ std::atomic_bool running;  // Flag to store whether the working thread should be
 //! Print the example's help guide
 void print_help()
 {
-    std::cout << "------------------------------" << std::endl;
-    std::cout << "GNSS Interface - GPGGA Example" << std::endl;
-    std::cout << "------------------------------" << std::endl;
+    std::cout << "------------------------" << std::endl;
+    std::cout << "OpenNMEA - GPGGA Example" << std::endl;
+    std::cout << "------------------------" << std::endl;
     std::cout << "Usage: ./gpgga_example [OPTIONS]" << std::endl;
     std::cout << "    -h/--help:                Print this help and exit" << std::endl;
     std::cout << "    -b/--baudrate [bauds]:    The connection baud rate in bauds [Defaults: 9600]" << std::endl;
@@ -107,10 +107,10 @@ inline int64_t get_epoch()
  * much time was the routine waiting, and waits again. If some error happens while waiting, the
  * routine exists setting the running flag to false and signalling the condition variable.
  *
- * @param gnss A reference to the GNSSInterface instance
+ * @param opennmea A reference to the OpenNmea instance
  */
 void working_routine(
-        GnssInterface& gnss)
+        OpenNmea& opennmea)
 {
     /* Variables to calculate how much time was the routine waiting */
     int64_t last_sample_time = get_epoch();
@@ -121,13 +121,13 @@ void working_routine(
 
     /* Wait until there is GPGGA data available */
     NMEA0183DataKindMask data_mask = NMEA0183DataKind::GPGGA;
-    ReturnCode ret = gnss.wait_for_data(data_mask);
+    ReturnCode ret = opennmea.wait_for_data(data_mask);
 
     /* Loop until waiting does not return OK anymore */
     while (ret == ReturnCode::RETURN_CODE_OK)
     {
         /* Take and print all the available samples, and the waiting time */
-        while (gnss.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
+        while (opennmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
         {
             sample_time = get_epoch();
             std::cout << std::endl;
@@ -138,7 +138,7 @@ void working_routine(
             last_sample_time = get_epoch();
         }
         /* Wait until there is GPGGA data available */
-        ret = gnss.wait_for_data(data_mask);
+        ret = opennmea.wait_for_data(data_mask);
     }
 
     /**
@@ -157,11 +157,11 @@ void working_routine(
 }
 
 } // namespace gpgga_example
-} // namespace gnss_interface
+} // namespace opennmea
 } // namespace eduponz
 
-using namespace eduponz::gnss_interface;
-using namespace eduponz::gnss_interface::gpgga_example;
+using namespace eduponz::opennmea;
+using namespace eduponz::opennmea::gpgga_example;
 
 int main(
         int argc,
@@ -169,9 +169,9 @@ int main(
 {
     /**
      * Example arguments:
-     *    'serial_port' is the port used to established a serial connection with the GNSS device
+     *    'serial_port' is the port used to established a serial connection with the NMEA device
      *    'baudrate' is the bit-transmission speed of the communication. It must be set to whatever
-     *               the GNSS device is using.
+     *               the NMEA device is using.
      */
     std::string serial_port = "/dev/ttyACM0";
     uint32_t baudrate = 9600;
@@ -207,8 +207,8 @@ int main(
     }
 
     /* Open the serial communication */
-    GnssInterface gnss;
-    if (!gnss.open(serial_port.c_str(), baudrate))
+    OpenNmea opennmea;
+    if (!opennmea.open(serial_port.c_str(), baudrate))
     {
         // If cannot open, print help and exit
         std::cout <<  "Cannot open serial port '" << serial_port << "' with baudrate: " << baudrate << "." << std::endl;
@@ -226,7 +226,7 @@ int main(
      * pressed CTRL-C, or because the working thread ended unexpectedly.
      */
     running.store(true);  // Set the running flag
-    std::thread working_thread(&working_routine, std::ref(gnss)); // Spawn the thread
+    std::thread working_thread(&working_routine, std::ref(opennmea)); // Spawn the thread
     signal(SIGINT, signal_handler_callback);  // Set a signal handler to capture SIGINT
 
     /* Block the main thread until the running flag is set to false */
@@ -237,7 +237,7 @@ int main(
             });
 
     /* Close the serial connection */
-    gnss.close();
+    opennmea.close();
 
     /* Wait for the working thread to join*/
     working_thread.join();

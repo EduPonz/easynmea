@@ -24,31 +24,31 @@
 
 #include <iostream>
 
-#include <gnss_interface/GnssInterface.hpp>
+#include <opennmea/OpenNmea.hpp>
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 namespace docs_snippets {
 
 void usage_snippets()
 {
     {
         //USAGE_BASIC
-        using namespace eduponz::gnss_interface;
-        // Create an interface object
-        GnssInterface gnss;
+        using namespace eduponz::opennmea;
+        // Create an OpenNmea object
+        OpenNmea opennmea;
         // Open the serial port
-        if (gnss.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
+        if (opennmea.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
         {
             // Create a mask to only wait on data from specific NMEA 0183 sentences
             NMEA0183DataKindMask data_kind_mask = NMEA0183DataKind::GPGGA;
             // This call will block until some data of any of the kinds specified in the mask is
             // available.
-            while (gnss.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
+            while (opennmea.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
             {
                 // Take all the available data samples of type GPGGA
                 GPGGAData gpgga_data;
-                while (gnss.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
+                while (opennmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
                 {
                     // Do something with the GNSS data
                     std::cout << "GNSS position: (" << gpgga_data.latitude << "; "
@@ -57,13 +57,13 @@ void usage_snippets()
             }
         }
         // Close the serial connection
-        gnss.close();
+        opennmea.close();
         //!--
     }
 }
 
 } // namespace docs_snippets
-} // namespace gnss_interface
+} // namespace opennmea
 } // namespace eduponz
 
 /**

@@ -162,9 +162,9 @@ if read_the_docs_build:
     subprocess.call('doxygen {}'.format(doxyfile_out), shell=True)
 
 breathe_projects = {
-    'gnss_interface': os.path.abspath('{}/xml'.format(output_dir))
+    'opennmea': os.path.abspath('{}/xml'.format(output_dir))
 }
-breathe_default_project = 'gnss_interface'
+breathe_default_project = 'opennmea'
 
 # -- General configuration ------------------------------------------------
 
@@ -450,7 +450,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc,
-     'gnss_interface.tex',
+     'opennmea.tex',
      u'{} Documentation'.format(project),
      u'Eduardo Ponz',
      'manual'),

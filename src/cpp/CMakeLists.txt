@@ -23,8 +23,8 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 # Project sources
 set(${PROJECT_NAME}_SOURCES
-    GnssInterface.cpp
-    GnssInterfaceImpl.cpp)
+    OpenNmea.cpp
+    OpenNmeaImpl.cpp)
 
 # Create library
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

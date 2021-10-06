@@ -3,6 +3,6 @@
 NMEA0183Data
 ------------
 
-.. doxygenstruct:: eduponz::gnss_interface::NMEA0183Data
-    :project: gnss_interface
+.. doxygenstruct:: eduponz::opennmea::NMEA0183Data
+    :project: opennmea
     :members:

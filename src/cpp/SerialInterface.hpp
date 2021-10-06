@@ -6,8 +6,8 @@
  * Created on September 10, 2009, 12:12 PM
  */
 
-#ifndef _GNSS_INTERFACE_SERIALINTERFACE_H
-#define _GNSS_INTERFACE_SERIALINTERFACE_H
+#ifndef _OPENNMEA_SERIALINTERFACE_H
+#define _OPENNMEA_SERIALINTERFACE_H
 
 #include <functional>
 #include <memory>
@@ -18,7 +18,7 @@
 #include <asio/serial_port.hpp>
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 /**
  * @class SerialInterface
@@ -222,6 +222,6 @@ protected:
 };
 
 } // namespace eduponz
-} // namespace gnss_interface
+} // namespace opennmea
 
-#endif  /* _GNSS_INTERFACE_SERIALINTERFACE_H */
+#endif  /* _OPENNMEA_SERIALINTERFACE_H */

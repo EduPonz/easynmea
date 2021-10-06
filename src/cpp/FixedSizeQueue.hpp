@@ -22,15 +22,15 @@
  * @file FixedSizeQueue.hpp
  */
 
-#ifndef _GNSS_INTERFACE_FIXED_SIZE_QUEUE_HPP_
-#define _GNSS_INTERFACE_FIXED_SIZE_QUEUE_HPP_
+#ifndef _OPENNMEA_FIXED_SIZE_QUEUE_HPP_
+#define _OPENNMEA_FIXED_SIZE_QUEUE_HPP_
 
 #include <queue>
 #include <deque>
 #include <iostream>
 
 namespace eduponz {
-namespace gnss_interface {
+namespace opennmea {
 
 /**
  * @class FixedSizeQueue
@@ -89,7 +89,7 @@ public:
 
 };
 
-} // namespace gnss_interface
+} // namespace opennmea
 } // namespace eduponz
 
-#endif //_GNSS_INTERFACE_FIXED_SIZE_QUEUE_HPP_
+#endif //_OPENNMEA_FIXED_SIZE_QUEUE_HPP_

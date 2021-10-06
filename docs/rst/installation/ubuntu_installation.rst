@@ -3,7 +3,7 @@
 Build and Install on Ubuntu
 ===========================
 
-This guide describes the process of building and installing *GNSS Interface* on Ubuntu platforms:
+This guide describes the process of building and installing *OpenNMEA* on Ubuntu platforms:
 
 .. contents::
     :local:
@@ -15,7 +15,7 @@ This guide describes the process of building and installing *GNSS Interface* on 
 Prerequisites
 -------------
 
-To build and install *GNSS Interface*, some external tools are required.
+To build and install *OpenNMEA*, some external tools are required.
 
 .. code:: bash
 
@@ -31,7 +31,7 @@ To build and install *GNSS Interface*, some external tools are required.
 Dependencies
 ------------
 
-*Gnss Interface* depends on `Asio <https://think-async.com/Asio/>`_, a cross-platform C++ library for network and
+*OpenNMEA* depends on `Asio <https://think-async.com/Asio/>`_, a cross-platform C++ library for network and
 low-level I/O programming that provides a consistent asynchronous model, which is used to interact with the serial
 ports.
 This can be installed with:
@@ -46,14 +46,14 @@ Build
 -----
 
 Once the :ref:`prerequisites<installation_ubuntu_prerequisites>` and
-:ref:`dependencies<installation_ubuntu_dependencies>` are installed, *GNSS Interface* can be built with the help of
+:ref:`dependencies<installation_ubuntu_dependencies>` are installed, *OpenNMEA* can be built with the help of
 CMake by running:
 
 .. code-block:: bash
 
     cd ~
-    git clone https://github.com/EduPonz/gnss_interface.git
-    cd gnss_interface
+    git clone https://github.com/EduPonz/opennmea.git
+    cd opennmea
     mkdir build && cd build
     cmake ..
     cmake --build .
@@ -71,7 +71,7 @@ Once the library is built, in can be installed in a user specified directory wit
 
 .. code-block:: bash
 
-    cd ~/gnss_interface/build
+    cd ~/opennmea/build
     cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir>
     cmake --build . --target install
 
@@ -79,6 +79,6 @@ Alternatively, it can also be installed system-wide with:
 
 .. code-block:: bash
 
-    cd ~/gnss_interface/build
+    cd ~/opennmea/build
     cmake ..
     cmake --build . --target install

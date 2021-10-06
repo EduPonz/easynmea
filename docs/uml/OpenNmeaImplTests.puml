@@ -1,9 +1,9 @@
 @startuml
 hide empty members
 
-class GnssInterfaceImpl
+class OpenNmeaImpl
 
-GnssInterfaceImplTests : void set_serial_interface(SerialInterface<>* serial_interface)
+OpenNmeaImplTests : void set_serial_interface(SerialInterface<>* serial_interface)
 
 SerialInterfaceMock : MOCK_METHOD(open)
 SerialInterfaceMock : MOCK_METHOD(is_open)
@@ -13,6 +13,6 @@ SerialInterfaceMock : MOCK_METHOD(read_line)
 class SerialInterface<asio::serial_port>
 
 SerialInterface <|-- SerialInterfaceMock
-GnssInterfaceImpl o-- "1" SerialInterfaceMock
-GnssInterfaceImpl <|-- GnssInterfaceImplTests
+OpenNmeaImpl o-- "1" SerialInterfaceMock
+OpenNmeaImpl <|-- OpenNmeaImplTests
 @enduml
