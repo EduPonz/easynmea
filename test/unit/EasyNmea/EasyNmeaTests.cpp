@@ -24,149 +24,149 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include <opennmea/types.hpp>
-#include <opennmea/OpenNmea.hpp>
+#include <easynmea/types.hpp>
+#include <easynmea/EasyNmea.hpp>
 
-#include "OpenNmeaImplMock.hpp"
+#include "EasyNmeaImplMock.hpp"
 
-using namespace eduponz::opennmea;
+using namespace eduponz::easynmea;
 
 using ::testing::_;
 using ::testing::DoAll;
 using ::testing::Return;
 using ::testing::SetArgReferee;
 
-class OpenNmeaTest : public OpenNmea
+class EasyNmeaTest : public EasyNmea
 {
 public:
 
-    OpenNmeaTest()
-        : OpenNmea()
+    EasyNmeaTest()
+        : EasyNmea()
     {}
 
-    void set_impl(std::unique_ptr<OpenNmeaImplMock> impl)
+    void set_impl(std::unique_ptr<EasyNmeaImplMock> impl)
     {
         impl_ = std::move(impl);
     }
 };
 
-TEST(OpenNmeaTests, openOk)
+TEST(EasyNmeaTests, openOk)
 {
     const char* port = "port";
     long baudrate = 9600;
 
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
         .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    EXPECT_EQ(opennmea.open(port, baudrate), ReturnCode::RETURN_CODE_OK);
+    EXPECT_EQ(easynmea.open(port, baudrate), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(OpenNmeaTests, openError)
+TEST(EasyNmeaTests, openError)
 {
     const char* port = "port";
     long baudrate = 9600;
 
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
         .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    EXPECT_EQ(opennmea.open(port, baudrate), ReturnCode::RETURN_CODE_ERROR);
+    EXPECT_EQ(easynmea.open(port, baudrate), ReturnCode::RETURN_CODE_ERROR);
 }
 
-TEST(OpenNmeaTests, openIllegal)
+TEST(EasyNmeaTests, openIllegal)
 {
     const char* port = "port";
     long baudrate = 9600;
 
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
         .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    EXPECT_EQ(opennmea.open(port, baudrate), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
+    EXPECT_EQ(easynmea.open(port, baudrate), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(OpenNmeaTests, is_openOpened)
+TEST(EasyNmeaTests, is_openOpened)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, is_open)
         .WillOnce(Return(true));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    EXPECT_EQ(opennmea.is_open(), true);
+    EXPECT_EQ(easynmea.is_open(), true);
 }
 
-TEST(OpenNmeaTests, is_openClosed)
+TEST(EasyNmeaTests, is_openClosed)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, is_open)
         .WillOnce(Return(false));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    EXPECT_EQ(opennmea.is_open(), false);
+    EXPECT_EQ(easynmea.is_open(), false);
 }
 
-TEST(OpenNmeaTests, closeOk)
+TEST(EasyNmeaTests, closeOk)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
         .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.close(), ReturnCode::RETURN_CODE_OK);
+    ASSERT_EQ(easynmea.close(), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(OpenNmeaTests, closeError)
+TEST(EasyNmeaTests, closeError)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
         .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.close(), ReturnCode::RETURN_CODE_ERROR);
+    ASSERT_EQ(easynmea.close(), ReturnCode::RETURN_CODE_ERROR);
 }
 
-TEST(OpenNmeaTests, closeIllegal)
+TEST(EasyNmeaTests, closeIllegal)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
         .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.close(), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
+    ASSERT_EQ(easynmea.close(), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(OpenNmeaTests, take_nextOk)
+TEST(EasyNmeaTests, take_nextOk)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     GPGGAData gpgga;
     GPGGAData gpgga_ret;
     gpgga_ret.message = "hello";
@@ -183,25 +183,25 @@ TEST(OpenNmeaTests, take_nextOk)
     EXPECT_CALL(*impl, take_next(gpgga))
         .WillOnce(DoAll(SetArgReferee<0>(gpgga_ret), Return(ReturnCode::RETURN_CODE_OK)));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.take_next(gpgga), ReturnCode::RETURN_CODE_OK);
+    ASSERT_EQ(easynmea.take_next(gpgga), ReturnCode::RETURN_CODE_OK);
 
     ASSERT_EQ(gpgga, gpgga_ret);
 }
 
-TEST(OpenNmeaTests, take_nextNoData)
+TEST(EasyNmeaTests, take_nextNoData)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     GPGGAData gpgga;
 
     EXPECT_CALL(*impl, take_next(gpgga))
         .WillOnce(Return(ReturnCode::RETURN_CODE_NO_DATA));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.take_next(gpgga), ReturnCode::RETURN_CODE_NO_DATA);
+    ASSERT_EQ(easynmea.take_next(gpgga), ReturnCode::RETURN_CODE_NO_DATA);
 
     ASSERT_EQ(gpgga.message, "");
     ASSERT_EQ(gpgga.kind, NMEA0183DataKind::GPGGA);
@@ -214,78 +214,78 @@ TEST(OpenNmeaTests, take_nextNoData)
     ASSERT_EQ(gpgga.altitude, 0);
 }
 
-TEST(OpenNmeaTests, wait_for_dataOk)
+TEST(EasyNmeaTests, wait_for_dataOk)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
         .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_OK);
+    ASSERT_EQ(easynmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_OK);
 }
 
-TEST(OpenNmeaTests, wait_for_dataTimeout)
+TEST(EasyNmeaTests, wait_for_dataTimeout)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
         .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_TIMEOUT);
+    ASSERT_EQ(easynmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_TIMEOUT);
 }
 
-TEST(OpenNmeaTests, wait_for_dataTimeoutDefault)
+TEST(EasyNmeaTests, wait_for_dataTimeoutDefault)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
 
     EXPECT_CALL(*impl, wait_for_data)
         .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.wait_for_data(mask), ReturnCode::RETURN_CODE_TIMEOUT);
+    ASSERT_EQ(easynmea.wait_for_data(mask), ReturnCode::RETURN_CODE_TIMEOUT);
 }
 
-TEST(OpenNmeaTests, wait_for_dataIllegal)
+TEST(EasyNmeaTests, wait_for_dataIllegal)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
         .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
+    ASSERT_EQ(easynmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_ILLEGAL_OPERATION);
 }
 
-TEST(OpenNmeaTests, wait_for_dataError)
+TEST(EasyNmeaTests, wait_for_dataError)
 {
-    OpenNmeaTest opennmea;
-    std::unique_ptr<OpenNmeaImplMock> impl = std::make_unique<OpenNmeaImplMock>();
+    EasyNmeaTest easynmea;
+    std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
         .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
-    opennmea.set_impl(std::move(impl));
+    easynmea.set_impl(std::move(impl));
 
-    ASSERT_EQ(opennmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_ERROR);
+    ASSERT_EQ(easynmea.wait_for_data(mask, timeout), ReturnCode::RETURN_CODE_ERROR);
 }
 
 int main(

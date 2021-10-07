@@ -1,13 +1,13 @@
-# OpenNMEA {#index}
+# EasyNMEA {#index}
 
-[![automated_testing](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/opennmea/actions/workflows/automated_testing.yml)
-[![Publish Docker image](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/publish_docker_image.yml)
-[![Documentation Status](https://readthedocs.org/projects/opennmea/badge/?version=latest)](https://opennmea.readthedocs.io/en/latest/?badge=latest)
-[![Docker pulls](https://img.shields.io/docker/pulls/eduponz/opennmea.svg)](https://hub.docker.com/repository/docker/eduponz/opennmea)
-[![codecov](https://codecov.io/gh/EduPonz/opennmea/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/opennmea)
-[![CodeQL](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EduPonz/opennmea/actions/workflows/codeql-analysis.yml)
+[![automated_testing](https://github.com/EduPonz/easynmea/actions/workflows/automated_testing.yml/badge.svg?branch=main)](https://github.com/EduPonz/easynmea/actions/workflows/automated_testing.yml)
+[![Publish Docker image](https://github.com/EduPonz/easynmea/actions/workflows/publish_docker_image.yml/badge.svg)](https://github.com/EduPonz/easynmea/actions/workflows/publish_docker_image.yml)
+[![Documentation Status](https://readthedocs.org/projects/easynmea/badge/?version=latest)](https://easynmea.readthedocs.io/en/latest/?badge=latest)
+[![Docker pulls](https://img.shields.io/docker/pulls/eduponz/easynmea.svg)](https://hub.docker.com/repository/docker/eduponz/easynmea)
+[![codecov](https://codecov.io/gh/EduPonz/easynmea/branch/main/graph/badge.svg?token=S3Q0EIDO85)](https://codecov.io/gh/EduPonz/easynmea)
+[![CodeQL](https://github.com/EduPonz/easynmea/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/EduPonz/easynmea/actions/workflows/codeql-analysis.yml)
 
-**OpenNMEA** is a `C++` library to get **NMEA** information from NMEA modules which communicate with **NMEA 0183** over UART.
+**EasyNMEA** is a `C++` library to get **NMEA** information from NMEA modules which communicate with **NMEA 0183** over UART.
 It can retrieve NMEA data from any NMEA device sending **NMEA 0183** sentences over UART.
 
 * [Features](#features)
@@ -21,19 +21,19 @@ It can retrieve NMEA data from any NMEA device sending **NMEA 0183** sentences o
 * [License](#license)
 * [To-Do](#to-do)
 
-For more detailed information, please visit the [OpenNMEA documentation](https://opennmea-docs.readthedocs.io/).
+For more detailed information, please visit the [EasyNMEA documentation](https://easynmea-docs.readthedocs.io/).
 
 ## Features
 
-**opennmea** provides the `OpenNmea` class, which uses **NMEA 0183** sentences to extract **NMEA** information from the modules, providing a simple and easy-to-use API.
+**easynmea** provides the `EasyNmea` class, which uses **NMEA 0183** sentences to extract **NMEA** information from the modules, providing a simple and easy-to-use API.
 
 ## Getting started
 
-**opennmea** has been developed and tested in Ubuntu 20.04 Operating System, although it is expected to support Windows 10 and MacOS thanks to [Asio](https://github.com/chriskohlhoff/asio), the cross-platform library used to interact with the serial ports.
+**easynmea** has been developed and tested in Ubuntu 20.04 Operating System, although it is expected to support Windows 10 and MacOS thanks to [Asio](https://github.com/chriskohlhoff/asio), the cross-platform library used to interact with the serial ports.
 
 ### Prerequisites
 
-**opennmea** relies on [Asio](https://github.com/chriskohlhoff/asio) for establishing a serial connection with the NMEA module.
+**easynmea** relies on [Asio](https://github.com/chriskohlhoff/asio) for establishing a serial connection with the NMEA module.
 On Ubuntu platforms, this can be installed with:
 
 ```bash
@@ -46,7 +46,7 @@ To build the library, run:
 
 ```bash
 cd ~
-git clone https://github.com/EduPonz/opennmea.git
+git clone https://github.com/EduPonz/easynmea.git
 mkdir build && cd build
 cmake ..
 cmake --build .
@@ -55,7 +55,7 @@ cmake --build .
 Once built, the library can be installed in a user specified directory with:
 
 ```bash
-cd ~/opennmea/build
+cd ~/easynmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir>
 cmake --build . --target install
 ```
@@ -63,7 +63,7 @@ cmake --build . --target install
 To install the library system-wide, just omit the `CMAKE_INSTALL_PREFIX`:
 
 ```bash
-cd ~/opennmea/build
+cd ~/easynmea/build
 cmake ..
 cmake --build . --target install
 ```
@@ -73,7 +73,7 @@ cmake --build . --target install
 It is possible to generate the library's documentation passing CMake option `-DBUILD_DOCUMENTATION=0N` (defaults to `OFF`) on the configuration step:
 
 ```bash
-cd ~/opennmea/build
+cd ~/easynmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_DOCUMENTATION=ON
 cmake --build . --target install
 ```
@@ -83,7 +83,7 @@ cmake --build . --target install
 It is also possible to build and install the library's examples passing CMake option `-DBUILD_EXAMPLES=ON` (defaults to `OFF`) on the configuration step:
 
 ```bash
-cd ~/opennmea/build
+cd ~/easynmea/build
 cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_EXAMPLES=ON
 cmake --build . --target install
 ```
@@ -121,7 +121,7 @@ Run `./gpgga_example --help`
 
 ```
 ------------------------
-OpenNMEA - GPGGA Example
+EasyNMEA - GPGGA Example
 ------------------------
 Usage: ./gpgga_example [OPTIONS]
     -h/--help:                Print this help and exit
@@ -135,20 +135,20 @@ Example: ./gpgga_example -p /dev/ttyUSB0 -b 9600
 The **NMEA** information can be retrieved in the following manner (see [gpgga_example.cpp](examples/gpgga_example.cpp)):
 
 ```c++
-using namespace eduponz::opennmea;
-// Create an OpenNmea object
-OpenNmea opennmea;
+using namespace eduponz::easynmea;
+// Create an EasyNmea object
+EasyNmea easynmea;
 // Open the serial port
-if (opennmea.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
+if (easynmea.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
 {
     // Create a mask to only wait on data from specific NMEA 0183 sentences
     NMEA0183DataKindMask data_kind_mask = NMEA0183DataKind::GPGGA;
     // This call will block until some data of any of the kinds specified in the mask is available.
-    while (opennmea.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
+    while (easynmea.wait_for_data(data_kind_mask) == ReturnCode::RETURN_CODE_OK)
     {
         // Take all the available data samples of type GPGGA
         GPGGAData gpgga_data;
-        while (opennmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
+        while (easynmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
         {
             // Do something with the GNSS data
             std::cout << "GNSS position: (" << gpgga_data.latitude << "; " << gpgga_data.longitude << ")" << std::endl;
@@ -156,12 +156,12 @@ if (opennmea.open("/dev/ttyACM0", 9600) == ReturnCode::RETURN_CODE_OK)
     }
 }
 // Close the serial connection
-opennmea.close();
+easynmea.close();
 ```
 
 ## Authors
 
-**opennmea** has been developed by **Eduardo Ponz**.
+**easynmea** has been developed by **Eduardo Ponz**.
 
 ## License
 

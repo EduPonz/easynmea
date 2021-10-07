@@ -4,7 +4,7 @@ Build and Run Examples
 ======================
 
 This page presents how to build and run all the
-`OpenNMEA examples <https://github.com/EduPonz/opennmea/tree/main/examples>`_, as well as showcasing
+`EasyNMEA examples <https://github.com/EduPonz/easynmea/tree/main/examples>`_, as well as showcasing
 sample outputs.
 
 .. _examples_build:
@@ -16,12 +16,12 @@ Build Examples
 
     This section assumes that the guides outlined in :ref:`installation` have been followed.
 
-Building the *OpenNMEA* examples is as easy as add the CMake option ``-DBUILD_EXAMPLES=ON`` on CMake's
+Building the *EasyNMEA* examples is as easy as add the CMake option ``-DBUILD_EXAMPLES=ON`` on CMake's
 configuration step:
 
 .. code:: bash
 
-    cd ~/opennmea/build
+    cd ~/easynmea/build
     cmake .. -DCMAKE_INSTALL_PREFIX=<user-specified-dir> -DBUILD_EXAMPLES=ON
     cmake --build . --target install
 

@@ -3,7 +3,7 @@
 Unit Tests
 ==========
 
-*OpenNMEA* provides one test suite containing unit tests for each of the library classes.
+*EasyNMEA* provides one test suite containing unit tests for each of the library classes.
 These suits test each and every public member function separately, mocking lower levels so that every possible case can
 be covered.
 
@@ -17,6 +17,6 @@ enough, or if more test cases are required.
    :maxdepth: 1
 
    /rst/developer_documentation/lib_unit_tests/data
-   /rst/developer_documentation/lib_unit_tests/opennmea
-   /rst/developer_documentation/lib_unit_tests/opennmeaimpl
+   /rst/developer_documentation/lib_unit_tests/easynmea
+   /rst/developer_documentation/lib_unit_tests/easynmeaimpl
    /rst/developer_documentation/lib_unit_tests/serialinterface

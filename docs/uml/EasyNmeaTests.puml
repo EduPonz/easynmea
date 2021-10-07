@@ -1,0 +1,18 @@
+@startuml
+hide empty members
+
+class EasyNmea
+class EasyNmeaImpl
+
+EasyNmeaTest : void set_impl(std::unique_ptr<EasyNmeaImplMock> impl)
+
+EasyNmeaImplMock : MOCK_METHOD(open)
+EasyNmeaImplMock : MOCK_METHOD(is_open)
+EasyNmeaImplMock : MOCK_METHOD(close)
+EasyNmeaImplMock : MOCK_METHOD(take_next)
+EasyNmeaImplMock : MOCK_METHOD(wait_for_data)
+
+EasyNmeaImpl <|-- EasyNmeaImplMock
+EasyNmea o-- "1" EasyNmeaImplMock
+EasyNmea <|-- EasyNmeaTest
+@enduml

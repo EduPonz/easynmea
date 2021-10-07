@@ -66,11 +66,11 @@ add_dependencies(doxygen doxygen-doc-dirs)
 # Install doxygen generated XML files
 install(DIRECTORY ${DOXYGEN_OUTPUT_XML_DIR}
     DESTINATION docs/${PROJECT_NAME}/doxygen
-    COMPONENT opennmea-doxygen)
+    COMPONENT easynmea-doxygen)
 
 install(DIRECTORY ${DOXYGEN_OUTPUT_HTML_DIR}
     DESTINATION docs/${PROJECT_NAME}/doxygen
-    COMPONENT opennmea-doxygen)
+    COMPONENT easynmea-doxygen)
 
 ####################################################################################################
 # Build Sphinx documentation
@@ -93,7 +93,7 @@ add_custom_target(Sphinx ALL
     COMMAND
     ${SPHINX_EXECUTABLE} -b ${DOCS_BUILDER}
     # Tell Breathe where to find the Doxygen output
-    -D breathe_projects.opennmea=${DOXYGEN_OUTPUT_XML_DIR}
+    -D breathe_projects.easynmea=${DOXYGEN_OUTPUT_XML_DIR}
     $<$<STREQUAL:"${CMAKE_BUILD_TYPE}","Debug">:-Dtodo_include_todos=1>
     -d "${PROJECT_BINARY_DOCS_DIR}/doctrees"
     ${PROJECT_SOURCE_DOCS_DIR}
@@ -106,7 +106,7 @@ add_dependencies(Sphinx sphinx-doc-dirs)
 # Install the generated docs
 install(DIRECTORY ${SPHINX_OUTPUT_HTML_DIR}
     DESTINATION docs/${PROJECT_NAME}/sphinx
-    COMPONENT opennmea-sphinx
+    COMPONENT easynmea-sphinx
     PATTERN ".buildinfo" EXCLUDE)
 
 # Add tests if required

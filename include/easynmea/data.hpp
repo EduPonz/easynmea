@@ -22,15 +22,15 @@
  * @file data.hpp
  */
 
-#ifndef _OPENNMEA_DATA_HPP_
-#define _OPENNMEA_DATA_HPP_
+#ifndef _EASYNMEA_DATA_HPP_
+#define _EASYNMEA_DATA_HPP_
 
 #include <string>
 
 #include "types.hpp"
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 
 /**
@@ -174,7 +174,7 @@ struct GPGGAData : NMEA0183Data
 
 };
 
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
-#endif //_OPENNMEA_DATA_HPP_
+#endif //_EASYNMEA_DATA_HPP_

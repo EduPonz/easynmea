@@ -19,6 +19,6 @@
 # THE SOFTWARE.
 
 add_subdirectory(data)
-add_subdirectory(OpenNmea)
-add_subdirectory(OpenNmeaImpl)
+add_subdirectory(EasyNmea)
+add_subdirectory(EasyNmeaImpl)
 add_subdirectory(SerialInterface)

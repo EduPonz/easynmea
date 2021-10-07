@@ -5,7 +5,7 @@
 CMake Options
 -------------
 
-*OpenNMEA* provides several CMake options that can be used to build or exclude certain library modules.
+*EasyNMEA* provides several CMake options that can be used to build or exclude certain library modules.
 
 .. list-table::
     :header-rows: 1
@@ -40,7 +40,7 @@ CMake Options
         - ``ON`` ``OFF``
         - ``OFF``
     *   - :class:`BUILD_EXAMPLES`
-        - Builds *OpenNMEA* examples
+        - Builds *EasyNMEA* examples
         - ``ON`` | ``OFF``
         - ``OFF``
     *   - :class:`GCC_CODE_COVERAGE`

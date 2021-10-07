@@ -22,15 +22,15 @@
  * @file FixedSizeQueue.hpp
  */
 
-#ifndef _OPENNMEA_FIXED_SIZE_QUEUE_HPP_
-#define _OPENNMEA_FIXED_SIZE_QUEUE_HPP_
+#ifndef _EASYNMEA_FIXED_SIZE_QUEUE_HPP_
+#define _EASYNMEA_FIXED_SIZE_QUEUE_HPP_
 
 #include <queue>
 #include <deque>
 #include <iostream>
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 /**
  * @class FixedSizeQueue
@@ -89,7 +89,7 @@ public:
 
 };
 
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
-#endif //_OPENNMEA_FIXED_SIZE_QUEUE_HPP_
+#endif //_EASYNMEA_FIXED_SIZE_QUEUE_HPP_

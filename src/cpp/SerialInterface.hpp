@@ -6,8 +6,8 @@
  * Created on September 10, 2009, 12:12 PM
  */
 
-#ifndef _OPENNMEA_SERIALINTERFACE_H
-#define _OPENNMEA_SERIALINTERFACE_H
+#ifndef _EASYNMEA_SERIALINTERFACE_H
+#define _EASYNMEA_SERIALINTERFACE_H
 
 #include <functional>
 #include <memory>
@@ -18,7 +18,7 @@
 #include <asio/serial_port.hpp>
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 /**
  * @class SerialInterface
@@ -222,6 +222,6 @@ protected:
 };
 
 } // namespace eduponz
-} // namespace opennmea
+} // namespace easynmea
 
-#endif  /* _OPENNMEA_SERIALINTERFACE_H */
+#endif  /* _EASYNMEA_SERIALINTERFACE_H */

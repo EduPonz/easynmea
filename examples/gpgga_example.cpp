@@ -34,11 +34,11 @@
 #include <thread>
 #include <vector>
 
-#include <opennmea/OpenNmea.hpp>
+#include <easynmea/EasyNmea.hpp>
 
 /* Example's global variables */
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 namespace gpgga_example {
 
 std::condition_variable cv;  // For controlling when to exit the example in an ordered manner
@@ -49,7 +49,7 @@ std::atomic_bool running;  // Flag to store whether the working thread should be
 void print_help()
 {
     std::cout << "------------------------" << std::endl;
-    std::cout << "OpenNMEA - GPGGA Example" << std::endl;
+    std::cout << "EasyNMEA - GPGGA Example" << std::endl;
     std::cout << "------------------------" << std::endl;
     std::cout << "Usage: ./gpgga_example [OPTIONS]" << std::endl;
     std::cout << "    -h/--help:                Print this help and exit" << std::endl;
@@ -107,10 +107,10 @@ inline int64_t get_epoch()
  * much time was the routine waiting, and waits again. If some error happens while waiting, the
  * routine exists setting the running flag to false and signalling the condition variable.
  *
- * @param opennmea A reference to the OpenNmea instance
+ * @param easynmea A reference to the EasyNmea instance
  */
 void working_routine(
-        OpenNmea& opennmea)
+        EasyNmea& easynmea)
 {
     /* Variables to calculate how much time was the routine waiting */
     int64_t last_sample_time = get_epoch();
@@ -121,13 +121,13 @@ void working_routine(
 
     /* Wait until there is GPGGA data available */
     NMEA0183DataKindMask data_mask = NMEA0183DataKind::GPGGA;
-    ReturnCode ret = opennmea.wait_for_data(data_mask);
+    ReturnCode ret = easynmea.wait_for_data(data_mask);
 
     /* Loop until waiting does not return OK anymore */
     while (ret == ReturnCode::RETURN_CODE_OK)
     {
         /* Take and print all the available samples, and the waiting time */
-        while (opennmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
+        while (easynmea.take_next(gpgga_data) == ReturnCode::RETURN_CODE_OK)
         {
             sample_time = get_epoch();
             std::cout << std::endl;
@@ -138,7 +138,7 @@ void working_routine(
             last_sample_time = get_epoch();
         }
         /* Wait until there is GPGGA data available */
-        ret = opennmea.wait_for_data(data_mask);
+        ret = easynmea.wait_for_data(data_mask);
     }
 
     /**
@@ -157,11 +157,11 @@ void working_routine(
 }
 
 } // namespace gpgga_example
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
-using namespace eduponz::opennmea;
-using namespace eduponz::opennmea::gpgga_example;
+using namespace eduponz::easynmea;
+using namespace eduponz::easynmea::gpgga_example;
 
 int main(
         int argc,
@@ -207,8 +207,8 @@ int main(
     }
 
     /* Open the serial communication */
-    OpenNmea opennmea;
-    if (!opennmea.open(serial_port.c_str(), baudrate))
+    EasyNmea easynmea;
+    if (!easynmea.open(serial_port.c_str(), baudrate))
     {
         // If cannot open, print help and exit
         std::cout <<  "Cannot open serial port '" << serial_port << "' with baudrate: " << baudrate << "." << std::endl;
@@ -226,7 +226,7 @@ int main(
      * pressed CTRL-C, or because the working thread ended unexpectedly.
      */
     running.store(true);  // Set the running flag
-    std::thread working_thread(&working_routine, std::ref(opennmea)); // Spawn the thread
+    std::thread working_thread(&working_routine, std::ref(easynmea)); // Spawn the thread
     signal(SIGINT, signal_handler_callback);  // Set a signal handler to capture SIGINT
 
     /* Block the main thread until the running flag is set to false */
@@ -237,7 +237,7 @@ int main(
             });
 
     /* Close the serial connection */
-    opennmea.close();
+    easynmea.close();
 
     /* Wait for the working thread to join*/
     working_thread.join();

@@ -8,7 +8,7 @@
             "properties": {
                 "data": {
                     "type": "array",
-                    "description": "Data samples received by the OpenNMEA system_tests application",
+                    "description": "Data samples received by the EasyNMEA system_tests application",
                     "items": {
                         "$ref": "#/definitions/data"
                     }

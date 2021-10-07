@@ -83,7 +83,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           file: coverage-report/coverage.xml
-          root_dir: opennmea
+          root_dir: easynmea
           fail_ci_if_error: true
 
       - name: Upload documentation

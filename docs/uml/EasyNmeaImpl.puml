@@ -1,0 +1,17 @@
+@startuml
+hide empty members
+
+EasyNmeaImpl : EasyNmeaImpl() noexcept
+EasyNmeaImpl : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
+EasyNmeaImpl : virtual bool is_open() noexcept
+EasyNmeaImpl : virtual ReturnCode close() noexcept
+EasyNmeaImpl : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
+EasyNmeaImpl : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
+
+class FixedSizeQueue<typename T, int max_size, typename Container = std::deque<T>>
+
+class SerialInterface<asio::serial_port>
+
+EasyNmeaImpl o-- "n" FixedSizeQueue
+EasyNmeaImpl o-- "1" SerialInterface
+@enduml

@@ -19,21 +19,21 @@
 // THE SOFTWARE.
 
 /**
- * @file OpenNmeaImpl.hpp
+ * @file EasyNmeaImpl.hpp
  */
 
 #include <chrono>
 
-#include "OpenNmeaImpl.hpp"
+#include "EasyNmeaImpl.hpp"
 
-#include <opennmea/types.hpp>
+#include <easynmea/types.hpp>
 
 #include "SerialInterface.hpp"
 
-using namespace eduponz::opennmea;
+using namespace eduponz::easynmea;
 using namespace std::chrono_literals;
 
-OpenNmeaImpl::OpenNmeaImpl() noexcept
+EasyNmeaImpl::EasyNmeaImpl() noexcept
     : serial_interface_(new SerialInterface<>())
     , read_thread_(nullptr)
     , routine_running_(false)
@@ -42,7 +42,7 @@ OpenNmeaImpl::OpenNmeaImpl() noexcept
 {
 }
 
-OpenNmeaImpl::~OpenNmeaImpl() noexcept
+EasyNmeaImpl::~EasyNmeaImpl() noexcept
 {
     gpgga_data_queue_.clear();
     /**
@@ -62,7 +62,7 @@ OpenNmeaImpl::~OpenNmeaImpl() noexcept
     serial_interface_ = nullptr;
 }
 
-ReturnCode OpenNmeaImpl::open(
+ReturnCode EasyNmeaImpl::open(
         const char* serial_port,
         long baudrate) noexcept
 {
@@ -77,7 +77,7 @@ ReturnCode OpenNmeaImpl::open(
         {
             // If the serial interface could be opened, then spawn the reading thread
             routine_running_.store(true);
-            read_thread_.reset(new std::thread(&OpenNmeaImpl::read_routine_, this));
+            read_thread_.reset(new std::thread(&EasyNmeaImpl::read_routine_, this));
             internal_error_.store(false);
             return ReturnCode::RETURN_CODE_OK;
         }
@@ -91,13 +91,13 @@ ReturnCode OpenNmeaImpl::open(
     return ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
 }
 
-bool OpenNmeaImpl::is_open() noexcept
+bool EasyNmeaImpl::is_open() noexcept
 {
     std::unique_lock<std::mutex> lck(mutex_);
     return is_open_nts_();
 }
 
-ReturnCode OpenNmeaImpl::close() noexcept
+ReturnCode EasyNmeaImpl::close() noexcept
 {
     ReturnCode ret = ReturnCode::RETURN_CODE_ILLEGAL_OPERATION;
     std::unique_lock<std::mutex> lck(mutex_);
@@ -119,7 +119,7 @@ ReturnCode OpenNmeaImpl::close() noexcept
     return ret;
 }
 
-ReturnCode OpenNmeaImpl::take_next(
+ReturnCode EasyNmeaImpl::take_next(
         GPGGAData& gpgga) noexcept
 {
     std::unique_lock<std::mutex> lck(data_mutex_);
@@ -137,7 +137,7 @@ ReturnCode OpenNmeaImpl::take_next(
     return ReturnCode::RETURN_CODE_NO_DATA;
 }
 
-ReturnCode OpenNmeaImpl::wait_for_data(
+ReturnCode EasyNmeaImpl::wait_for_data(
         NMEA0183DataKindMask data_mask,
         std::chrono::milliseconds timeout) noexcept
 {
@@ -178,7 +178,7 @@ ReturnCode OpenNmeaImpl::wait_for_data(
     return ReturnCode::RETURN_CODE_ERROR;
 }
 
-std::vector<std::string> OpenNmeaImpl::break_string_(
+std::vector<std::string> EasyNmeaImpl::break_string_(
         const std::string& str,
         char separator) noexcept
 {
@@ -199,7 +199,7 @@ std::vector<std::string> OpenNmeaImpl::break_string_(
     return content;
 }
 
-float OpenNmeaImpl::parse_to_degrees_(
+float EasyNmeaImpl::parse_to_degrees_(
         const std::string& str) noexcept
 {
     /**
@@ -227,7 +227,7 @@ float OpenNmeaImpl::parse_to_degrees_(
     return std::stof(content[0], &idx) + minutes_float;
 }
 
-bool OpenNmeaImpl::parse_raw_line_(
+bool EasyNmeaImpl::parse_raw_line_(
         const std::string& line) noexcept
 {
     // Check that the line is a GPGGA sentence
@@ -244,7 +244,7 @@ bool OpenNmeaImpl::parse_raw_line_(
     return false;
 }
 
-bool OpenNmeaImpl::process_gpgga_(
+bool EasyNmeaImpl::process_gpgga_(
         const std::string& gpgga_sentence) noexcept
 {
     // Separate all the entries of the GPGGA sentence
@@ -289,7 +289,7 @@ bool OpenNmeaImpl::process_gpgga_(
     return false;
 }
 
-void OpenNmeaImpl::read_routine_() noexcept
+void EasyNmeaImpl::read_routine_() noexcept
 {
     // Execute until the flag says otherwise
     while (routine_running_)
@@ -307,7 +307,7 @@ void OpenNmeaImpl::read_routine_() noexcept
     }
 }
 
-bool OpenNmeaImpl::is_open_nts_() noexcept
+bool EasyNmeaImpl::is_open_nts_() noexcept
 {
     if (serial_interface_)
     {

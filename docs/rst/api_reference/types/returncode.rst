@@ -3,6 +3,6 @@
 ReturnCode
 ----------
 
-.. doxygenclass:: eduponz::opennmea::ReturnCode
-    :project: opennmea
+.. doxygenclass:: eduponz::easynmea::ReturnCode
+    :project: easynmea
     :members:

@@ -22,13 +22,13 @@
  * @file types.hpp
  */
 
-#ifndef _OPENNMEA_TYPES_HPP_
-#define _OPENNMEA_TYPES_HPP_
+#ifndef _EASYNMEA_TYPES_HPP_
+#define _EASYNMEA_TYPES_HPP_
 
 #include "Bitmask.hpp"
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 /**
  * @enum NMEA0183DataKind
@@ -161,7 +161,7 @@ private:
     uint32_t value_;
 };
 
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
-#endif //_OPENNMEA_TYPES_HPP_
+#endif //_EASYNMEA_TYPES_HPP_

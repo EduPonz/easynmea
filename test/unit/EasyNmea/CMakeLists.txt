@@ -18,21 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_executable(opennmea_tests OpenNmeaTests.cpp)
+add_executable(easynmea_tests EasyNmeaTests.cpp)
 
-target_include_directories(opennmea_tests PRIVATE
+target_include_directories(easynmea_tests PRIVATE
     ${GTEST_INCLUDE_DIRS}
     ${GMOCK_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/src/cpp)
 
-target_link_libraries(opennmea_tests PUBLIC
+target_link_libraries(easynmea_tests PUBLIC
     GTest::GTest
     GTest::Main
     ${GMOCK_BOTH_LIBRARIES}
-    opennmea)
+    easynmea)
 
-set(OPENNMEA_TEST_LIST
+set(EASYNMEA_TEST_LIST
     # open() tests
     openOk
     openError
@@ -54,10 +54,10 @@ set(OPENNMEA_TEST_LIST
     wait_for_dataIllegal
     wait_for_dataError)
 
-foreach(test_name ${OPENNMEA_TEST_LIST})
+foreach(test_name ${EASYNMEA_TEST_LIST})
 
-    add_test(NAME OpenNmeaTests.${test_name}
-            COMMAND opennmea_tests
-            --gtest_filter=OpenNmeaTests.${test_name}:*/OpenNmeaTests.${test_name}/*)
+    add_test(NAME EasyNmeaTests.${test_name}
+            COMMAND easynmea_tests
+            --gtest_filter=EasyNmeaTests.${test_name}:*/EasyNmeaTests.${test_name}/*)
 
 endforeach()

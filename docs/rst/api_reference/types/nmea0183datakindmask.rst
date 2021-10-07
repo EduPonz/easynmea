@@ -3,5 +3,5 @@
 NMEA0183DataKindMask
 --------------------
 
-.. doxygentypedef:: eduponz::opennmea::NMEA0183DataKindMask
-    :project: opennmea
+.. doxygentypedef:: eduponz::easynmea::NMEA0183DataKindMask
+    :project: easynmea
