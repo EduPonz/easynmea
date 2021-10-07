@@ -162,9 +162,9 @@ if read_the_docs_build:
     subprocess.call('doxygen {}'.format(doxyfile_out), shell=True)
 
 breathe_projects = {
-    'opennmea': os.path.abspath('{}/xml'.format(output_dir))
+    'easynmea': os.path.abspath('{}/xml'.format(output_dir))
 }
-breathe_default_project = 'opennmea'
+breathe_default_project = 'easynmea'
 
 # -- General configuration ------------------------------------------------
 
@@ -450,7 +450,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc,
-     'opennmea.tex',
+     'easynmea.tex',
      u'{} Documentation'.format(project),
      u'Eduardo Ponz',
      'manual'),

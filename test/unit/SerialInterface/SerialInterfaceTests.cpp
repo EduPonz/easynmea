@@ -25,7 +25,7 @@
 
 #include "SerialPortMock.hpp"
 
-using namespace eduponz::opennmea;
+using namespace eduponz::easynmea;
 
 using ::testing::AtLeast;
 using ::testing::DoAll;
@@ -33,7 +33,7 @@ using ::testing::Return;
 using ::testing::SetArgReferee;
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 class SerialInterfaceTest : public SerialInterface<SerialPortMock>
 {
@@ -129,7 +129,7 @@ private:
     bool use_parent_read_char_ = true;
 };
 
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
 TEST(SerialInterfaceTests, openSuccess)

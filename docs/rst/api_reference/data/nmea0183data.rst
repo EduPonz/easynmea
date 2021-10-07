@@ -3,6 +3,6 @@
 NMEA0183Data
 ------------
 
-.. doxygenstruct:: eduponz::opennmea::NMEA0183Data
-    :project: opennmea
+.. doxygenstruct:: eduponz::easynmea::NMEA0183Data
+    :project: easynmea
     :members:

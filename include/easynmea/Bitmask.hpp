@@ -22,13 +22,13 @@
  * @file Bitmask.hpp
  */
 
-#ifndef _OPENNMEA_BITMASK_HPP_
-#define _OPENNMEA_BITMASK_HPP_
+#ifndef _EASYNMEA_BITMASK_HPP_
+#define _EASYNMEA_BITMASK_HPP_
 
 #include <type_traits>
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 /**
  * @brief Generic bitmask for an enumerated type
@@ -248,7 +248,7 @@ Bitmask<E> operator ^ (
     return result ^= rhs;
 }
 
-} //namespace opennmea
+} //namespace easynmea
 } //namespace eduponz
 
-#endif // _OPENNMEA_BITMASK_HPP_
+#endif // _EASYNMEA_BITMASK_HPP_

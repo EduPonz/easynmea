@@ -3,10 +3,10 @@
 Getting Started
 ===============
 
-Before doing anything else, you can get a flavor of the *OpenNMEA* capabilities by checking out the
-`opennmea <https://hub.docker.com/repository/docker/eduponz/opennmea>`_ `Docker <https://www.docker.com/>`_
+Before doing anything else, you can get a flavor of the *EasyNMEA* capabilities by checking out the
+`easynmea <https://hub.docker.com/repository/docker/eduponz/easynmea>`_ `Docker <https://www.docker.com/>`_
 image for Ubuntu.
-This image ships an already built *OpenNMEA* with compiled examples that you can use to get some readings out of
+This image ships an already built *EasyNMEA* with compiled examples that you can use to get some readings out of
 your NMEA sensor without building anything on your side.
 If you do not have the Docker Engine already installed, you can install it following
 `this tutorial <https://docs.docker.com/engine/install/ubuntu/>`_.
@@ -27,13 +27,13 @@ that device with the container:
 
 .. code:: bash
 
-    docker run -it --device=<path_to_device> eduponz/opennmea bash
+    docker run -it --device=<path_to_device> eduponz/easynmea bash
 
 Then, inside the container, you can run the GPGGA example with:
 
 .. code:: bash
 
-    /root/opennmea/build/examples/gpgga_example -b <baudrate> -p <path_to_device>
+    /root/easynmea/build/examples/gpgga_example -b <baudrate> -p <path_to_device>
 
 .. _getting_started_run_docker_plug:
 
@@ -52,10 +52,10 @@ Then, run the container:
 
 .. code:: bash
 
-    docker run -it -v /dev:/dev --device-cgroup-rule='c <device cgroup>:* rmw' eduponz/opennmea bash
+    docker run -it -v /dev:/dev --device-cgroup-rule='c <device cgroup>:* rmw' eduponz/easynmea bash
 
 Finally, inside the container, you can run the GPGGA example as before:
 
 .. code:: bash
 
-    /root/opennmea/build/examples/gpgga_example -b <baudrate> -p <path_to_device>
+    /root/easynmea/build/examples/gpgga_example -b <baudrate> -p <path_to_device>

@@ -19,11 +19,11 @@
 // THE SOFTWARE.
 
 /**
- * @file OpenNmeaImpl.hpp
+ * @file EasyNmeaImpl.hpp
  */
 
-#ifndef _OPENNMEA_IMPL_HPP_
-#define _OPENNMEA_IMPL_HPP_
+#ifndef _EASYNMEA_IMPL_HPP_
+#define _EASYNMEA_IMPL_HPP_
 
 #include <atomic>
 #include <chrono>
@@ -38,8 +38,8 @@
 #include <thread>
 #include <vector>
 
-#include <opennmea/OpenNmea.hpp>
-#include <opennmea/types.hpp>
+#include <easynmea/EasyNmea.hpp>
+#include <easynmea/types.hpp>
 
 #include "FixedSizeQueue.hpp"
 #include "SerialInterface.hpp"
@@ -47,22 +47,22 @@
 using namespace std::chrono_literals;
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
 /**
- * @class OpenNmeaImpl
+ * @class EasyNmeaImpl
  *
- * This class provides the actual implementation of \c OpenNmea.
+ * This class provides the actual implementation of \c EasyNmea.
  */
-class OpenNmeaImpl
+class EasyNmeaImpl
 {
 public:
 
-    //! Default constructor. Constructs a \c OpenNmeaImpl
-    OpenNmeaImpl() noexcept;
+    //! Default constructor. Constructs a \c EasyNmeaImpl
+    EasyNmeaImpl() noexcept;
 
     //! Destructor. Frees used memory and closes the serial connection if opened.
-    virtual ~OpenNmeaImpl() noexcept;
+    virtual ~EasyNmeaImpl() noexcept;
 
     /**
      * \brief Open a serial connection.
@@ -70,7 +70,7 @@ public:
      * It opens a serial connection on a given port with a given baudrate; given that the connection
      * was not previously opened.
      *
-     * \pre The OpenNmeaImpl does not have any serial port opened. That is, either it is the
+     * \pre The EasyNmeaImpl does not have any serial port opened. That is, either it is the
      * first call to \c open(), or \c close() has been called before \c open().
      *
      * @param[in] serial_port A string containing the serial port name.
@@ -79,7 +79,7 @@ public:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
      *     * ReturnCode::RETURN_CODE_ERROR is the port could not be opened.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
-     *       same OpenNmea instance, regardless of the port.
+     *       same EasyNmea instance, regardless of the port.
      */
     virtual ReturnCode open(
             const char* serial_port,
@@ -107,7 +107,7 @@ public:
     /**
      * \brief Take the next untaken GPGGA data sample available
      *
-     * \c OpenNmeaImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
+     * \c EasyNmeaImpl stores up to the last 10 reported GPGGA data samples. \c take_next() is
      * used to retrieve the oldest untaken GPGGA sample. If eventually \c take_next takes the last
      * gpgga sample received, then the corresponding bit of \c data_received_ is cleared.
      *
@@ -139,7 +139,7 @@ public:
      *       sample of the kinds specified in the @param data_mask.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
-     *       \c OpenNmeaImpl instance, which unblocks any \c wait_for_data() calls.
+     *       \c EasyNmeaImpl instance, which unblocks any \c wait_for_data() calls.
      */
     virtual ReturnCode wait_for_data(
             NMEA0183DataKindMask data_mask,
@@ -247,6 +247,6 @@ protected:
 };
 
 } // namespace eduponz
-} // namespace opennmea
+} // namespace easynmea
 
-#endif //_OPENNMEA_IMPL_HPP_
+#endif //_EASYNMEA_IMPL_HPP_

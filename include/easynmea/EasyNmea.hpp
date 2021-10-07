@@ -19,11 +19,11 @@
 // THE SOFTWARE.
 
 /**
- * @file OpenNmea.hpp
+ * @file EasyNmea.hpp
  */
 
-#ifndef _OPENNMEA_HPP_
-#define _OPENNMEA_HPP_
+#ifndef _EASYNMEA_HPP_
+#define _EASYNMEA_HPP_
 
 #include <chrono>
 #include <memory>
@@ -33,12 +33,12 @@
 #include "types.hpp"
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
-class OpenNmeaImpl;
+class EasyNmeaImpl;
 
 /**
- * @class OpenNmea
+ * @class EasyNmea
  *
  * @brief This class provides an interface with NMEA modules using NMEA 0183 protocol over serial
  * connections.
@@ -48,15 +48,15 @@ class OpenNmeaImpl;
  *     * Wait for specific NMEA sentences to be received.
  *     * Read incoming NMEA data in a parsed and understandable manner.
  */
-class OpenNmea
+class EasyNmea
 {
 public:
 
-    //! Default constructor. Constructs a \c OpenNmea
-    OpenNmea() noexcept;
+    //! Default constructor. Constructs a \c EasyNmea
+    EasyNmea() noexcept;
 
     //! Virtual default destructor.
-    virtual ~OpenNmea() noexcept;
+    virtual ~EasyNmea() noexcept;
 
     /**
      * \brief Open a serial connection.
@@ -64,7 +64,7 @@ public:
      * It opens a serial connection on a given port with a given baudrate; given that the connection
      * was not previously opened.
      *
-     * \pre The OpenNmea does not have any serial port opened. That is, either it is the first
+     * \pre The EasyNmea does not have any serial port opened. That is, either it is the first
      *      call to \c open(), or \c close() has been called before \c open().
      *
      * @param[in] serial_port A string containing the serial port name.
@@ -73,7 +73,7 @@ public:
      *     * ReturnCode::RETURN_CODE_OK if the port is opened correctly.
      *     * ReturnCode::RETURN_CODE_ERROR is the port could not be opened.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if a previous call to open was performed in the
-     *       same OpenNmea instance, regardless of the port.
+     *       same EasyNmea instance, regardless of the port.
      */
     ReturnCode open(
             const char* serial_port,
@@ -101,7 +101,7 @@ public:
     /**
      * \brief Take the next untaken GPGGA data sample available.
      *
-     * \c OpenNmea stores up to the last 10 reported GPGGA data samples. \c take_next() is used
+     * \c EasyNmea stores up to the last 10 reported GPGGA data samples. \c take_next() is used
      * to retrieve the oldest untaken GPGGA sample.
      *
      * @param[out] gpgga A \c GPGGAData instance which will be populated with the sample.
@@ -133,7 +133,7 @@ public:
      *       sample of the kinds specified in the \c data_mask.
      *     * ReturnCode::RETURN_CODE_ILLEGAL_OPERATION if there was not open connection.
      *     * ReturnCode::RETURN_CODE_ERROR if some other thread called \c close() on the
-     *       \c OpenNmea instance, which unblocks any \c wait_for_data() calls.
+     *       \c EasyNmea instance, which unblocks any \c wait_for_data() calls.
      */
     ReturnCode wait_for_data(
             NMEA0183DataKindMask data_mask = NMEA0183DataKindMask::all(),
@@ -142,12 +142,12 @@ public:
 
 protected:
 
-    //! Unique pointer to the internal \c OpenNmeaImpl object.
-    std::unique_ptr<OpenNmeaImpl> impl_;
+    //! Unique pointer to the internal \c EasyNmeaImpl object.
+    std::unique_ptr<EasyNmeaImpl> impl_;
 
 };
 
-} // namespace opennmea
+} // namespace easynmea
 } // namespace eduponz
 
-#endif //_OPENNMEA_HPP_
+#endif //_EASYNMEA_HPP_

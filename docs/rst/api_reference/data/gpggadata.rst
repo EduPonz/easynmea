@@ -3,7 +3,7 @@
 GPGGAData
 ---------
 
-.. doxygenstruct:: eduponz::opennmea::GPGGAData
-    :project: opennmea
+.. doxygenstruct:: eduponz::easynmea::GPGGAData
+    :project: easynmea
     :members:
 

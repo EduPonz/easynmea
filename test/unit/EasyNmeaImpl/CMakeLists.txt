@@ -18,21 +18,21 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 
-add_executable(opennmea_impl_tests OpenNmeaImplTests.cpp)
+add_executable(easynmea_impl_tests EasyNmeaImplTests.cpp)
 
-target_include_directories(opennmea_impl_tests PRIVATE
+target_include_directories(easynmea_impl_tests PRIVATE
     ${GTEST_INCLUDE_DIRS}
     ${GMOCK_INCLUDE_DIRS}
     ${PROJECT_SOURCE_DIR}/include
     ${PROJECT_SOURCE_DIR}/src/cpp)
 
-target_link_libraries(opennmea_impl_tests PUBLIC
+target_link_libraries(easynmea_impl_tests PUBLIC
     GTest::GTest
     GTest::Main
     ${GMOCK_BOTH_LIBRARIES}
-    opennmea)
+    easynmea)
 
-set(OPENNMEA_IMPL_TEST_LIST
+set(EASYNMEA_IMPL_TEST_LIST
     # open() tests
     openSuccess
     openOpened
@@ -50,13 +50,13 @@ set(OPENNMEA_IMPL_TEST_LIST
     wait_for_dataError
     # take_next() tests
     take_next
-    # ~OpenNmeaImpl() tests
+    # ~EasyNmeaImpl() tests
     destroyNoClose)
 
-foreach(test_name ${OPENNMEA_IMPL_TEST_LIST})
+foreach(test_name ${EASYNMEA_IMPL_TEST_LIST})
 
-    add_test(NAME OpenNmeaImplTests.${test_name}
-            COMMAND opennmea_impl_tests
-            --gtest_filter=OpenNmeaImplTests.${test_name}:*/OpenNmeaImplTests.${test_name}/*)
+    add_test(NAME EasyNmeaImplTests.${test_name}
+            COMMAND easynmea_impl_tests
+            --gtest_filter=EasyNmeaImplTests.${test_name}:*/EasyNmeaImplTests.${test_name}/*)
 
 endforeach()

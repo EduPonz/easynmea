@@ -6,7 +6,7 @@ caption System tests components
 [system_tests.py] <.up. [expected_results.yaml] : loads
 
 package "NMEA Device Double" as nmea_device {
-    [send2serial.py] <.. [opennmea_sentences.nmea] : loads
+    [send2serial.py] <.. [easynmea_sentences.nmea] : loads
 }
 
 package "Virtual Serial Ports" as virtual_ports {
@@ -14,7 +14,7 @@ package "Virtual Serial Ports" as virtual_ports {
     [socat] - recv_port : creates
 }
 
-package "OpenNMEA Application" as opennmea_app {
+package "EasyNMEA Application" as easynmea_app {
     [system_tests] .> [results.yaml] : writes
 }
 

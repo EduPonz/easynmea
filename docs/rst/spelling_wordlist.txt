@@ -16,7 +16,7 @@ Extense
 getter
 GitHub
 GNSS
-OpenNmeaImpl
+EasyNmeaImpl
 GTest
 hhmmss
 Struct

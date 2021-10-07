@@ -1,57 +1,57 @@
 # yaml-language-server: $schema=system_tests.schema.json
 nmea_write_app: "@SYSTEM_TESTS_RUN_DIR@/send2serial.py"
-opennmea_app: "@SYSTEM_TESTS_RUN_DIR@/system_tests"
+easynmea_app: "@SYSTEM_TESTS_RUN_DIR@/system_tests"
 system_tests:
   - name: gpgga_read_some_and_close
     description: >-
       Open a pair of serial ports, send some valid NMEA sentences in one, and
-      read GPGGA data on the other. Then, close the OpenNMEA and then close the ports.
+      read GPGGA data on the other. Then, close the EasyNMEA and then close the ports.
     send_port: "@SYSTEM_TESTS_RUN_DIR@/send_port"
     receive_port: "@SYSTEM_TESTS_RUN_DIR@/recv_port"
     virtual_port_ttl: 4
     nmea_write_app_ttl: 3
-    opennmea_app_ttl: 2
-    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/opennmea_sentences.nmea"
+    easynmea_app_ttl: 2
+    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/easynmea_sentences.nmea"
     output_file: "@SYSTEM_TESTS_RUN_DIR@/results/gpgga_read_some_and_close.yaml"
     validation_file: "@SYSTEM_TESTS_RUN_DIR@/validation/gpgga_read_some_and_close.yaml"
 
   - name: port_closed_externally
     description: >-
       Open a pair of serial ports, send some valid NMEA sentences in one, and
-      read GPGGA data on the other. Then, close the serial ports with the OpenNMEA opened.
+      read GPGGA data on the other. Then, close the serial ports with the EasyNMEA opened.
     send_port: "@SYSTEM_TESTS_RUN_DIR@/send_port"
     receive_port: "@SYSTEM_TESTS_RUN_DIR@/recv_port"
     virtual_port_ttl: 2
     nmea_write_app_ttl: 3
-    opennmea_app_ttl: 3
-    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/opennmea_sentences.nmea"
+    easynmea_app_ttl: 3
+    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/easynmea_sentences.nmea"
     output_file: "@SYSTEM_TESTS_RUN_DIR@/results/port_closed_externally.yaml"
     validation_file: "@SYSTEM_TESTS_RUN_DIR@/validation/port_closed_externally.yaml"
 
   - name: stop_sending_data
     description: >-
       Open a pair of serial ports, send some valid NMEA sentences in one, and
-      read GPGGA data on the other. Stop sending data before stopping the OpenNMEA. Close
-      the OpenNMEA, then the sending app, and lastly close the ports
+      read GPGGA data on the other. Stop sending data before stopping the EasyNMEA. Close
+      the EasyNMEA, then the sending app, and lastly close the ports
     send_port: "@SYSTEM_TESTS_RUN_DIR@/send_port"
     receive_port: "@SYSTEM_TESTS_RUN_DIR@/recv_port"
     virtual_port_ttl: 6
     nmea_write_app_ttl: 3
-    opennmea_app_ttl: 5
-    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/opennmea_sentences.nmea"
+    easynmea_app_ttl: 5
+    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/easynmea_sentences.nmea"
     output_file: "@SYSTEM_TESTS_RUN_DIR@/results/stop_sending_data.yaml"
     validation_file: "@SYSTEM_TESTS_RUN_DIR@/validation/stop_sending_data.yaml"
 
   - name: late_sending
     description: >-
-      Open a pair of serial ports. Then, first start a OpenNMEA, and after 1 second start
-      sending some valid NMEA sentences. Then, close the OpenNMEA before closing the ports.
+      Open a pair of serial ports. Then, first start a EasyNMEA, and after 1 second start
+      sending some valid NMEA sentences. Then, close the EasyNMEA before closing the ports.
     send_port: "@SYSTEM_TESTS_RUN_DIR@/send_port"
     receive_port: "@SYSTEM_TESTS_RUN_DIR@/recv_port"
     virtual_port_ttl: 6
     nmea_write_app_ttl: 3
     nmea_write_app_start: 1
-    opennmea_app_ttl: 5
-    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/opennmea_sentences.nmea"
+    easynmea_app_ttl: 5
+    nmea_sentences_file: "@SYSTEM_TESTS_RUN_DIR@/nmea_sentences/easynmea_sentences.nmea"
     output_file: "@SYSTEM_TESTS_RUN_DIR@/results/late_sending.yaml"
     validation_file: "@SYSTEM_TESTS_RUN_DIR@/validation/late_sending.yaml"

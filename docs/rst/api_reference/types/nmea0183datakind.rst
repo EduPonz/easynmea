@@ -3,5 +3,5 @@
 NMEA0183DataKind
 ----------------
 
-.. doxygenenum:: eduponz::opennmea::NMEA0183DataKind
-    :project: opennmea
+.. doxygenenum:: eduponz::easynmea::NMEA0183DataKind
+    :project: easynmea

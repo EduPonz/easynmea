@@ -21,7 +21,7 @@
 find_package(PythonInterp 3 REQUIRED)
 
 add_executable(system_tests system_tests.cpp)
-target_link_libraries(system_tests opennmea)
+target_link_libraries(system_tests easynmea)
 
 set(SYSTEM_TESTS_RUN_DIR ${CMAKE_CURRENT_BINARY_DIR})
 

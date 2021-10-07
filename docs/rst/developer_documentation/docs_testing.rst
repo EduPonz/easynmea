@@ -3,9 +3,9 @@
 Documentation Testing
 =====================
 
-This section describes the tests implemented for the *OpenNMEA* documentation:
+This section describes the tests implemented for the *EasyNMEA* documentation:
 
-1. ``opennmea-documentation-test``: An executable generated to check that all code snippets in the
+1. ``easynmea-documentation-test``: An executable generated to check that all code snippets in the
    documentation compile.
    This way, whenever we make an API change, we will be forced to update the documentation to reflect it, and in that
    way we make sure that all the code in the documentation is up to date.

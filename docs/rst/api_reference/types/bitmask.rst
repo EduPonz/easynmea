@@ -3,6 +3,6 @@
 Bitmask
 -------
 
-.. doxygenclass:: eduponz::opennmea::Bitmask
-    :project: opennmea
+.. doxygenclass:: eduponz::easynmea::Bitmask
+    :project: easynmea
     :members:

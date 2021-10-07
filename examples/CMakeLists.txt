@@ -27,13 +27,13 @@ endif()
 
 project(gpgga_example)
 
-message(STATUS "Configuring OpenNMEA Example...")
+message(STATUS "Configuring EasyNMEA Example...")
 
 # If the examples is build alongside the library, then the library exists; else, we need to find it.
 if (BUILD_EXAMPLES)
-    set(opennmea_FOUND TRUE)
-elseif (NOT opennmea_FOUND)
-    find_package(opennmea)
+    set(easynmea_FOUND TRUE)
+elseif (NOT easynmea_FOUND)
+    find_package(easynmea)
 endif()
 
 # In case we are building outside the library build
@@ -47,7 +47,7 @@ set(EXAMPLE_SOURCES_CPP
 add_executable(${PROJECT_NAME} ${EXAMPLE_SOURCES_CPP})
 
 # Link executable with library
-target_link_libraries(${PROJECT_NAME} opennmea)
+target_link_libraries(${PROJECT_NAME} easynmea)
 
 # Install example executable
 install(TARGETS ${PROJECT_NAME}

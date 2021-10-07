@@ -20,21 +20,19 @@
 
 #include <gmock/gmock.h>
 
-#include <opennmea/types.hpp>
-
-#include <OpenNmeaImpl.hpp>
+#include <SerialInterface.hpp>
 
 namespace eduponz {
-namespace opennmea {
+namespace easynmea {
 
-class OpenNmeaImplMock : public OpenNmeaImpl
+class SerialInterfaceMock : public SerialInterface<>
 {
 public:
 
-    MOCK_METHOD(ReturnCode,
+    MOCK_METHOD(bool,
         open,
-        (const char* serial_port,
-         long baudrate),
+        (std::string port,
+         uint64_t baudrate),
         (noexcept, override));
 
     MOCK_METHOD(bool,
@@ -42,23 +40,16 @@ public:
         (),
         (noexcept, override));
 
-    MOCK_METHOD(ReturnCode,
+    MOCK_METHOD(bool,
         close,
         (),
         (noexcept, override));
 
-    MOCK_METHOD(ReturnCode,
-        take_next,
-        (GPGGAData& gpgga),
+    MOCK_METHOD(bool,
+        read_line,
+        (std::string& result),
         (noexcept, override));
-
-    MOCK_METHOD(ReturnCode,
-        wait_for_data,
-        (NMEA0183DataKindMask data_mask,
-         std::chrono::milliseconds timeout),
-        (noexcept, override));
-
 };
 
 } // namespace eduponz
-} // namespace opennmea
+} // namespace easynmea

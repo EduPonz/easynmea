@@ -23,8 +23,8 @@ include_directories(${WIRINGPI_INCLUDE_DIRS})
 
 # Project sources
 set(${PROJECT_NAME}_SOURCES
-    OpenNmea.cpp
-    OpenNmeaImpl.cpp)
+    EasyNmea.cpp
+    EasyNmeaImpl.cpp)
 
 # Create library
 add_library(${PROJECT_NAME} ${${PROJECT_NAME}_SOURCES})

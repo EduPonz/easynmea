@@ -18,51 +18,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <chrono>
+#include <gmock/gmock.h>
 
-#include <opennmea/OpenNmea.hpp>
-#include <opennmea/types.hpp>
+#include <easynmea/types.hpp>
 
-#include "OpenNmeaImpl.hpp"
-#include "SerialInterface.hpp"
+#include <EasyNmeaImpl.hpp>
 
-using namespace eduponz::opennmea;
+namespace eduponz {
+namespace easynmea {
 
-OpenNmea::OpenNmea() noexcept
-    : impl_(std::make_unique<OpenNmeaImpl>())
+class EasyNmeaImplMock : public EasyNmeaImpl
 {
-}
+public:
 
-OpenNmea::~OpenNmea() noexcept
-{
-}
+    MOCK_METHOD(ReturnCode,
+        open,
+        (const char* serial_port,
+         long baudrate),
+        (noexcept, override));
 
-ReturnCode OpenNmea::open(
-        const char* serial_port,
-        long baudrate) noexcept
-{
-    return impl_->open(serial_port, baudrate);
-}
+    MOCK_METHOD(bool,
+        is_open,
+        (),
+        (noexcept, override));
 
-bool OpenNmea::is_open() noexcept
-{
-    return impl_->is_open();
-}
+    MOCK_METHOD(ReturnCode,
+        close,
+        (),
+        (noexcept, override));
 
-ReturnCode OpenNmea::close() noexcept
-{
-    return impl_->close();
-}
+    MOCK_METHOD(ReturnCode,
+        take_next,
+        (GPGGAData& gpgga),
+        (noexcept, override));
 
-ReturnCode OpenNmea::take_next(
-        GPGGAData& gpgga) noexcept
-{
-    return impl_->take_next(gpgga);
-}
+    MOCK_METHOD(ReturnCode,
+        wait_for_data,
+        (NMEA0183DataKindMask data_mask,
+         std::chrono::milliseconds timeout),
+        (noexcept, override));
 
-ReturnCode OpenNmea::wait_for_data(
-        NMEA0183DataKindMask data_mask,
-        std::chrono::milliseconds timeout) noexcept
-{
-    return impl_->wait_for_data(data_mask, timeout);
-}
+};
+
+} // namespace eduponz
+} // namespace easynmea
