@@ -18,5 +18,6 @@ enough, or if more test cases are required.
 
    /rst/developer_documentation/lib_unit_tests/data
    /rst/developer_documentation/lib_unit_tests/easynmea
+   /rst/developer_documentation/lib_unit_tests/easynmeacoder
    /rst/developer_documentation/lib_unit_tests/easynmeaimpl
    /rst/developer_documentation/lib_unit_tests/serialinterface

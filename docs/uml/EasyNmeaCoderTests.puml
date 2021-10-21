@@ -1,0 +1,19 @@
+@startuml
+hide empty members
+
+control EasyNmeaCoderTest
+participant EasyNmeaCoder
+
+[-> EasyNmeaCoderTest : Start test
+activate EasyNmeaCoderTest
+EasyNmeaCoderTest -> EasyNmeaCoder : EasyNmeaCoder::decode(sentence)
+
+activate EasyNmeaCoder
+EasyNmeaCoder -> EasyNmeaCoderTest : std::shared_ptr<NMEA0183Data>
+deactivate EasyNmeaCoder
+
+EasyNmeaCoderTest -> EasyNmeaCoderTest : validate results
+[<- EasyNmeaCoderTest: Report test result
+deactivate EasyNmeaCoderTest
+
+@enduml

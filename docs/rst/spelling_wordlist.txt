@@ -12,11 +12,13 @@ datas
 destructor
 Destructor
 Doxygen
+EasyNmeaImpl
+ellipsoid
 Extense
+geoid
 getter
 GitHub
 GNSS
-EasyNmeaImpl
 GTest
 hhmmss
 Struct
