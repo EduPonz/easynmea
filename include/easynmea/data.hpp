@@ -48,16 +48,12 @@ struct NMEA0183Data
      */
     NMEA0183Data(
             NMEA0183DataKind data_kind = NMEA0183DataKind::INVALID) noexcept
-        : message("")
-        , kind(data_kind)
+        : kind(data_kind)
     {
     }
 
     //! Default virtual constructor
     virtual ~NMEA0183Data() = default;
-
-    //! The received message
-    std::string message;
 
     //! The NMEA0183DataKind of the data
     NMEA0183DataKind kind;
@@ -72,7 +68,7 @@ struct NMEA0183Data
     inline bool operator ==(
             const NMEA0183Data& other) const noexcept
     {
-        return (message == other.message && kind == other.kind);
+        return (kind == other.kind);
     }
 
     /**
@@ -104,12 +100,15 @@ struct GPGGAData : NMEA0183Data
     GPGGAData() noexcept
         : NMEA0183Data::NMEA0183Data(NMEA0183DataKind::GPGGA)
         , timestamp(0)
-        , latitude (0)
-        , longitude (0)
-        , fix (0)
-        , satellites_on_view (0)
-        , horizontal_precision (0)
-        , altitude (0)
+        , latitude(0)
+        , longitude(0)
+        , fix(0)
+        , satellites_on_view(0)
+        , horizontal_precision(0)
+        , altitude(0)
+        , height_of_geoid(0)
+        , dgps_last_update(-1)
+        , dgps_reference_station_id(0)
     {
     }
 
@@ -139,6 +138,15 @@ struct GPGGAData : NMEA0183Data
     //! GNSS reported altitude over sea level expressed in meters
     float altitude;
 
+    //! Height of geoid above WGS84 ellipsoid in meters
+    float height_of_geoid;
+
+    //! Seconds since last DGPS update
+    float dgps_last_update;
+
+    //! DGPS reference station ID
+    uint16_t dgps_reference_station_id;
+
     /**
      * Check whether a \c GPGGAData is equal to this one
      *
@@ -156,7 +164,10 @@ struct GPGGAData : NMEA0183Data
                fix == other.fix &&
                satellites_on_view == other.satellites_on_view &&
                horizontal_precision == other.horizontal_precision &&
-               altitude == other.altitude);
+               altitude == other.altitude &&
+               height_of_geoid == other.height_of_geoid &&
+               dgps_last_update == other.dgps_last_update &&
+               dgps_reference_station_id == other.dgps_reference_station_id);
     }
 
     /**
