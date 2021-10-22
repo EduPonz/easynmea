@@ -70,7 +70,7 @@ TEST(EasyNmeaImplTests, openSuccess)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(DoAll(SetArgReferee<0>("\n"), Return(true)));
+            .WillRepeatedly(DoAll(SetArgReferee<0>(""), Return(true)));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);
@@ -94,7 +94,7 @@ TEST(EasyNmeaImplTests, openOpened)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(SetArgReferee<0>("\n"));
+            .WillRepeatedly(SetArgReferee<0>(""));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);
@@ -117,7 +117,7 @@ TEST(EasyNmeaImplTests, openWrongPort)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(SetArgReferee<0>("\n"));
+            .WillRepeatedly(SetArgReferee<0>(""));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);
@@ -173,7 +173,7 @@ TEST(EasyNmeaImplTests, closeSuccess)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(SetArgReferee<0>("\n"));
+            .WillRepeatedly(SetArgReferee<0>(""));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);
@@ -199,7 +199,7 @@ TEST(EasyNmeaImplTests, closeError)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(SetArgReferee<0>("\n"));
+            .WillRepeatedly(SetArgReferee<0>(""));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);
@@ -223,7 +223,7 @@ TEST(EasyNmeaImplTests, closeClosed)
 
 TEST(EasyNmeaImplTests, wait_for_dataData)
 {
-    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
+    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
@@ -270,7 +270,7 @@ TEST(EasyNmeaImplTests, wait_for_dataClosed)
 
 TEST(EasyNmeaImplTests, wait_for_dataDataEmptyMask)
 {
-    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
+    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
@@ -305,7 +305,7 @@ TEST(EasyNmeaImplTests, wait_for_dataDataEmptyMask)
 
 TEST(EasyNmeaImplTests, wait_for_dataError)
 {
-    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
+    std::string sentence = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46";
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
     EXPECT_CALL(*serial, is_open)
@@ -339,10 +339,10 @@ TEST(EasyNmeaImplTests, wait_for_dataError)
 
 TEST(EasyNmeaImplTests, take_next)
 {
-    std::string sentence_1 = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46\n";
-    std::string sentence_2 = "$GPGGA,072705.000,5703.1740,S,00954.9459,W,1,7,1.97,-21.2,M,42.5,M,,*46\n";
-    std::string sentence_3 = "$GPTXT,01,01,02,ANTSTATUS=OPEN*2B\n";
-    std::string sentence_4 = "$GPGGA,072705.000\n";
+    std::string sentence_1 = "$GPGGA,072705.000,5703.1740,N,00954.9459,E,1,7,1.97,-21.2,M,42.5,M,,*46";
+    std::string sentence_2 = "$GPGGA,072705.000,5703.1740,S,00954.9459,W,1,7,1.97,-21.2,M,42.5,M,,*49";
+    std::string sentence_3 = "$GPTXT,01,01,02,ANTSTATUS=OPEN*2B";
+    std::string sentence_4 = "$GPGGA,*7a";
 
     SerialInterfaceMock* serial = new SerialInterfaceMock();
 
@@ -377,7 +377,7 @@ TEST(EasyNmeaImplTests, take_next)
     ASSERT_EQ(impl.wait_for_data(NMEA0183DataKindMask::all(), 100ms), ReturnCode::RETURN_CODE_OK);
 
     GPGGAData data;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
     ASSERT_EQ(impl.take_next(data), ReturnCode::RETURN_CODE_OK);
 
     NMEA0183DataKindMask mask;
@@ -410,7 +410,7 @@ TEST(EasyNmeaImplTests, destroyNoClose)
 
     EXPECT_CALL(*serial, read_line)
             .Times(AnyNumber())
-            .WillRepeatedly(SetArgReferee<0>("\n"));
+            .WillRepeatedly(SetArgReferee<0>(""));
 
     EasyNmeaImplTest impl;
     impl.set_serial_interface(serial);

@@ -147,9 +147,6 @@ public:
 
 protected:
 
-    //! The starting characters of a GPGGA sentence
-    const std::string GPGGA_SENTENCE_START_ = "$GPGGA";
-
     //! Pointer to the seral interface to which the device is connected
     SerialInterface<>* serial_interface_;
 
@@ -179,32 +176,10 @@ protected:
     std::condition_variable cv_;
 
     //! Collection of the at most last ten GPGGA samples received from the device
-    FixedSizeQueue<GPGGAData, 10> gpgga_data_queue_;
+    FixedSizeQueue<std::shared_ptr<GPGGAData>, 10> gpgga_data_queue_;
 
     /**
-     * Break a string in substrings according to a separator character.
-     *
-     * @param str The string to break
-     * @param separator The character to use as separator
-     *
-     * @return A vector containing the substrings. The separator is not included in the substrings.
-     */
-    std::vector<std::string> break_string_(
-            const std::string& str,
-            char separator) noexcept;
-
-    /**
-     * Convert the NMEA 1082 string represention of an angle in degrees (DDMM.mmmm) into a float.
-     *
-     * @param str The string representing the angle
-     *
-     * @return The angle as a float
-     */
-    float parse_to_degrees_(
-            const std::string& str) noexcept;
-
-    /**
-     * Parse a NMEA 1082 sentence
+     * Process a NMEA 1082 sentence
      *
      * Currently, the only supported sentences are those of type GPGGA. This function is the entry
      * point of new lines read in the \c read_routine_(). It parses the line, adds the new gpgga
@@ -214,18 +189,8 @@ protected:
      *
      * @return true on success, false otherwise.
      */
-    bool parse_raw_line_(
+    bool process_line_(
             const std::string& line) noexcept;
-
-    /**
-     * Take a GPGGA sentence, extract the GPGGA data from it, and push it to the collection.
-     *
-     * @param gpgga_sentence The GPGGA sentence
-     *
-     * @return true if the GPGGA data contained a fix position, false otherwise.
-     */
-    bool process_gpgga_(
-            const std::string& gpgga_sentence) noexcept;
 
     /**
      * Routine run by read_thread_.
