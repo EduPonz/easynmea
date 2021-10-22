@@ -42,12 +42,15 @@ public:
 
     EasyNmeaTest()
         : EasyNmea()
-    {}
+    {
+    }
 
-    void set_impl(std::unique_ptr<EasyNmeaImplMock> impl)
+    void set_impl(
+            std::unique_ptr<EasyNmeaImplMock> impl)
     {
         impl_ = std::move(impl);
     }
+
 };
 
 TEST(EasyNmeaTests, openOk)
@@ -59,7 +62,7 @@ TEST(EasyNmeaTests, openOk)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
     easynmea.set_impl(std::move(impl));
 
@@ -75,7 +78,7 @@ TEST(EasyNmeaTests, openError)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
     easynmea.set_impl(std::move(impl));
 
@@ -91,7 +94,7 @@ TEST(EasyNmeaTests, openIllegal)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, open(port, baudrate))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
     easynmea.set_impl(std::move(impl));
 
@@ -104,7 +107,7 @@ TEST(EasyNmeaTests, is_openOpened)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, is_open)
-        .WillOnce(Return(true));
+            .WillOnce(Return(true));
 
     easynmea.set_impl(std::move(impl));
 
@@ -117,7 +120,7 @@ TEST(EasyNmeaTests, is_openClosed)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, is_open)
-        .WillOnce(Return(false));
+            .WillOnce(Return(false));
 
     easynmea.set_impl(std::move(impl));
 
@@ -130,7 +133,7 @@ TEST(EasyNmeaTests, closeOk)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
-        .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
     easynmea.set_impl(std::move(impl));
 
@@ -143,7 +146,7 @@ TEST(EasyNmeaTests, closeError)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
     easynmea.set_impl(std::move(impl));
 
@@ -156,7 +159,7 @@ TEST(EasyNmeaTests, closeIllegal)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
 
     EXPECT_CALL(*impl, close)
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
     easynmea.set_impl(std::move(impl));
 
@@ -169,7 +172,6 @@ TEST(EasyNmeaTests, take_nextOk)
     std::unique_ptr<EasyNmeaImplMock> impl = std::make_unique<EasyNmeaImplMock>();
     GPGGAData gpgga;
     GPGGAData gpgga_ret;
-    gpgga_ret.message = "hello";
     gpgga_ret.timestamp = 123;
     gpgga_ret.latitude = 123;
     gpgga_ret.longitude = 123;
@@ -181,7 +183,7 @@ TEST(EasyNmeaTests, take_nextOk)
     ASSERT_NE(gpgga.altitude, gpgga_ret.altitude);
 
     EXPECT_CALL(*impl, take_next(gpgga))
-        .WillOnce(DoAll(SetArgReferee<0>(gpgga_ret), Return(ReturnCode::RETURN_CODE_OK)));
+            .WillOnce(DoAll(SetArgReferee<0>(gpgga_ret), Return(ReturnCode::RETURN_CODE_OK)));
 
     easynmea.set_impl(std::move(impl));
 
@@ -197,13 +199,12 @@ TEST(EasyNmeaTests, take_nextNoData)
     GPGGAData gpgga;
 
     EXPECT_CALL(*impl, take_next(gpgga))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_NO_DATA));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_NO_DATA));
 
     easynmea.set_impl(std::move(impl));
 
     ASSERT_EQ(easynmea.take_next(gpgga), ReturnCode::RETURN_CODE_NO_DATA);
 
-    ASSERT_EQ(gpgga.message, "");
     ASSERT_EQ(gpgga.kind, NMEA0183DataKind::GPGGA);
     ASSERT_EQ(gpgga.timestamp, 0);
     ASSERT_EQ(gpgga.latitude, 0);
@@ -222,7 +223,7 @@ TEST(EasyNmeaTests, wait_for_dataOk)
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_OK));
 
     easynmea.set_impl(std::move(impl));
 
@@ -237,7 +238,7 @@ TEST(EasyNmeaTests, wait_for_dataTimeout)
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
 
     easynmea.set_impl(std::move(impl));
 
@@ -251,7 +252,7 @@ TEST(EasyNmeaTests, wait_for_dataTimeoutDefault)
     NMEA0183DataKindMask mask = NMEA0183DataKindMask::all();
 
     EXPECT_CALL(*impl, wait_for_data)
-        .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_TIMEOUT));
 
     easynmea.set_impl(std::move(impl));
 
@@ -266,7 +267,7 @@ TEST(EasyNmeaTests, wait_for_dataIllegal)
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ILLEGAL_OPERATION));
 
     easynmea.set_impl(std::move(impl));
 
@@ -281,7 +282,7 @@ TEST(EasyNmeaTests, wait_for_dataError)
     std::chrono::milliseconds timeout(123);
 
     EXPECT_CALL(*impl, wait_for_data(_, timeout))
-        .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
+            .WillOnce(Return(ReturnCode::RETURN_CODE_ERROR));
 
     easynmea.set_impl(std::move(impl));
 

@@ -34,9 +34,6 @@ TEST(DataTests, NMEA0183DataComparisonOperators)
 
     data_1.kind = NMEA0183DataKind::GPGGA;
     ASSERT_NE(data_1, data_2);
-
-    data_1.message = "message";
-    ASSERT_NE(data_1, data_2);
 }
 
 TEST(DataTests, GPGGADataComparisonOperators)
@@ -45,6 +42,15 @@ TEST(DataTests, GPGGADataComparisonOperators)
     GPGGAData data_2;
 
     ASSERT_EQ(data_1, data_2);
+
+    data_1.dgps_reference_station_id = 123;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.dgps_last_update = 123.0;
+    ASSERT_NE(data_1, data_2);
+
+    data_1.height_of_geoid = 123.0;
+    ASSERT_NE(data_1, data_2);
 
     data_1.altitude = 123;
     ASSERT_NE(data_1, data_2);
@@ -67,7 +73,7 @@ TEST(DataTests, GPGGADataComparisonOperators)
     data_1.timestamp = 123.0;
     ASSERT_NE(data_1, data_2);
 
-    data_1.message = "message";
+    data_1.kind = NMEA0183DataKind::INVALID;
     ASSERT_NE(data_1, data_2);
 }
 
