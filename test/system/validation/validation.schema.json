@@ -27,10 +27,6 @@
                     "type": "string",
                     "description": "The NMEA 0183 type of sentence"
                 },
-                "sentence": {
-                    "type": "string",
-                    "description": "The received NMEA 0183 sentence"
-                },
                 "latitude": {
                     "type": "number",
                     "description": "The GNSS latitude in degrees North"
@@ -58,6 +54,18 @@
                 "altitude": {
                     "type": "number",
                     "description": "The GNSS reported altitude in meters"
+                },
+                "height_of_geoid": {
+                    "type": "number",
+                    "description": "The GNSS reported height of geoid above WGS84 ellipsoid in meters"
+                },
+                "dgps_last_update": {
+                    "type": "number",
+                    "description": "The GNSS reportedtTime since last DGPS update in seconds"
+                },
+                "dgps_reference_station_id": {
+                    "type": "integer",
+                    "description": "The GNSS reported DGPS reference station ID"
                 }
             },
             "required": [
