@@ -377,7 +377,7 @@ TEST(EasyNmeaImplTests, take_next)
     ASSERT_EQ(impl.wait_for_data(NMEA0183DataKindMask::all(), 100ms), ReturnCode::RETURN_CODE_OK);
 
     GPGGAData data;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
     ASSERT_EQ(impl.take_next(data), ReturnCode::RETURN_CODE_OK);
 
     NMEA0183DataKindMask mask;
