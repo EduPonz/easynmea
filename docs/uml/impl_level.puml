@@ -1,0 +1,57 @@
+@startuml
+hide empty members
+
+EasyNmeaImpl : EasyNmeaImpl() noexcept
+EasyNmeaImpl : virtual ReturnCode open(const char* serial_port, long baudrate) noexcept
+EasyNmeaImpl : virtual bool is_open() noexcept
+EasyNmeaImpl : virtual ReturnCode close() noexcept
+EasyNmeaImpl : virtual ReturnCode take_next(GPGGAData& gpgga) noexcept
+EasyNmeaImpl : virtual ReturnCode wait_for_data(NMEA0183DataKindMask data_mask, std::chrono::milliseconds timeout) noexcept
+
+class FixedSizeQueue<typename T, int max_size, typename Container = std::deque<T>>
+
+class SerialInterface<asio::serial_port>
+
+class EasyNmeaCoder {
+    + static std::shared_ptr<NMEA0183Data> decode(const std::string& sentence) noexcept
+    ---
+    # static std::shared_ptr<GPGGAData> decode_gpgga_(const std::string gpgga_sentence) noexcept
+    # static NMEA0183DataKind data_kind_(const std::string& sentence) noexcept
+    # static bool validate_checksum_(const std::string& sentence) noexcept
+    # static std::vector<std::string> split_(const std::string& sentence, char separator) noexcept
+    # static float to_degrees_(const std::string& nmea_angle) noexcept
+}
+
+class NMEA0183Data {
+    NMEA0183DataKind kind
+}
+
+class GPGGAData {
+    float timestamp
+    float latitude
+    float longitude
+    uint16_t fix
+    uint16_t satellites_on_view
+    float horizontal_precision
+    float altitude
+    float height_of_geoid
+    float dgps_last_update
+    uint16_t dgps_reference_station_id
+}
+
+class NMEA0183DataKind {
+    INVALID
+    GPGGA
+}
+
+NMEA0183Data <|-- GPGGAData
+NMEA0183Data <.. NMEA0183DataKind : <<uses>>
+EasyNmeaCoder <.. NMEA0183Data : <<uses>>
+EasyNmeaCoder <.. GPGGAData : <<uses>>
+
+EasyNmeaImpl o-- "n" FixedSizeQueue
+EasyNmeaImpl o-- "1" SerialInterface
+
+EasyNmeaImpl <.. EasyNmeaCoder : <<uses>>
+
+@enduml

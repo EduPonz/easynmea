@@ -92,13 +92,16 @@ bool log_data(
     if (log_file.is_open())
     {
         log_file << "  - nmea_type: GPGGA" << std::endl;
-        log_file << "    sentence: " << gpgga_data.message << std::endl;
         log_file << "    latitude: " << gpgga_data.latitude << std::endl;
         log_file << "    longitude: " << gpgga_data.longitude << std::endl;
         log_file << "    fix: " << gpgga_data.fix << std::endl;
         log_file << "    number_of_satellites: " << gpgga_data.satellites_on_view << std::endl;
         log_file << "    horizontal_precision: " << gpgga_data.horizontal_precision << std::endl;
         log_file << "    altitude: " << gpgga_data.altitude << std::endl;
+        log_file << "    height_of_geoid: " << gpgga_data.height_of_geoid << std::endl;
+        log_file << "    dgps_last_update: " << gpgga_data.dgps_last_update << std::endl;
+        log_file << "    dgps_reference_station_id: " << gpgga_data.dgps_reference_station_id << std::endl;
+
         log_file.close();
         return true;
     }

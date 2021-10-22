@@ -26,16 +26,18 @@ ReturnCode : RETURN_CODE_ILLEGAL_OPERATION
 ReturnCode : RETURN_CODE_UNSUPPORTED
 ReturnCode : RETURN_CODE_ERROR
 
-NMEA0183Data : std::string message
 NMEA0183Data : NMEA0183DataKind kind
 
 GPGGAData : float timestamp
 GPGGAData : float latitude
 GPGGAData : float longitude
-GPGGAData : uint8_t fix
+GPGGAData : uint16_t fix
 GPGGAData : uint16_t satellites_on_view
 GPGGAData : float horizontal_precision
 GPGGAData : float altitude
+GPGGAData : float height_of_geoid
+GPGGAData : float dgps_last_update
+GPGGAData : uint16_t dgps_reference_station_id
 
 Bitmask : void set(const E& value)
 Bitmask : void clear(const E& value)

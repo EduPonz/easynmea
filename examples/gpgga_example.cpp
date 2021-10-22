@@ -83,14 +83,16 @@ void print_gpgga(
 {
     std::cout << "GPGGA Data - GNSS Position Fix" << std::endl;
     std::cout << "==============================" << std::endl;
-    std::cout << "Message --------------> " << gpgga_data.message << std::endl;
-    std::cout << "Timestamp ------------> " << gpgga_data.timestamp << std::endl;
-    std::cout << "Latitude -------------> " << gpgga_data.latitude << "º N" << std::endl;
-    std::cout << "Longitude ------------> " << gpgga_data.longitude << "º E" << std::endl;
-    std::cout << "Fix ------------------> " << gpgga_data.fix << std::endl;
-    std::cout << "Number of satellites -> " << gpgga_data.satellites_on_view << std::endl;
-    std::cout << "Horizontal precision -> " << gpgga_data.horizontal_precision << std::endl;
-    std::cout << "Altitude -------------> " << gpgga_data.altitude << std::endl;
+    std::cout << "Timestamp ------------------------> " << gpgga_data.timestamp << std::endl;
+    std::cout << "Latitude -------------------------> " << gpgga_data.latitude << "º N" << std::endl;
+    std::cout << "Longitude ------------------------> " << gpgga_data.longitude << "º E" << std::endl;
+    std::cout << "Fix ------------------------------> " << gpgga_data.fix << std::endl;
+    std::cout << "Number of satellites -------------> " << gpgga_data.satellites_on_view << std::endl;
+    std::cout << "Horizontal dilution of precision -> " << gpgga_data.horizontal_precision << std::endl;
+    std::cout << "Altitude -------------------------> " << gpgga_data.altitude << std::endl;
+    std::cout << "Height of geoid ------------------> " << gpgga_data.height_of_geoid << std::endl;
+    std::cout << "DGPS last update -----------------> " << gpgga_data.dgps_last_update << std::endl;
+    std::cout << "DGPS reference station ID --------> " << gpgga_data.dgps_reference_station_id << std::endl;
 }
 
 //! Get UNIX epoch time in milliseconds

@@ -28,6 +28,7 @@
 
 #include <easynmea/types.hpp>
 
+#include "EasyNmeaCoder.hpp"
 #include "SerialInterface.hpp"
 
 using namespace eduponz::easynmea;
@@ -125,7 +126,7 @@ ReturnCode EasyNmeaImpl::take_next(
     std::unique_lock<std::mutex> lck(data_mutex_);
     if (!gpgga_data_queue_.empty())
     {
-        gpgga = gpgga_data_queue_.front();
+        gpgga = *gpgga_data_queue_.front();
         gpgga_data_queue_.pop();
         // If the take operation has emptied the queue, then update corresponding bit in data_received_
         if (gpgga_data_queue_.empty())
@@ -178,115 +179,27 @@ ReturnCode EasyNmeaImpl::wait_for_data(
     return ReturnCode::RETURN_CODE_ERROR;
 }
 
-std::vector<std::string> EasyNmeaImpl::break_string_(
-        const std::string& str,
-        char separator) noexcept
-{
-    std::string result = "";
-    std::stringstream ss(str);
-    std::string substr;
-    std::vector<std::string> content;
-
-    while (ss.good())
-    {
-        getline(ss, substr, separator);
-        if (substr != "")
-        {
-            content.push_back(substr);
-        }
-    }
-
-    return content;
-}
-
-float EasyNmeaImpl::parse_to_degrees_(
-        const std::string& str) noexcept
-{
-    /**
-     * The expected format of str is DDMM.mmmm, where:
-     *    1. DD corresponds to degrees
-     *    1. MM.mmmm is a float representing minutes of degree
-     */
-
-    // Break the string into DDMM and mmmm
-    std::vector<std::string> content = break_string_(str, '.');
-
-    // Build a string MM.mmmm
-    std::string minutes = content[0].substr(content[0].size() - 2);
-    minutes += "." + content[1];
-
-    // Convert the MM.mmmm into a floating point number in degrees
-    std::string::size_type idx;
-    float minutes_float = std::stof(minutes, &idx);
-    minutes_float = minutes_float / 60;
-
-    // Remove the MM part from DDMM
-    content[0].erase(content[0].end() - 2, content[0].end());
-    idx = 0;
-    // Return the degrees as the summation of DD plus the MM.mmmm translated into degrees
-    return std::stof(content[0], &idx) + minutes_float;
-}
-
-bool EasyNmeaImpl::parse_raw_line_(
+bool EasyNmeaImpl::process_line_(
         const std::string& line) noexcept
 {
-    // Check that the line is a GPGGA sentence
-    if (std::strncmp(line.c_str(), GPGGA_SENTENCE_START_.c_str(), GPGGA_SENTENCE_START_.size()) == 0)
+    std::shared_ptr<NMEA0183Data> data = EasyNmeaCoder::decode(line);
+    switch (data->kind)
     {
-        // If the sentence contained a new GPGGA with fix, then set the new_position_ flag and
-        // signal the CV. This means that GPGGA sentences without a fixed position will not unblock
-        // wait_for_data()
-        if (process_gpgga_(line))
+        case NMEA0183DataKind::GPGGA:
         {
+            {
+                std::unique_lock<std::mutex> lck(data_mutex_);
+                gpgga_data_queue_.push(std::static_pointer_cast<GPGGAData>(data));
+                data_received_.set(NMEA0183DataKind::GPGGA);
+            }
             cv_.notify_all();
+            return true;
+        }
+        default:
+        {
+            return false;
         }
     }
-    return false;
-}
-
-bool EasyNmeaImpl::process_gpgga_(
-        const std::string& gpgga_sentence) noexcept
-{
-    // Separate all the entries of the GPGGA sentence
-    std::vector<std::string> content = break_string_(gpgga_sentence, ',');
-
-    std::unique_lock<std::mutex> lck(data_mutex_);
-    // A complete GPGGA sentence with a fix has at least 10 elements
-    if (content.size() >= 10)
-    {
-        GPGGAData gpgga_data;
-        std::string::size_type idx;
-
-        gpgga_data.message = gpgga_sentence;
-        gpgga_data.timestamp = std::stof(content[1], &idx);
-        idx = 0;
-
-        gpgga_data.latitude = parse_to_degrees_(content[2]);
-        gpgga_data.longitude = parse_to_degrees_(content[4]);
-        // Always return latitude bearing North
-        if (content[3] != "N")
-        {
-            gpgga_data.latitude = -gpgga_data.latitude;
-        }
-        // Always return longitude bearing East
-        if (content[5] != "E")
-        {
-            gpgga_data.longitude = -gpgga_data.longitude;
-        }
-
-        gpgga_data.fix = std::stoi(content[6], &idx);
-        idx = 0;
-        gpgga_data.satellites_on_view = std::stoi(content[7], &idx);
-        idx = 0;
-        gpgga_data.horizontal_precision = std::stof(content[8], &idx);
-        idx = 0;
-        gpgga_data.altitude = std::stof(content[9], &idx);
-        gpgga_data_queue_.push(gpgga_data);
-        data_received_.set(NMEA0183DataKind::GPGGA);
-
-        return true;
-    }
-    return false;
 }
 
 void EasyNmeaImpl::read_routine_() noexcept
@@ -298,7 +211,7 @@ void EasyNmeaImpl::read_routine_() noexcept
         // Wait for a new line coming from the device
         if (serial_interface_->read_line(line))
         {
-            parse_raw_line_(line);
+            process_line_(line);
             continue;
         }
         routine_running_.store(false);

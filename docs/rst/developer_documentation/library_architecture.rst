@@ -34,16 +34,17 @@ For the actual functionality implementation, |EasyNmea-api| relies on the intern
 Implementation Level
 --------------------
 
-The implementation level's main component is the |EasyNmeaImpl-api| class, which provides with implementation for
-the |EasyNmea-api| public API, i.e opening and closing the serial port, waiting until data of one or more NMEA 0183
-types has been received, checking whether the serial port connection is opened, and taking the next unread sample of a
-given NMEA 0183 type.
-The |EasyNmeaImpl-api| holds a |FixedSizeQueue-api| of ten elements for each supported
-NMEA 0183 type.
-This way, keeping outdated samples, as well as dynamic allocation of data samples, is avoided.
-The managing of the serial port is enable through the |SerialInterface-api| class.
+The implementation level comprises two main components:
 
-.. uml:: ../../uml/EasyNmeaImpl.puml
+1. The |EasyNmeaImpl-api| class, which provides with implementation for the |EasyNmea-api| public API, i.e opening and
+   closing the serial port, waiting until data of one or more NMEA 0183 types has been received, checking whether the
+   serial port connection is opened, and taking the next unread sample of a given NMEA 0183 type.
+   The |EasyNmeaImpl-api| holds a |FixedSizeQueue-api| of ten elements for each supported NMEA 0183 type.
+   This way, keeping outdated samples, as well as dynamic allocation of data samples, is avoided.
+   The managing of the serial port is enabled through the |SerialInterface-api| class.
+2. The |EasyNmeaCoder-api| class, which provides APIs for decode NMEA 0183 sentences (and to encode them in the future).
+
+.. uml:: ../../uml/impl_level.puml
 
 .. _dev_docs_libs_arch_serial:
 

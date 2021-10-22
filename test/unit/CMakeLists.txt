@@ -20,5 +20,6 @@
 
 add_subdirectory(data)
 add_subdirectory(EasyNmea)
+add_subdirectory(EasyNmeaCoder)
 add_subdirectory(EasyNmeaImpl)
 add_subdirectory(SerialInterface)
